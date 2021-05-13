@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class RasGameConfig(AppConfig):
-    name = 'ras_game'
+class RadioActiv8Config(AppConfig):
+    name = 'RadioActiv8'
