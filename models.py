@@ -1,33 +1,29 @@
-from django.db import models
-
-# Create your models here.
-class IntelligenceTuple(models.Model):
-    key = models.CharField(max_length=16)
-    value = models.CharField(max_length=256)
-
-class IntelligenceList(model.Models):
-    intelligence_list = IntelligenceTuple()
+from django.contrib.gis.db import models
+from django.db.models.deletion import CASCADE
 
 class Patrol(models.Model):
-    gps_location = models.CharField(max_length=100)
+    name = models.CharField(max_length=32)
+    gps_location = models.PointField()
 
-class Base(models.Mode):
-    gps_location = models.CharField(max_length=100)
+class Base(models.Model):
+    name = models.CharField(max_length=32)
+    gps_location = models.PointField()
     min_patrols = models.IntegerField()
     max_patrols = models.IntegerField()
+
+class Intelligence(models.Model):
+    base = models.ForeignKey(Base, on_delete=models.CASCADE)
+    question = models.CharField(max_length=16)
+    answer = models.CharField(max_length=256)
 
 class Queue(models.Model):
     sequence = models.IntegerField()
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
 
-class EventType(models.TextChoices):
-  CHECK_IN  = 'Check-in'
-  CHECK_OUT = 'Check-out'
-
-class Event(model.Model):
+class Event(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
-    event_type = EventType()
-    intelligence = models.ForeignKey(IntelligenceTuple, on_delete=models.CASCADE)
+    check_out = models.BooleanField()
+    intelligence = models.ForeignKey(Intelligence, on_delete=CASCADE)
