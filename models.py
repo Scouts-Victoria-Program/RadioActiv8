@@ -1,29 +1,48 @@
 from django.contrib.gis.db import models
 from django.db.models.deletion import CASCADE
+from django.contrib.gis.geos import Point
+
+# FIXME: This default should be configurable
+DEFAULT_POINT = Point(-36.49197,144.63760)
 
 class Patrol(models.Model):
-    name = models.CharField(max_length=32)
-    gps_location = models.PointField()
+    name = models.CharField(max_length=128)
+    gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
+
+    def __str__(self):
+        return self.name
 
 class Base(models.Model):
-    name = models.CharField(max_length=32)
-    gps_location = models.PointField()
-    min_patrols = models.IntegerField()
-    max_patrols = models.IntegerField()
+    name = models.CharField(max_length=128)
+    gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
+    min_patrols = models.IntegerField(blank=True)
+    max_patrols = models.IntegerField(blank=True)
+
+    def __str__(self):
+        return self.name
 
 class Intelligence(models.Model):
-    base = models.ForeignKey(Base, on_delete=models.CASCADE)
-    question = models.CharField(max_length=16)
-    answer = models.CharField(max_length=256)
+    base = models.ForeignKey(Base, blank=True, null=True, on_delete=models.SET_NULL)
+    question = models.CharField(max_length=1024)
+    answer = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return self.question
 
 class Queue(models.Model):
-    sequence = models.IntegerField()
+    sequence = models.IntegerField(unique=True)
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.sequence
 
 class Event(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
     check_out = models.BooleanField()
-    intelligence = models.ForeignKey(Intelligence, on_delete=CASCADE)
+    intelligence = models.ForeignKey(Intelligence, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.timestamp
