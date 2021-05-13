@@ -3,7 +3,7 @@ from django.db.models.deletion import CASCADE
 from django.contrib.gis.geos import Point
 
 # FIXME: This default should be configurable
-DEFAULT_POINT = Point(-36.49197,144.63760)
+DEFAULT_POINT = Point(144.63760,-36.49197)
 
 class Patrol(models.Model):
     name = models.CharField(max_length=128)
@@ -27,7 +27,8 @@ class Intelligence(models.Model):
     answer = models.CharField(max_length=1024)
 
     def __str__(self):
-        return self.question
+        base = f'{self.base} base:' if self.base else '(no base)' 
+        return f'{base} {self.question}'
 
 class Queue(models.Model):
     sequence = models.IntegerField(unique=True)
@@ -35,7 +36,7 @@ class Queue(models.Model):
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.sequence
+        return str(f'{self.sequence}: {self.patrol} -> {self.base}')
 
 class Event(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
