@@ -1,0 +1,9 @@
+{% if patrol_list %}
+<ul>
+    {% for patrol in patrol_list %}
+    <li><a href="{% url 'RadioActiv8:PatrolDetail' patrol.id %}">{{ patrol.name }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No Patrols are available.</p>
+{% endif %}
