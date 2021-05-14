@@ -46,4 +46,5 @@ class Event(models.Model):
     intelligence = models.ForeignKey(Intelligence, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'{self.timestamp}: {self.patrol} at {self.base}, answering {self.intelligence}'
+        status = 'at' if not self.check_out else 'leaving'
+        return f'{self.timestamp}: {self.patrol} {status} {self.base}, answering {self.intelligence}'
