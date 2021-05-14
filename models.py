@@ -19,7 +19,8 @@ class Base(models.Model):
         return self.name
 
     # Return intelligence available for this base.
-    # If passed a Patrol, exclude any intelligence that patrol has already answered.
+    # If passed a Patrol, exclude any intelligence that patrol has already
+    # answered.
     def get_intelligence(self, patrol=None):
         if patrol:
             return Intelligence.objects.filter(
@@ -30,7 +31,8 @@ class Base(models.Model):
             return Intelligence.objects.filter(base=self)
 
     # Return random intelligence for this base.
-    # If passed a Patrol, exclude any intelligence that patrol has already answered.
+    # If passed a Patrol, exclude any intelligence that patrol has already
+    # answered.
     def get_random_intelligence(self, patrol=None):
         if patrol:
             intelligence = Intelligence.objects.filter(
@@ -72,7 +74,9 @@ class Patrol(models.Model):
         return True
 
     def last_seen(self):
-        return str(Event.objects.filter(patrol=self).order_by('-timestamp').first())
+        return str(
+            Event.objects.filter(
+                patrol=self).order_by('-timestamp').first())
 
 
 class Intelligence(models.Model):

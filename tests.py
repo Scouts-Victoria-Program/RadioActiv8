@@ -1,42 +1,43 @@
 from django.test import TestCase
 from .models import *
 
+
 class PatrolModelTests(TestCase):
-  
-  def test_patrol_cant_check_out_without_checking_in(self):
-    """
-    Patrol cannot check_out() if they didn't already check_in()
-    """
 
-    base=Base(name='foo', min_patrols=0, max_patrols=0)
-    base.save()
+    def test_patrol_cant_check_out_without_checking_in(self):
+        """
+        Patrol cannot check_out() if they didn't already check_in()
+        """
 
-    patrol=Patrol(name='bar')
-    patrol.save()
+        base = Base(name='foo', min_patrols=0, max_patrols=0)
+        base.save()
 
-    successful_check_out = patrol.check_out(base)
-    patrol.save()
+        patrol = Patrol(name='bar')
+        patrol.save()
 
-    self.assertIs(successful_check_out, False)
+        successful_check_out = patrol.check_out(base)
+        patrol.save()
 
-  def test_patrol_cant_check_in_twice(self):
-    """
-    Patrol cannot check_in() if they didn't check_out() of last base
-    """
+        self.assertIs(successful_check_out, False)
 
-    baseA=Base(name='foo', min_patrols=0, max_patrols=0)
-    baseA.save()
+    def test_patrol_cant_check_in_twice(self):
+        """
+        Patrol cannot check_in() if they didn't check_out() of last base
+        """
 
-    baseB=Base(name='bar', min_patrols=0, max_patrols=0)
-    baseB.save()
+        baseA = Base(name='foo', min_patrols=0, max_patrols=0)
+        baseA.save()
 
-    patrol=Patrol(name='quux')
-    patrol.save()
+        baseB = Base(name='bar', min_patrols=0, max_patrols=0)
+        baseB.save()
 
-    patrol.check_in(baseA)
-    patrol.save()
+        patrol = Patrol(name='quux')
+        patrol.save()
 
-    successful_check_in = patrol.check_in(baseB)
-    patrol.save()
+        patrol.check_in(baseA)
+        patrol.save()
 
-    self.assertIs(successful_check_in, False)
+        successful_check_in = patrol.check_in(baseB)
+        patrol.save()
+
+        self.assertIs(successful_check_in, False)

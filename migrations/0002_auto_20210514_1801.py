@@ -19,24 +19,41 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='patrol',
             name='base',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='RadioActiv8.base'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to='RadioActiv8.base'),
         ),
         migrations.AlterField(
             model_name='event',
             name='check_out',
-            field=models.BooleanField(default=False),
+            field=models.BooleanField(
+                default=False),
         ),
         migrations.AlterField(
             model_name='event',
             name='timestamp',
-            field=models.DateTimeField(default=django.utils.timezone.now),
+            field=models.DateTimeField(
+                default=django.utils.timezone.now),
         ),
         migrations.CreateModel(
             name='PatrolAnswer',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('intelligence', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='RadioActiv8.intelligence')),
-                ('patrol', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='RadioActiv8.patrol')),
+                ('id',
+                 models.BigAutoField(
+                     auto_created=True,
+                     primary_key=True,
+                     serialize=False,
+                     verbose_name='ID')),
+                ('intelligence',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.PROTECT,
+                     to='RadioActiv8.intelligence')),
+                ('patrol',
+                 models.ForeignKey(
+                     on_delete=django.db.models.deletion.CASCADE,
+                     to='RadioActiv8.patrol')),
             ],
         ),
     ]
