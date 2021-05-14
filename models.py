@@ -46,4 +46,4 @@ class Event(models.Model):
     intelligence = models.ForeignKey(Intelligence, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.timestamp
+        return str(self.timestamp)
