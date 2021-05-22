@@ -7,7 +7,7 @@ This is a Django project designed to model the RadioActiv8 activity.
 1. Clone this repo, cd into it, and copy the `.env` file:
 
 ```sh
-git clone https://github.com:Radio-Active-Scout/RadioActiv8
+git clone https://github.com/Radio-Active-Scout/RadioActiv8
 cd RadioActiv8
 cp .env.example .env
 ```
