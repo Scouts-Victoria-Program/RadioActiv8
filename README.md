@@ -4,7 +4,7 @@ This is a Django project designed to model the RadioActiv8 activity.
 
 ## Getting started
 
-1. Clone @mattcen's Dockerised GeoDjango repo, cd into it, and copy the `.env` file:
+1. Clone this repo, cd into it, and copy the `.env` file:
 
 ```sh
 git clone https://github.com:Radio-Active-Scout/RadioActiv8
