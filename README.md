@@ -21,7 +21,7 @@ docker-compose up -d
 3. Load in some test data (stored in `test_data.py`)
 
 ```
-docker-compose exec web python manage.py shell -c 'from RadioActiv8 import test_data; test_data.load()'
+docker-compose exec app python manage.py shell -c 'from RadioActiv8 import test_data; test_data.load()'
 ```
 
 4. Log into http://localhost:8000/admin as `root`/`root`, and explore the data.
