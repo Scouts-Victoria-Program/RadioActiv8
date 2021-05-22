@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+# FIXME: Is this CASCADE line required, given we're referring to 'models.CASCADE' below?
 from django.db.models.deletion import CASCADE
 from django.contrib.gis.geos import Point
 from django.db.models import Q
@@ -18,10 +19,13 @@ class Base(models.Model):
     def __str__(self):
         return self.name
 
-    # Return intelligence available for this base.
-    # If passed a Patrol, exclude any intelligence that patrol has already
-    # answered.
     def get_intelligence(self, patrol=None):
+        """
+        Return intelligence available for this base.
+
+        If passed a Patrol, exclude any intelligence that patrol has already
+        answered.
+        """
         if patrol:
             return Intelligence.objects.filter(
                 ~Q(id__in=[
@@ -30,10 +34,13 @@ class Base(models.Model):
         else:
             return Intelligence.objects.filter(base=self)
 
-    # Return random intelligence for this base.
-    # If passed a Patrol, exclude any intelligence that patrol has already
-    # answered.
     def get_random_intelligence(self, patrol=None):
+        """
+        Return random intelligence for this base.
+
+        If passed a Patrol, exclude any intelligence that patrol has already
+        answered.
+        """
         if patrol:
             intelligence = Intelligence.objects.filter(
                 ~Q(id__in=[
@@ -103,6 +110,9 @@ class Queue(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['sequence']
+
     def __str__(self):
         return str(f'{self.sequence}: {self.patrol} -> {self.base}')
 
@@ -110,8 +120,11 @@ class Queue(models.Model):
 class Event(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(default=timezone.now)
+    timestamp = models.DateTimeField(auto_now_add=True)
     check_out = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['timestamp']
 
     def __str__(self):
         status = 'at' if not self.check_out else 'leaving'
