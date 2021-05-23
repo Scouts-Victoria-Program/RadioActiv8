@@ -19,7 +19,7 @@ env = environ.Env(
     TIME_ZONE=(str, 'UTC')
 )
 # reading .env file
-#environ.Env.read_env()
+# environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in
+# os.environ
 SECRET_KEY = env('SECRET_KEY')
 
 # False if not in os.environ
@@ -89,11 +90,11 @@ WSGI_APPLICATION = 'geodjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME':     env("POSTGRES_DB"),
-        'USER':     env("POSTGRES_USER"),
+        'NAME': env("POSTGRES_DB"),
+        'USER': env("POSTGRES_USER"),
         'PASSWORD': env("POSTGRES_PASSWORD"),
-        'HOST':     env("POSTGRES_HOST", default="localhost"),
-        'PORT':     env("POSTGRES_PORT", default="5432"),
+        'HOST': env("POSTGRES_HOST", default="localhost"),
+        'PORT': env("POSTGRES_PORT", default="5432"),
     }
 }
 

@@ -12,25 +12,39 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='event',
-            options={'ordering': ['timestamp']},
+            options={
+                'ordering': ['timestamp']},
         ),
         migrations.AlterModelOptions(
             name='queue',
-            options={'ordering': ['sequence']},
+            options={
+                'ordering': ['sequence']},
         ),
         migrations.AddField(
             model_name='base',
             name='activity_type',
-            field=models.CharField(blank=True, choices=[('R', 'Reading data'), ('S', 'Self-directed'), ('F', 'Facilitated')], max_length=1),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('R',
+                     'Reading data'),
+                    ('S',
+                     'Self-directed'),
+                    ('F',
+                     'Facilitated')],
+                max_length=1),
         ),
         migrations.AddField(
             model_name='base',
             name='channel',
-            field=models.IntegerField(blank=True, null=True),
+            field=models.IntegerField(
+                blank=True,
+                null=True),
         ),
         migrations.AlterField(
             model_name='event',
             name='timestamp',
-            field=models.DateTimeField(auto_now_add=True),
+            field=models.DateTimeField(
+                auto_now_add=True),
         ),
     ]
