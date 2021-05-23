@@ -1,9 +1,6 @@
 from django.contrib.gis.db import models
-# FIXME: Is this CASCADE line required, given we're referring to 'models.CASCADE' below?
-from django.db.models.deletion import CASCADE
 from django.contrib.gis.geos import Point
 from django.db.models import Q
-from django.utils import timezone
 import random
 
 # FIXME: This default should be configurable
@@ -15,6 +12,14 @@ class Base(models.Model):
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
     min_patrols = models.IntegerField(blank=True)
     max_patrols = models.IntegerField(blank=True)
+    ACTIVITY_TYPE_CHOICES = [
+        ('R', 'Reading data'),
+        ('S', 'Self-directed'),
+        ('F', 'Facilitated'),
+    ]
+    activity_type = models.CharField(
+        blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES)
+    channel = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -94,7 +99,7 @@ class Intelligence(models.Model):
 
     def __str__(self):
         base = f'{self.base} base:' if self.base else '(no base)'
-        return f'{base} {self.question}'
+        return f'{base} {self.question} - {self.answer}'
 
 
 class PatrolAnswer(models.Model):
