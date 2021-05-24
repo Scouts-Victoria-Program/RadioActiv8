@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -24,4 +26,5 @@ urlpatterns = [
         'base/<int:pk>/',
         views.BaseDetail.as_view(),
         name='BaseDetail'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# FIXME: Serve static files properly in production
