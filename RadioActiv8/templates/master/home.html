@@ -1,0 +1,11 @@
+{% extends 'master/heading.html' %}
+{% load bootstrap4 %}
+{% block bootstrap4_content %}
+<h1>Hello Universe</h1>
+<form action="/url/to/submit/" method="post" class="form">
+    {% csrf_token %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
+</form>
+{% endblock %}

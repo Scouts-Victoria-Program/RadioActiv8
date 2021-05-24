@@ -1,0 +1,36 @@
+{% extends 'bootstrap4/bootstrap4.html' %}
+{% load static %}
+{% block bootstrap4_extra_head %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bebas+Neue">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Map-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+{% endblock %}
+{% block bootstrap4_before_content %}
+    <nav class="navbar navbar-light navbar-expand-lg navigation-clean-button" style="color: rgb(220,41,30);background: rgb(0,0,0);padding: 0px;">
+        <div class="container-fluid"><a class="navbar-brand" href="./index.html" style="font-family: 'Bebas Neue', serif;font-size: 32pt;">RadioActiv8&nbsp;&nbsp;<i class="fab fa-codepen"></i>&nbsp;</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1" style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
+                <ul class="navbar-nav mr-auto" style="font-family: 'Bebas Neue', serif;font-size: 20pt;font-weight: normal;"></ul>
+                <div class="btn-group" role="group" style="padding: 10px;font-size: inherit;"><a class="btn btn-success" role="button" href="/play.html" style="font-size: inherit;">Play&nbsp;&nbsp;<i class="fas fa-running" style="font-size: inherit;"></i></a><a class="btn btn-success" role="button" href="./map.html" target="_blank" style="font-size: inherit;">Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt" style="font-size: inherit;"></i></a></div>
+                <div class="btn-group" role="group" style="padding: 10px;">
+                    <div class="btn-group"><a class="btn btn-warning" role="button" href="./dashboard.html" style="font-size: inherit;">Plan&nbsp;&nbsp;<i class="fas fa-sitemap"></i></a><button class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="font-size: inherit;"></button>
+                        <div class="dropdown-menu" style="font-size: inherit;"><a class="dropdown-item" href="./trackers.html" style="font-size: inherit;">GPS Trackers</a><a class="dropdown-item" href="./allocations.html" style="font-size: inherit;">Patrol Allocation</a><a class="dropdown-item" href="./sites.html" style="font-size: inherit;">Site Comms</a><a class="dropdown-item" href="./radio-ops.html" style="font-size: inherit;">Radio Operators</a><a class="dropdown-item" href="./scores.html" style="font-size: inherit;">Scores</a></div>
+                    </div>
+                </div>
+                <div class="btn-group" role="group" style="padding: 10px;font-size: inherit;">
+                    <div class="btn-group" style="font-size: inherit;"><a class="btn btn-primary" role="button" href="./dashboard.html" style="font-size: inherit;">Resources&nbsp;&nbsp;<i class="fas fa-users-cog" style="font-size: inherit;"></i></a><button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="font-size: inherit;"></button>
+                        <div class="dropdown-menu" style="font-size: inherit;"><a class="dropdown-item" href="./gps-units.html" style="font-size: inherit;">GPS Units</a><a class="dropdown-item" href="./patrols.html" style="font-size: inherit;">Patrols</a><a class="dropdown-item" href="./activities.html" style="font-size: inherit;">Activities</a><a class="dropdown-item" href="./radio-channels.html" style="font-size: inherit;">Portal Users</a></div>
+                    </div>
+                </div>
+                <div class="btn-toolbar"></div>
+                <div class="btn-toolbar"></div>
+            </div><a class="btn btn-danger" role="button" href="./login.html" style="font-size: 12pt;">Sign Out&nbsp;<i class="fas fa-user-lock"></i></a>
+        </div>
+    </nav><!-- End: Navigation with Button -->
+{% endblock %}

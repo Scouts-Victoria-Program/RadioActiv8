@@ -4,8 +4,7 @@ from .models import *
 
 
 def index(request):
-    return render("Hello World. You're at the RadioActiv8 index.")
-
+    return render(request, 'master/home.html')
 
 class PatrolList(generic.ListView):
     template_name = 'patrol/index.html'
