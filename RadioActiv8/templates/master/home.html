@@ -1,11 +1,50 @@
 {% extends 'master/heading.html' %}
 {% load bootstrap4 %}
 {% block bootstrap4_content %}
-<h1>Hello Universe</h1>
-<form action="/url/to/submit/" method="post" class="form">
-    {% csrf_token %}
-    {% buttons %}
-    <button type="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
-</form>
+<div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
+    <div class="row" style="margin: 10px;">
+        <div class="col" style="background: var(--success);">
+            <h1 style="color: white;padding: 10px;">Run Session<i class="fas fa-running float-right"></i></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1><a class="btn btn-success" role="button" href="play.html" style="margin: 20px;">Play&nbsp;&nbsp;<i class="fas fa-running"></i></a><a class="btn btn-success" role="button" href="map.html" target="_blank" style="margin: 20px;">Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i></a></h1>
+            <h1></h1>
+        </div>
+    </div>
+    <div class="row" style="margin: 10px;">
+        <div class="col" style="background: var(--warning);">
+            <h1 style="padding: 10px;">Session Data<i class="fas fa-sitemap float-right"></i></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1><a class="btn btn-warning" role="button" href="./trackers.html" style="margin: 20px;">GPS Allocations&nbsp;&nbsp;<i class="fas fa-location-arrow"></i></a><a class="btn btn-warning" role="button" href="./allocations.html" style="margin: 20px;">Patrol Allocations&nbsp;&nbsp;<i class="fa fa-group"></i></a><a class="btn btn-warning" role="button" href="./sites.html" style="margin: 20px;">Site Comms&nbsp;&nbsp;<i class="fas fa-broadcast-tower"></i></a><a class="btn btn-warning" role="button" href="./radio-ops.html" style="margin: 20px;">Radio Ops&nbsp;&nbsp;<i class="fas fa-headset"></i></a><a class="btn btn-warning" role="button" href="./scores.html" style="margin: 20px;" target="_blank">Scoreboard&nbsp;&nbsp;<i class="fas fa-trophy"></i></a></h1>
+            <h1></h1>
+        </div>
+    </div>
+    <div class="row" style="margin: 10px;">
+        <div class="col" style="background: var(--primary);">
+            <h1 style="color: white;padding: 10px;">Resources<i class="fas fa-laptop-code float-right"></i></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1><a class="btn btn-primary" role="button" href="./gps-devices.html" style="margin: 20px;">GPS Units&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i></a><a class="btn btn-primary" role="button" href="./patrols.html" style="margin: 20px;">Patrols&nbsp;&nbsp;<i class="fas fa-users-cog"></i></a><a class="btn btn-primary" role="button" href="./activities.html" style="margin: 20px;">Activities&nbsp;&nbsp;<i class="fas fa-cubes"></i></a><a class="btn btn-primary" role="button" href="./channels.html" style="margin: 20px;">Radio Channels&nbsp;&nbsp;<i class="fas fa-headset"></i></a><a class="btn btn-dark" role="button" href="intro-movie.html" style="margin: 20px;">Intro Movie&nbsp;&nbsp;<i class="fas fa-video"></i></a></h1>
+            <h1></h1>
+        </div>
+    </div>
+    <div class="row" style="margin: 10px;">
+        <div class="col" style="background: var(--danger);">
+            <h1 style="color: white;padding: 10px;">System Admin<i class="fas fa-terminal float-right"></i></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1><a class="btn btn-danger" role="button" href="./gps-data.html" style="margin: 20px;">GPS Data&nbsp;&nbsp;<i class="fas fa-database"></i></a><a class="btn btn-danger" role="button" href="./patrol-data.html" style="margin: 20px;">Patrol Data&nbsp;&nbsp;<i class="fas fa-user-edit"></i></a><a class="btn btn-danger" role="button" href="./radio-freqs.html" style="margin: 20px;">Radio Frequencies&nbsp; &nbsp;<i class="fas fa-digital-tachograph"></i></a><a class="btn btn-danger" role="button" href="./portal-users.html" style="margin: 20px;">Portal Users&nbsp;&nbsp;<i class="fas fa-user-cog"></i></a></h1>
+            <h1></h1>
+        </div>
+    </div>
+</div>
 {% endblock %}
