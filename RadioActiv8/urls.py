@@ -11,6 +11,10 @@ urlpatterns = [
         views.index,
         name='index'),
     path(
+        'login/',
+        views.login,
+        name='login'),
+    path(
         'play/',
         views.play,
         name='play'),
