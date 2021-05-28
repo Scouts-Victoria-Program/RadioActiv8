@@ -9,6 +9,9 @@ def index(request):
 def map(request):
     return render(request, 'master/map.html')
 
+def play(request):
+    return render(request, 'master/play.html')
+
 class PatrolList(generic.ListView):
     template_name = 'patrol/index.html'
 
