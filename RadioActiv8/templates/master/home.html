@@ -1,50 +1,51 @@
 {% extends 'master/heading.html' %}
 {% load bootstrap4 %}
 {% block bootstrap4_content %}
-<div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
-    <div class="row" style="margin: 10px;">
-        <div class="col" style="background: var(--success);">
-            <h1 style="color: white;padding: 10px;">Run Session<i class="fas fa-running float-right"></i></h1>
+<body style="color: var(--dark);background: var(--light);">
+    <div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
+        <div class="row" style="margin: 10px;">
+            <div class="col" style="background: var(--success);">
+                <h1 style="color: white;padding: 10px;">Run Session<i class="fas fa-running float-right"></i></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1><a class="btn btn-success" role="button" href="play" style="margin: 20px;">Play&nbsp;&nbsp;<i class="fas fa-running"></i></a><a class="btn btn-success" role="button" href="map" target="_blank" style="margin: 20px;">Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i></a></h1>
+                <h1></h1>
+            </div>
+        </div>
+        <div class="row" style="margin: 10px;">
+            <div class="col" style="background: var(--warning);">
+                <h1 style="color: white;padding: 10px;">Session Data<i class="fas fa-sitemap float-right"></i></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1><a class="btn btn-warning" role="button" href="./trackers" style="margin: 20px;">GPS Allocations&nbsp;&nbsp;<i class="fas fa-location-arrow"></i></a><a class="btn btn-warning" role="button" href="./allocations" style="margin: 20px;">Patrol Allocations&nbsp;&nbsp;<i class="fa fa-group"></i></a><a class="btn btn-warning" role="button" href="./sites" style="margin: 20px;">Site Comms&nbsp;&nbsp;<i class="fas fa-broadcast-tower"></i></a><a class="btn btn-warning" role="button" href="./radio-ops" style="margin: 20px;">Radio Ops&nbsp;&nbsp;<i class="fas fa-headset"></i></a><a class="btn btn-warning" role="button" href="./scores" style="margin: 20px;" target="_blank">Scoreboard&nbsp;&nbsp;<i class="fas fa-trophy"></i></a></h1>
+                <h1></h1>
+            </div>
+        </div>
+        <div class="row" style="margin: 10px;">
+            <div class="col" style="background: var(--primary);">
+                <h1 style="color: white;padding: 10px;">Resources<i class="fas fa-laptop-code float-right"></i></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1><a class="btn btn-primary" role="button" href="./gps-devices" style="margin: 20px;">GPS Units&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i></a><a class="btn btn-primary" role="button" href="./patrols" style="margin: 20px;">Patrols&nbsp;&nbsp;<i class="fas fa-users-cog"></i></a><a class="btn btn-primary" role="button" href="./activities" style="margin: 20px;">Activities&nbsp;&nbsp;<i class="fas fa-cubes"></i></a><a class="btn btn-primary" role="button" href="./channels" style="margin: 20px;">Radio Channels&nbsp;&nbsp;<i class="fas fa-headset"></i></a><a class="btn btn-dark" role="button" href="intro-movie" style="margin: 20px;">Intro Movie&nbsp;&nbsp;<i class="fas fa-video"></i></a></h1>
+                <h1></h1>
+            </div>
+        </div>
+        <div class="row" style="margin: 10px;">
+            <div class="col" style="background: var(--danger);">
+                <h1 style="color: white;padding: 10px;">System Admin<i class="fas fa-terminal float-right"></i></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1><a class="btn btn-danger" role="button" href="./gps-data" style="margin: 20px;">GPS Data&nbsp;&nbsp;<i class="fas fa-database"></i></a><a class="btn btn-danger" role="button" href="./patrol-data" style="margin: 20px;">Patrol Data&nbsp;&nbsp;<i class="fas fa-user-edit"></i></a><a class="btn btn-danger" role="button" href="./radio-freqs" style="margin: 20px;">Radio Frequencies&nbsp; &nbsp;<i class="fas fa-digital-tachograph"></i></a><a class="btn btn-danger" role="button" href="./portal-users" style="margin: 20px;">Portal Users&nbsp;&nbsp;<i class="fas fa-user-cog"></i></a></h1>
+                <h1></h1>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <h1><a class="btn btn-success" role="button" href="play" style="margin: 20px;">Play&nbsp;&nbsp;<i class="fas fa-running"></i></a><a class="btn btn-success" role="button" href="map" target="_blank" style="margin: 20px;">Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i></a></h1>
-            <h1></h1>
-        </div>
-    </div>
-    <div class="row" style="margin: 10px;">
-        <div class="col" style="background: var(--warning);">
-            <h1 style="padding: 10px;">Session Data<i class="fas fa-sitemap float-right"></i></h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1><a class="btn btn-warning" role="button" href="./trackers" style="margin: 20px;">GPS Allocations&nbsp;&nbsp;<i class="fas fa-location-arrow"></i></a><a class="btn btn-warning" role="button" href="./allocations" style="margin: 20px;">Patrol Allocations&nbsp;&nbsp;<i class="fa fa-group"></i></a><a class="btn btn-warning" role="button" href="./sites" style="margin: 20px;">Site Comms&nbsp;&nbsp;<i class="fas fa-broadcast-tower"></i></a><a class="btn btn-warning" role="button" href="./radio-ops" style="margin: 20px;">Radio Ops&nbsp;&nbsp;<i class="fas fa-headset"></i></a><a class="btn btn-warning" role="button" href="./scores" style="margin: 20px;" target="_blank">Scoreboard&nbsp;&nbsp;<i class="fas fa-trophy"></i></a></h1>
-            <h1></h1>
-        </div>
-    </div>
-    <div class="row" style="margin: 10px;">
-        <div class="col" style="background: var(--primary);">
-            <h1 style="color: white;padding: 10px;">Resources<i class="fas fa-laptop-code float-right"></i></h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1><a class="btn btn-primary" role="button" href="./gps-devices" style="margin: 20px;">GPS Units&nbsp;&nbsp;<i class="fas fa-map-marker-alt"></i></a><a class="btn btn-primary" role="button" href="./patrols" style="margin: 20px;">Patrols&nbsp;&nbsp;<i class="fas fa-users-cog"></i></a><a class="btn btn-primary" role="button" href="./activities" style="margin: 20px;">Activities&nbsp;&nbsp;<i class="fas fa-cubes"></i></a><a class="btn btn-primary" role="button" href="./channels" style="margin: 20px;">Radio Channels&nbsp;&nbsp;<i class="fas fa-headset"></i></a><a class="btn btn-dark" role="button" href="intro-movie" style="margin: 20px;">Intro Movie&nbsp;&nbsp;<i class="fas fa-video"></i></a></h1>
-            <h1></h1>
-        </div>
-    </div>
-    <div class="row" style="margin: 10px;">
-        <div class="col" style="background: var(--danger);">
-            <h1 style="color: white;padding: 10px;">System Admin<i class="fas fa-terminal float-right"></i></h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h1><a class="btn btn-danger" role="button" href="./gps-data" style="margin: 20px;">GPS Data&nbsp;&nbsp;<i class="fas fa-database"></i></a><a class="btn btn-danger" role="button" href="./patrol-data" style="margin: 20px;">Patrol Data&nbsp;&nbsp;<i class="fas fa-user-edit"></i></a><a class="btn btn-danger" role="button" href="./radio-freqs" style="margin: 20px;">Radio Frequencies&nbsp; &nbsp;<i class="fas fa-digital-tachograph"></i></a><a class="btn btn-danger" role="button" href="./portal-users" style="margin: 20px;">Portal Users&nbsp;&nbsp;<i class="fas fa-user-cog"></i></a></h1>
-            <h1></h1>
-        </div>
-    </div>
-</div>
 {% endblock %}
