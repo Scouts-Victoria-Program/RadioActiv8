@@ -10,15 +10,15 @@ DEFAULT_POINT = Point(144.63760, -36.49197)
 class Base(models.Model):
     name = models.CharField(max_length=128)
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
-    min_patrols = models.IntegerField(blank=True)
-    max_patrols = models.IntegerField(blank=True)
+    min_patrols = models.IntegerField(blank=True, null=True)
+    max_patrols = models.IntegerField(blank=True, null=True)
     ACTIVITY_TYPE_CHOICES = [
         ('R', 'Reading data'),
         ('S', 'Self-directed'),
         ('F', 'Facilitated'),
     ]
     activity_type = models.CharField(
-        blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES)
+        blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES, default='S')
     channel = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -107,7 +107,8 @@ class PatrolAnswer(models.Model):
     intelligence = models.ForeignKey(Intelligence, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'{self.patrol} answered {self.intelligence.base} base: {self.intelligence.question}'
+        return f'{self.patrol} answered {self.intelligence.base}' + \
+            f' base: {self.intelligence.question}'
 
 
 class Queue(models.Model):
