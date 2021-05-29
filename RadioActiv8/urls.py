@@ -4,18 +4,18 @@ from rest_framework import routers
 from . import views, api_views
 
 router = routers.DefaultRouter()
-router.register(r'bases', api_views.BaseViewSet)
-router.register(r'patrols', api_views.PatrolViewSet, basename='patrol')
+router.register(r'base', api_views.BaseViewSet)
+router.register(r'patrol', api_views.PatrolViewSet, basename='patrol')
 router.register(
-    r'intelligences',
+    r'intelligence',
     api_views.IntelligenceViewSet,
     basename='intelligence')
 router.register(
-    r'patrol_answers',
+    r'patrol_answer',
     api_views.PatrolAnswerViewSet,
     basename='patrol_answer')
-router.register(r'queues', api_views.QueueViewSet, basename='queue')
-router.register(r'events', api_views.EventViewSet, basename='event')
+router.register(r'queue', api_views.QueueViewSet, basename='queue')
+router.register(r'event', api_views.EventViewSet, basename='event')
 
 app_name = 'RadioActiv8'
 urlpatterns = [
