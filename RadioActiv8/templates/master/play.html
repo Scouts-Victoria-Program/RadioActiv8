@@ -1,0 +1,74 @@
+{% extends 'master/heading.html' %}
+{% load bootstrap4 %}
+{% block bootstrap4_content %}
+
+<body style="color: var(--light);background: var(--dark);">
+    <!-- Patrol Control Frame -->
+    <main style="background: var(--dark);color: var(--warning);font-family: 'Roboto Slab', serif;">
+        <!-- Start: 2 Rows 1+4 Columns -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
+                    <form>
+                            <h4 class="text-monospace">Patrol Check In:</h4>
+                            <div class="form-group"><label class="text-monospace">Select a Patrol:<select class="form-control">
+                                        <optgroup label="Select a Patrol">
+                                            <option value="12" selected="">2042</option>
+                                            <option value="13">2081</option>
+                                            <option value="14">1012</option>
+                                            <option value="15">1064</option>
+                                        </optgroup>
+                                    </select></label></div>
+                            <div class="form-group"><label>Reported Location:<select class="form-control">
+                                        <optgroup label="Location">
+                                            <option value="12" selected="">Maverick</option>
+                                            <option value="13">Goose</option>
+                                            <option value="14">Viper</option>
+                                            <option value="15">Iceman</option>
+                                        </optgroup>
+                                    </select></label></div>
+                        </form><button class="btn btn-success btn-block" type="button">CHECK IN</button>
+                    </div>
+                    <div class="col-md-6 col-xl-6 text-monospace">
+                        <form>
+                            <h4 class="text-monospace">INTELLIGENCE EXCHANGE</h4>
+                            <div class="form-group"><label class="text-monospace">Select Activity Base:</label><select class="form-control">
+                                    <optgroup label="Location">
+                                        <option value="12" selected="">Maverick</option>
+                                        <option value="13">Goose</option>
+                                        <option value="14">Viper</option>
+                                        <option value="15">Iceman</option>
+                                    </optgroup>
+                                </select><label class="text-monospace" for="activityType">Type:<input class="form-control-plaintext d-inline-block" type="text" value="Active | Passive | Self" readonly="" style="color: var(--light);width: 100%;"></label></div>
+                            <div class="form-group"><label>Intelligence Expected:<input class="form-control-plaintext float-left" type="text" value="Mafeking" readonly="" style="color: var(--light);"></label></div>
+                            <div class="form-group"><label class="d-inline-block">Intelligence Provided:<input class="form-control" type="text"></label><button class="btn btn-warning text-monospace d-inline-block" type="submit">CHECK</button><input class="form-control-plaintext float-right" type="text" value="Valid | Invalid" readonly="" style="color: var(--light);"></div>
+                        </form>
+                        <div class="form-group"><button class="btn btn-danger btn-lg float-left" type="button">TRY AGAIN</button><button class="btn btn-success btn-lg float-right" type="button">PASS</button></div>
+                    </div>
+                    <div class="col-md-3 col-xl-3 text-monospace">
+                        <form>
+                            <h4 class="text-monospace">Patrol Check Out</h4>
+                            <div class="form-group"><label class="text-monospace">Select a Patrol:<select class="form-control">
+                                        <optgroup label="Select a Patrol">
+                                            <option value="12" selected="">2042</option>
+                                            <option value="13">2081</option>
+                                            <option value="14">1012</option>
+                                            <option value="15">1064</option>
+                                        </optgroup>
+                                    </select></label></div>
+                            <div class="form-group"><label>Send to Location:<select class="form-control">
+                                        <optgroup label="Location">
+                                            <option value="12" selected="">Maverick</option>
+                                            <option value="13">Goose</option>
+                                            <option value="14">Viper</option>
+                                            <option value="15">Iceman</option>
+                                        </optgroup>
+                                    </select></label></div>
+                        </form><button class="btn btn-danger btn-block" type="button">CHECK OUT</button>
+                    </div>
+                </div>
+            </div>
+
+    <!-- end Patrol Control Frame-->
+
+{% endblock %}

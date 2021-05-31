@@ -2,3 +2,4 @@ Django
 django-environ
 djangorestframework
 psycopg2-binary
+django-bootstrap4

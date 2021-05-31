@@ -1,5 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views, api_views
 
@@ -24,6 +26,18 @@ urlpatterns = [
         views.index,
         name='index'),
     path(
+        'login/',
+        views.login,
+        name='login'),
+    path(
+        'play/',
+        views.play,
+        name='play'),
+    path(
+        'map/',
+        views.map,
+        name='map'),
+    path(
         'patrol/',
         views.PatrolList.as_view(),
         name='PatrolList'),
@@ -40,4 +54,6 @@ urlpatterns = [
         views.BaseDetail.as_view(),
         name='BaseDetail'),
     path('api/', include(router.urls)),
-]
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# FIXME: Serve static files properly in production
