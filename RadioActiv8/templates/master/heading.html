@@ -28,12 +28,13 @@
       style="font-family: 'Bebas Neue', serif;font-size: 32pt;">
       RadioActiv8&nbsp;&nbsp;<i class="fab fa-codepen"></i>&nbsp;
     </a>
-    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+    <input type="checkbox" id="navbar-main-toggle-cbox">
+    <label for="navbar-main-toggle-cbox" data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
       <span class="sr-only">
         Toggle navigation
       </span>
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </label>
     <div class="collapse navbar-collapse" id="navcol-1" style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
       <ul class="navbar-nav mr-auto" style="font-family: 'Bebas Neue',
                  serif;font-size: 20pt;font-weight: normal;">
@@ -54,10 +55,11 @@
           <a class="btn btn-warning" role="button" href="./dashboard">
             Plan&nbsp;&nbsp;<i class="fas fa-sitemap"></i>
           </a>
-          <button class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-            aria-expanded="false" type="button">
-          </button>
-          <div class="dropdown-menu">
+          <input type="checkbox" id="navbar-plan-toggle-cbox">
+          <label for="navbar-plan-toggle-cbox" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+            aria-expanded="false">
+          </label>
+          <div class="dropdown dropdown-menu">
             <a class="dropdown-item" href="./trackers">
               GPS Trackers
             </a>
@@ -81,10 +83,11 @@
           <a class="btn btn-primary" role="button" href="./dashboard">
             Resources&nbsp;&nbsp;<i class="fas fa-users-cog"></i>
           </a>
-          <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-            aria-expanded="false" type="button">
-          </button>
-          <div class="dropdown-menu">
+          <input type="checkbox" id="navbar-resources-toggle-cbox">
+          <label for="navbar-resources-toggle-cbox" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+            aria-expanded="false">
+          </label>
+          <div class="dropdown dropdown-menu">
             <a class="dropdown-item" href="./gps-units">
               GPS Units
             </a>

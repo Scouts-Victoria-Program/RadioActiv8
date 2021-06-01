@@ -108,3 +108,29 @@
   background: #66d7d7;
 }
 
+@media (max-width:767px) {
+  #navbar-main-toggle-cbox:checked ~ .collapse {
+    display: block;
+  }
+}
+
+#navbar-main-toggle-cbox {
+ display: none;
+
+}
+
+#navbar-plan-toggle-cbox:checked ~ .dropdown {
+  display: block;
+}
+
+#navbar-plan-toggle-cbox {
+ display: none;
+}
+
+#navbar-resources-toggle-cbox:checked ~ .dropdown {
+  display: block;
+}
+
+#navbar-resources-toggle-cbox {
+ display: none;
+}
