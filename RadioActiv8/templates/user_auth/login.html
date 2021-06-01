@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 {% block bootstrap4_content %}
 
-<body style="color: var(--danger);background: var(--dark);">
+<div style="color: var(--danger);background: var(--dark);">
     <!-- Start: Login Form Clean -->
     <section class="login-clean" style="background: rgb(0,0,0);">
         <form method="post" style="color: inherit;background: rgb(0,0,0);">
@@ -12,12 +12,12 @@
             </div>
             <div class="form-group"><input class="form-control form-control-lg" type="text" name="portal_user" placeholder="Username" autofocus/></div>
             <div class="form-group"><input class="form-control form-control-lg" type="password" name="password" placeholder="Password"></div>
-            <div class="form-group"><a class="btn btn-danger btn-block" role="submit" style="background: var(--danger);">Log In</a></div>
+            <div class="form-group"><a class="btn btn-danger btn-block" role="button" style="background: var(--danger);">Log In</a></div>
         </form>
     </section><!-- End: Login Form Clean -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
-</body>
+</div>
 
 {% endblock %}
