@@ -56,6 +56,24 @@ class Base(models.Model):
 
         return random.choice(list(intelligence))
 
+    def get_patrols(self):
+        """
+        Return a list of patrols currently at this base
+        """
+        return Patrol.objects.filter(base=self)
+
+    def get_patrols_count(self):
+        """
+        Return an integer representing the number of patrols currently at this base
+        """
+        return self.get_patrols().count()
+
+    def is_full(self):
+        """
+        Return True if this base is at or over its patrol capacity
+        """
+        return self.get_patrols_count() >= self.max_patrols
+
 
 class Patrol(models.Model):
     name = models.CharField(max_length=128)
