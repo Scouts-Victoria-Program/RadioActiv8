@@ -1,19 +1,23 @@
 from django.shortcuts import render
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 from .models import *
 
 
+@login_required(login_url='RadioActiv8:login')
 def index(request):
     return render(request, 'master/home.html')
 
+
+@login_required(login_url='RadioActiv8:login')
 def map(request):
     return render(request, 'master/map.html')
 
+
+@login_required(login_url='RadioActiv8:login')
 def play(request):
     return render(request, 'master/play.html')
 
-def login(request):
-    return render(request, 'user_auth/login.html')
 
 class PatrolList(generic.ListView):
     template_name = 'patrol/index.html'

@@ -2,6 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 from . import views, api_views
 
@@ -27,8 +28,12 @@ urlpatterns = [
         name='index'),
     path(
         'login/',
-        views.login,
+        auth_views.LoginView.as_view(template_name='user_auth/login.html'),
         name='login'),
+    path(
+        'logout/',
+        auth_views.LogoutView.as_view(template_name='user_auth/login.html'),
+        name='logout'),
     path(
         'play/',
         views.play,

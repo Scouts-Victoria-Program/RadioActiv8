@@ -152,3 +152,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 BOOTSTRAP4 = {
     'include_jquery': True
 }
+
+LOGIN_REDIRECT_URL = 'RadioActiv8:index'
