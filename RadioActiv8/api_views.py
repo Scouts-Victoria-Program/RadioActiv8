@@ -9,6 +9,7 @@ class BaseViewSet(viewsets.ModelViewSet):
     """
     queryset = Base.objects.all()
     serializer_class = BaseSerializer
+    # FIXME: tighten read permissions on these views
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -18,6 +19,7 @@ class PatrolViewSet(viewsets.ModelViewSet):
     """
     queryset = Patrol.objects.all()
     serializer_class = PatrolSerializer
+    # FIXME: tighten read permissions on these views
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -27,6 +29,7 @@ class IntelligenceViewSet(viewsets.ModelViewSet):
     """
     queryset = Intelligence.objects.all()
     serializer_class = IntelligenceSerializer
+    # FIXME: tighten read permissions on these views
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -36,6 +39,7 @@ class PatrolAnswerViewSet(viewsets.ModelViewSet):
     """
     queryset = PatrolAnswer.objects.all()
     serializer_class = PatrolAnswerSerializer
+    # FIXME: tighten read permissions on these views
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -45,6 +49,7 @@ class QueueViewSet(viewsets.ModelViewSet):
     """
     queryset = Queue.objects.all()
     serializer_class = QueueSerializer
+    # FIXME: tighten read permissions on these views
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -54,4 +59,5 @@ class EventViewSet(viewsets.ModelViewSet):
     """
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    # FIXME: tighten read permissions on these views
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
