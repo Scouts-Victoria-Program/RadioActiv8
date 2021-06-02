@@ -58,6 +58,10 @@ urlpatterns = [
         'base/<int:pk>/',
         views.BaseDetail.as_view(),
         name='BaseDetail'),
+    path(
+        'base_test/<int:base_id>/',
+        views.base_test,
+        name='base_test'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

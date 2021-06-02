@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from .models import *
+from .forms import *
 
 
 @login_required(login_url='RadioActiv8:login')
@@ -43,3 +45,13 @@ class BaseList(generic.ListView):
 class BaseDetail(generic.DetailView):
     model = Base
     template_name = 'base/detail.html'
+
+def base_test(request, base_id):
+    base = get_object_or_404(Base, pk=base_id)
+    if (request.method == 'POST'):
+        our_form_data = BaseForm(request.POST, instance=base)
+        if our_form_data.is_valid():
+            our_form_data.save()
+    submit_location = reverse('RadioActiv8:base_test', args=(base.id,))
+    form = BaseForm(instance=base)
+    return render(request, 'base/detail.html', {'base': base, 'form_test': form, 'submit_location': submit_location})
