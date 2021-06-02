@@ -18,7 +18,17 @@ def map(request):
 
 @login_required(login_url='RadioActiv8:login')
 def play(request):
-    return render(request, 'master/play.html')
+    checkin_submit = "/where-do-we-go"
+    checkout_submit = "/somewhere-else-we-go"
+    patrols = Patrol.objects.all()
+    bases = Base.objects.all()
+    context = {
+        "checkin_submit": checkin_submit,
+        "checkout_submit": checkout_submit,
+        "patrols": patrols,
+        "bases": bases
+    }
+    return render(request, 'master/play.html', context)
 
 
 class PatrolList(generic.ListView):
@@ -54,4 +64,5 @@ def base_test(request, base_id):
             our_form_data.save()
     submit_location = reverse('RadioActiv8:base_test', args=(base.id,))
     form = BaseForm(instance=base)
-    return render(request, 'base/detail.html', {'base': base, 'form_test': form, 'submit_location': submit_location})
+    patrol_form = PatrolForm()
+    return render(request, 'base/detail.html', {'base': base, 'form_test': form, 'patrol_form': patrol_form, 'submit_location': submit_location})

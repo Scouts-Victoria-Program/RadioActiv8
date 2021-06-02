@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+
 from django.contrib.gis.geos import Point
 from django.db.models import Q
 import random
@@ -146,6 +147,7 @@ class Event(models.Model):
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     check_out = models.BooleanField(default=False)
+    comment = models.CharField(max_length=1024, null=True, blank=True)
 
     class Meta:
         ordering = ['timestamp']

@@ -6,3 +6,9 @@
   {{ form_test.as_ul }}
   <input type="submit" value="Submit">
 </form>
+
+<form action="{{submit_location}}" method="post">
+    {% csrf_token %}
+    {{ patrol_form.as_ul }}
+    <input type="submit" value="Submit">
+</form>

@@ -8,18 +8,47 @@
         <!-- Start: 2 Rows 1+4 Columns -->
         <div class="container">
             <div class="row">
+                <div class="">
+                    <form action="" method="post">
+                        <h4 class="text-monospace">Log Event:</h4>
+                            <label class="text-monospace">
+                                Select a Patrol:
+                                <select class="form-control">
+                                    <optgroup label="Select a Patrol">
+                                        <option value="-1">---</option>
+                                        {% for patrol in patrols %}
+                                        <option value="{{patrol.id}}">{{patrol.name}}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                </select>
+                            </label><br>
+                        Reported Location:
+                        <select class="form-control">
+                            <optgroup label="Location">
+                                <option value="-1">---</option>
+                                {% for base in bases %}
+                                <option value="{{base.id}}">{{base.name}}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                        <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
+                        <button class="btn btn-info btn-block" type="button">LOG UPDATE</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
-                    <form>
+                    <form action="{{checkin_submit}}" method="POST">
                         <h4 class="text-monospace">Patrol Check In:</h4>
                         <div class="form-group">
                             <label class="text-monospace">
                                 Select a Patrol:
                                 <select class="form-control">
                                     <optgroup label="Select a Patrol">
-                                        <option value="12" selected="">2042</option>
-                                        <option value="13">2081</option>
-                                        <option value="14">1012</option>
-                                        <option value="15">1064</option>
+                                        <option value="-1">---</option>
+                                        {% for patrol in patrols %}
+                                        <option value="{{patrol.id}}">{{patrol.name}}</option>
+                                        {% endfor %}
                                     </optgroup>
                                 </select>
                             </label>
@@ -29,10 +58,10 @@
                                 Reported Location:
                                 <select class="form-control">
                                     <optgroup label="Location">
-                                        <option value="12" selected="">Maverick</option>
-                                        <option value="13">Goose</option>
-                                        <option value="14">Viper</option>
-                                        <option value="15">Iceman</option>
+                                        <option value="-1">---</option>
+                                        {% for base in bases %}
+                                        <option value="{{base.id}}">{{base.name}}</option>
+                                        {% endfor %}
                                     </optgroup>
                                 </select>
                             </label>
@@ -45,12 +74,13 @@
                         <h4 class="text-monospace">INTELLIGENCE EXCHANGE</h4>
                         <div class="form-group">
                             <label class="text-monospace">Select Activity Base:</label>
-                            <select class="form-control">
+                            <select class="form-control" onChange="updateIntelligenceBase(this)">
                                 <optgroup label="Location">
-                                    <option value="12" selected="">Maverick</option>
-                                    <option value="13">Goose</option>
-                                    <option value="14">Viper</option>
-                                    <option value="15">Iceman</option>
+                                    <option value="-1" data-type="X">---</option>
+                                    {% for base in bases %}
+                                    <option value="{{base.id}}" data-type="{{base.activity_type}}">{{base.name}}
+                                    </option>
+                                    {% endfor %}
                                 </optgroup>
                             </select>
                             <label class="text-monospace" for="activityType">Type:</label>
@@ -76,17 +106,17 @@
                     </form>
                 </div>
                 <div class="col-md-3 col-xl-3 text-monospace">
-                    <form>
+                    <form action="{{checkout_submit}}" method="POST">
                         <h4 class="text-monospace">Patrol Check Out</h4>
                         <div class="form-group">
                             <label class="text-monospace">
                                 Select a Patrol:
                                 <select class="form-control">
                                     <optgroup label="Select a Patrol">
-                                        <option value="12" selected="">2042</option>
-                                        <option value="13">2081</option>
-                                        <option value="14">1012</option>
-                                        <option value="15">1064</option>
+                                        <option value="-1">---</option>
+                                        {% for patrol in patrols %}
+                                        <option value="{{patrol.id}}">{{patrol.name}}</option>
+                                        {% endfor %}
                                     </optgroup>
                                 </select>
                             </label>
@@ -96,10 +126,10 @@
                                 Send to Location:
                                 <select class="form-control">
                                     <optgroup label="Location">
-                                        <option value="12" selected="">Maverick</option>
-                                        <option value="13">Goose</option>
-                                        <option value="14">Viper</option>
-                                        <option value="15">Iceman</option>
+                                        <option value="-1">---</option>
+                                        {% for base in bases %}
+                                        <option value="{{base.id}}">{{base.name}}</option>
+                                        {% endfor %}
                                     </optgroup>
                                 </select>
                             </label>
@@ -113,5 +143,27 @@
     </main>
     <!-- End: Patrol Control Frame-->
 </div>
+
+<script>
+    function updateIntelligenceBase(sender) {
+        var selectedActivityId = $(sender).val();
+        var selectedActivityType = $(sender).find("option[value=" + selectedActivityId + "]").data("type");
+        var selectedActivityTypeName = '';
+        switch (selectedActivityType) {
+            // FIXME: Actually pull these names from the Model
+            default:
+            case 'R':
+                selectedActivityTypeName = 'Reading data';
+                break;
+            case 'S':
+                selectedActivityTypeName = 'Self-directed';
+                break;
+            case 'F':
+                selectedActivityTypeName = 'Facilitated';
+                break;
+        }
+        $("#activityType").val(selectedActivityTypeName);
+    }
+</script>
 
 {% endblock %}
