@@ -9,7 +9,8 @@
         <div class="container">
             <div class="row">
                 <div class="">
-                    <form action="" method="post">
+                    <form action="{{submit_action}}" method="post">
+                        <input type="hidden" name="action" value="log-event" />
                         <h4 class="text-monospace">Log Event:</h4>
                             <label class="text-monospace">
                                 Select a Patrol:
@@ -22,15 +23,17 @@
                                     </optgroup>
                                 </select>
                             </label><br>
-                        Reported Location:
-                        <select class="form-control">
-                            <optgroup label="Location">
-                                <option value="-1">---</option>
-                                {% for base in bases %}
-                                <option value="{{base.id}}">{{base.name}}</option>
-                                {% endfor %}
-                            </optgroup>
-                        </select>
+                            <label class="text-monospace">
+                                Reported Location:
+                                <select class="form-control">
+                                    <optgroup label="Location">
+                                        <option value="-1">---</option>
+                                        {% for base in bases %}
+                                        <option value="{{base.id}}">{{base.name}}</option>
+                                        {% endfor %}
+                                    </optgroup>
+                                </select>
+                            </label><br>
                         <textarea id="w3review" name="w3review" rows="4" cols="50"></textarea>
                         <button class="btn btn-info btn-block" type="button">LOG UPDATE</button>
                     </form>
@@ -38,12 +41,14 @@
             </div>
             <div class="row">
                 <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
-                    <form action="{{checkin_submit}}" method="POST">
+                    <form action="{{submit_action}}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="check-in" />
                         <h4 class="text-monospace">Patrol Check In:</h4>
                         <div class="form-group">
                             <label class="text-monospace">
                                 Select a Patrol:
-                                <select class="form-control">
+                                <select name="patrol" class="form-control">
                                     <optgroup label="Select a Patrol">
                                         <option value="-1">---</option>
                                         {% for patrol in patrols %}
@@ -56,7 +61,7 @@
                         <div class="form-group">
                             <label>
                                 Reported Location:
-                                <select class="form-control">
+                                <select name="base" class="form-control">
                                     <optgroup label="Location">
                                         <option value="-1">---</option>
                                         {% for base in bases %}
@@ -66,15 +71,26 @@
                                 </select>
                             </label>
                         </div>
-                        <button class="btn btn-success btn-block" type="button">CHECK IN</button>
+                        <button type="submit" class="btn btn-success btn-block">CHECK IN</button>
                     </form>
                 </div>
                 <div class="col-md-6 col-xl-6 text-monospace">
-                    <form>
+                    <form action="{{submit_action}}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="intel" />
                         <h4 class="text-monospace">INTELLIGENCE EXCHANGE</h4>
                         <div class="form-group">
+                            <label class="text-monospace">Select a Patrol:</label>
+                            <select class="form-control" onChange="updateIntelligencePatrol(this)">
+                                <optgroup label="Select a Patrol">
+                                    <option value="-1">---</option>
+                                    {% for patrol in patrols %}
+                                    <option value="{{patrol.id}}" data-active-base="{{patrol.base}}">{{patrol.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
                             <label class="text-monospace">Select Activity Base:</label>
-                            <select class="form-control" onChange="updateIntelligenceBase(this)">
+                            <select id="activitySelector" class="form-control" onChange="updateIntelligenceBase(this)">
                                 <optgroup label="Location">
                                     <option value="-1" data-type="X">---</option>
                                     {% for base in bases %}
@@ -85,7 +101,7 @@
                             </select>
                             <label class="text-monospace" for="activityType">Type:</label>
                             <input id="activityType" class="form-control-plaintext d-inline-block" type="text"
-                                value="Active | Passive | Self" readonly="" style="color: var(--light);width: 100%;">
+                                value="" readonly="" style="color: var(--light);width: 100%;">
                         </div>
                         <div class="form-group">
                             <label>Intelligence Expected:</label>
@@ -106,12 +122,14 @@
                     </form>
                 </div>
                 <div class="col-md-3 col-xl-3 text-monospace">
-                    <form action="{{checkout_submit}}" method="POST">
+                    <form action="{{submit_action}}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="check-out" />
                         <h4 class="text-monospace">Patrol Check Out</h4>
                         <div class="form-group">
                             <label class="text-monospace">
                                 Select a Patrol:
-                                <select class="form-control">
+                                <select name="patrol" class="form-control">
                                     <optgroup label="Select a Patrol">
                                         <option value="-1">---</option>
                                         {% for patrol in patrols %}
@@ -124,7 +142,7 @@
                         <div class="form-group">
                             <label>
                                 Send to Location:
-                                <select class="form-control">
+                                <select name="base" class="form-control">
                                     <optgroup label="Location">
                                         <option value="-1">---</option>
                                         {% for base in bases %}
@@ -134,8 +152,8 @@
                                 </select>
                             </label>
                         </div>
+                        <button type="submit" class="btn btn-danger btn-block">CHECK OUT</button>
                     </form>
-                    <button class="btn btn-danger btn-block" type="button">CHECK OUT</button>
                 </div>
             </div>
         </div>
@@ -145,6 +163,13 @@
 </div>
 
 <script>
+    function updateIntelligencePatrol(sender) {
+        var selectedPatrolId = $(sender).val();
+        var selectedPatrolActivity = $(sender).find("option[value=" + selectedPatrolId + "]").data("active-base");
+        if (selectedPatrolActivity && selectedPatrolActivity != "None") {
+            $("#activitySelector").val(selectedPatrolActivity);
+        }
+    }
     function updateIntelligenceBase(sender) {
         var selectedActivityId = $(sender).val();
         var selectedActivityType = $(sender).find("option[value=" + selectedActivityId + "]").data("type");

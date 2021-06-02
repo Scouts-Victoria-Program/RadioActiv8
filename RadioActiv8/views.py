@@ -18,13 +18,25 @@ def map(request):
 
 @login_required(login_url='RadioActiv8:login')
 def play(request):
-    checkin_submit = "/where-do-we-go"
-    checkout_submit = "/somewhere-else-we-go"
+    if (request.method == "POST"):
+        patrol = Patrol.objects.get(id=request.POST.get("patrol"))
+        base = Base.objects.get(id=request.POST.get("base"))
+        if (request.POST.get("action") == "check-in"):
+            patrol.check_in(base)
+        elif (request.POST.get("action") == "check-out"):
+            patrol.check_out()
+        elif (request.POST.get("action") == "intel"):
+            #TODO: Fix passing intel
+            patrol.log_intelligence(base, None)
+        elif (request.POST.get("action") == "log-event"):
+            #TODO: Fix passing the comment
+            patrol.log_event(base, None)
+
+    submit_action = reverse("RadioActiv8:play")
     patrols = Patrol.objects.all()
     bases = Base.objects.all()
     context = {
-        "checkin_submit": checkin_submit,
-        "checkout_submit": checkout_submit,
+        "submit_action": submit_action,
         "patrols": patrols,
         "bases": bases
     }

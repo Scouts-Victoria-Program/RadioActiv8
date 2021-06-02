@@ -92,16 +92,26 @@ class Patrol(models.Model):
 
         self.base = base
         Event(base=self.base, patrol=self).save()
+        self.save()
         return True
 
-    def check_out(self, intelligence):
+    def log_intelligence(self, base, intelligence):
+        # Do we also need to pass base here? Handle that etc.
+        PatrolAnswer(patrol=self, intelligence=intelligence).save()
+
+    def log_event(self, base, comment):
+        Event(base=base, patrol=self, comment=comment)
+
+    def check_out(self):
+        #Should we assign next base here?
         if self.base is None:
             print("Not checked in")
             return False
 
         Event(base=self.base, patrol=self, check_out=True).save()
-        PatrolAnswer(patrol=self, intelligence=intelligence).save()
+        #PatrolAnswer(patrol=self, intelligence=intelligence).save()
         self.base = None
+        self.save()
         return True
 
     def last_seen(self):
