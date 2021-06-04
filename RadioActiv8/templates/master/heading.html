@@ -25,18 +25,21 @@
 <!-- Start: Navigation with Button -->
 <nav class="navbar navbar-light navbar-expand-lg navigation-clean-button"
   style="color: rgb(220,41,30);background: rgb(0,0,0);padding: 0px;">
-  <div class="container-fluid">
+  <div class="container-fluid" style="padding: 0px 15px;">
     <a class="navbar-brand" href="{% url 'RadioActiv8:index' %}"
       style="font-family: 'Bebas Neue', serif;font-size: 32pt;">
       RadioActiv8&nbsp;&nbsp;<i class="fab fa-codepen"></i>&nbsp;
     </a>
     {% if user.is_authenticated %}
-    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
-      <span class="sr-only">
-        Toggle navigation
-      </span>
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    
+	<div class="btn-group" role="group" style="padding: 10px;">
+		<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="background-color: var(--yellow); border: 0px;">
+		  <span class="sr-only">
+			Toggle navigation
+		  </span>
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
     <div class="collapse navbar-collapse" id="navcol-1" style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
       <ul class="navbar-nav mr-auto" style="font-family: 'Bebas Neue',
                  serif;font-size: 20pt;font-weight: normal;">
@@ -108,10 +111,12 @@
 
       <div class="btn-toolbar"></div>
     </div>
-    <a class="btn btn-danger" role="button" href="{% url 'RadioActiv8:logout' %}"
-      style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
-      Sign Out&nbsp;<i class="fas fa-user-lock"></i>
-    </a>
+    <div class="btn-group" role="group" style="padding: 10px;">
+		<a class="btn btn-danger" role="button" href="{% url 'RadioActiv8:logout' %}"
+		style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
+		Sign Out&nbsp;<i class="fas fa-user-lock"></i>
+		</a>
+	</div>
   {% endif %}
   </div>
 </nav>
