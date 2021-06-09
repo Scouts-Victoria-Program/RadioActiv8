@@ -4,7 +4,7 @@
 
 <div style="color: var(--light);background: var(--dark);">
     <!-- Start: Patrol Control Frame -->
-    <main style="background: var(--dark);color: var(--warning);font-family: 'Roboto Slab', serif;">
+    <main>
         <!-- Start: 7 Rows 1+4 Columns -->
         <div class="container">
 
@@ -41,9 +41,7 @@
                             <ul class="list-unstyled text-monospace text-uppercase">
                                 {% if available_bases %}
                                 {% for available_base in available_bases %}
-                                <li><a class="text-success" href="#">{{ available_base }} ({{
-                                        available_base.get_patrols_count }}/{% if available_base.max_patrols == 0 %}∞{%
-                                        else %}{{ available_base.max_patrols }}{% endif %})</a></li>
+                                <li><a class="text-success" href="#">{{ available_base }} ({{ available_base.get_patrols_count }}/{% if available_base.max_patrols == 0 %}∞{% else %}{{ available_base.max_patrols }}{% endif %})</a></li>
                                 {% endfor %}
                                 {% else %}
                                 <li>NO AVAILABLE BASES!!!</li>
@@ -81,8 +79,7 @@
                                 <li>
                                     <a class="text-nowrap text-danger" href="#">{{full_base.name}}</a>:<br />
                                     {% for patrol in full_base.get_patrols %}
-                                    <a class="text-warning" href="#">{{patrol.name}}</a>{% if not forloop.last %},{%
-                                    endif %}
+                                    <a class="text-warning" href="#">{{patrol.name}}</a>{% if not forloop.last %},{% endif %}
                                     {% endfor %}
                                 </li>
                                 {% endfor %}
