@@ -1,0 +1,29 @@
+main {
+    background: var(--dark);
+    color: var(--warning);
+    font-family: 'Roboto Slab', serif;
+}
+/* .page {
+ color: var(--light);
+ background: var(--dark);
+}
+.content {
+ border-style: dashed;
+ border-width: 4px;
+ border-color: var(--warning);
+}
+.pane {
+ background: var(--dark);
+ color: var(--warning);
+ padding: 10px 0px 0px 0px;
+} */
+
+.dashed-border {
+  border-style: dashed;
+  border-width: 4px;
+  border-color: var(--warning);
+}
+.grey-bg-waring-text {
+  background: var(--dark);
+  color: var(--warning);
+}
