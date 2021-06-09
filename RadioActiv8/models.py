@@ -73,7 +73,10 @@ class Base(models.Model):
         """
         Return True if this base is at or over its patrol capacity
         """
-        return self.get_patrols_count() >= self.max_patrols
+        if self.max_patrols != 0:
+            return self.get_patrols_count() >= self.max_patrols
+        else:
+            return False
 
 
 class Patrol(models.Model):

@@ -13,7 +13,15 @@ def index(request):
 
 @login_required(login_url='RadioActiv8:login')
 def map(request):
-    return render(request, 'master/map.html')
+    ab = [b for b in Base.objects.all() if not b.is_full()]
+    bp = [p for p in Patrol.objects.all() if p.base]
+    fb = [b for b in Base.objects.all() if b.is_full()]
+    context = {
+        "available_bases": ab,
+        "busy_patrols": bp,
+        "full_bases": fb
+    }
+    return render(request, 'master/map.html', context)
 
 
 @login_required(login_url='RadioActiv8:login')

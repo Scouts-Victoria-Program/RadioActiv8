@@ -20,18 +20,6 @@
               <div class="form-group" style="font-size: inherit;">
                 <label style="font-size: inherit;">GPS Data</label>
                 <div class="form-check" style="font-size: inherit;">
-                  <input class="form-check-input" type="checkbox" id="formCheck-1" style="font-size: inherit;">
-                  <label class="form-check-label" for="formCheck-1" style="font-size: inherit;">
-                    Cub GPS <span class="badge badge-pill badge-warning" style="font-size: inherit;">18</span>
-                  </label>
-                </div>
-                <div class="form-check" style="font-size: inherit;">
-                  <input class="form-check-input" type="checkbox" id="formCheck-2" style="font-size: inherit;">
-                  <label class="form-check-label" for="formCheck-2" style="font-size: inherit;">
-                    Cub GPS Paths
-                  </label>
-                </div>
-                <div class="form-check" style="font-size: inherit;">
                   <input class="form-check-input" type="checkbox" id="formCheck-3" style="font-size: inherit;">
                   <label class="form-check-label" for="formCheck-3" style="font-size: inherit;">
                     Scout GPS <span class="badge badge-pill badge-success" style="font-size: inherit;">8</span>
@@ -228,11 +216,13 @@
                 </h1>
                 <!-- End: Sort by "Longest Time since used" -->
                 <ul class="list-unstyled text-monospace text-uppercase">
-                  <li><a class="text-success" href="#">ACT A</a></li>
-                  <li><a class="text-success" href="#">ACT N</a></li>
-                  <li><a class="text-success" href="#">ACT C</a></li>
-                  <li><a class="text-success" href="#">ACT O</a></li>
-                  <li><a class="text-success" href="#">ACT F</a></li>
+                  {% if available_bases %}
+                    {% for available_base in available_bases %}
+                      <li><a class="text-success" href="#">{{ available_base }} ({{ available_base.get_patrols_count }}/{% if available_base.max_patrols == 0 %}∞{% else %}{{ available_base.max_patrols }}{% endif %})</a></li>
+                    {% endfor %}
+                  {% else %}
+                      <li>NO AVAILABLE BASES!!!</li>
+                  {% endif %}
                 </ul>
               </div>
               <div class="form-group">
@@ -242,56 +232,30 @@
                 </h1>
                 <!-- End: sort by "Last Updated" -->
                 <ul class="list-unstyled text-monospace text-uppercase text-light">
-                  <li><a class="text-danger" href="#">2046</a> @ <a class="text-warning" href="#">ACT K</a></li>
-                  <li><a class="text-danger" href="#">2032</a> @ <a class="text-warning" href="#">ACT K</a></li>
-                  <li><a class="text-danger" href="#">1021</a> @ <a class="text-warning" href="#">ACT K</a></li>
-                  <li><a class="text-danger" href="#">1015</a> @ <a class="text-warning" href="#">ACT K</a></li>
-                  <li><a class="text-danger" href="#">2065</a> @ <a class="text-warning" href="#">ACT M</a></li>
-                  <li><a class="text-danger" href="#">1024</a> @ <a class="text-warning" href="#">ACT M</a></li>
-                  <li><a class="text-danger" href="#">1054</a> @ <a class="text-warning" href="#">ACT M</a></li>
-                  <li><a class="text-danger" href="#">2101</a> @ <a class="text-warning" href="#">ACT M</a></li>
-                  <li><a class="text-danger" href="#">1104</a> @ <a class="text-warning" href="#">ACT E</a></li>
-                  <li><a class="text-danger" href="#">2013</a> @ <a class="text-warning" href="#">ACT E</a></li>
-                  <li><a class="text-danger" href="#">2126</a> @ <a class="text-warning" href="#">ACT E</a></li>
-                  <li><a class="text-danger" href="#">2035</a> @ <a class="text-warning" href="#">ACT E</a></li>
+                  {% if busy_patrols %}
+                    {% for busy_patrol in busy_patrols %}
+                      <li><a class="text-danger" href="#">{{busy_patrol.name}}</a> @ <a class="text-warning" href="#">{{busy_patrol.base.name}}</a></li>
+                    {% endfor %}
+                  {% else %}
+                      <li>NO BUSY PATROLS!!!</li>
+                  {% endif %}
                 </ul>
               </div>
               <div class="form-group">
                 <h1 class="text-monospace text-uppercase" style="font-size: 12pt;color: var(--white);">FULL BASES:</h1>
                 <ul class="list-unstyled text-monospace text-light">
-                  <li>
-                    <a class="text-nowrap text-danger" href="#">ACT K</a>:<br>
-                    <a class="text-warning" href="#">2046</a>,
-                    <a class="text-warning" href="#">2032</a>,
-                    <a class="text-warning" href="#">1021</a>,
-                    <a class="text-warning" href="#">1015</a>
-                  </li>
-                  <li>
-                    <a class="text-nowrap text-danger" href="#">ACT M</a>:<br>
-                    <a class="text-warning" href="#">2065</a>,
-                    <a class="text-warning" href="#">1024</a>,
-                    <a class="text-warning" href="#">1054</a>,
-                    <a class="text-warning" href="#">2101</a>
-                  </li>
-                  <li>
-                    <a class="text-nowrap text-danger" href="#">ACT E</a>:<br>
-                    <a class="text-warning" href="#">1104</a>,
-                    <a class="text-warning" href="#">2103</a>,
-                    <a class="text-warning" href="#">2126</a>,
-                    <a class="text-warning" href="#">2035</a>
-                  </li>
-                  <li>
-                    <a class="text-nowrap text-danger" href="#">ACT G</a>:<br>
-                    <a class="text-warning" href="#">1116</a>,
-                    <a class="text-warning" href="#">2013</a>,
-                    <a class="text-warning" href="#">2054</a>,
-                    <a class="text-warning" href="#">1011</a>
-                  </li>
-                  <li>
-                    <a class="text-nowrap text-danger" href="#">ACT J</a>:<br>
-                    <a class="text-warning" href="#">1106</a>,
-                    <a class="text-warning" href="#">2023</a>
-                  </li>
+                  {% if full_bases %}
+                    {% for full_base in full_bases %}
+                      <li>
+                        <a class="text-nowrap text-danger" href="#">{{full_base.name}}</a>:<br />
+                        {% for patrol in full_base.get_patrols %}
+                        <a class="text-warning" href="#">{{patrol.name}}</a>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                      </li>
+                    {% endfor %}
+                  {% else %}
+                      <li>NO FULL BASES 😀</li>
+                  {% endif %}
                 </ul>
               </div>
             </div>
