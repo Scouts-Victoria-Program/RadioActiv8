@@ -43,10 +43,10 @@
           <a class="btn btn-warning" role="button" href="./trackers" style="margin: 20px;">
             GPS Allocations&nbsp;&nbsp;<i class="fas fa-location-arrow"></i>
           </a>
-          <a class= "btn btn-warning" role="button" href="./allocations" style="margin: 20px;">
+          <a class= "btn btn-warning" role="button" href="{% url 'admin:RadioActiv8_queue_changelist' %}" style="margin: 20px;">
             Patrol Allocations&nbsp;&nbsp;<i class="fa fa-group"></i>
           </a>
-          <a class="btn btn-warning" role="button" href="./sites" style="margin: 20px;">
+          <a class="btn btn-warning" role="button" href="{% url 'admin:RadioActiv8_event_changelist' %}" style="margin: 20px;">
             Site Comms&nbsp;&nbsp;<i class="fas fa-broadcast-tower"></i>
           </a>
           <a class="btn btn-warning" role="button" href="./radio-ops" style="margin: 20px;">
