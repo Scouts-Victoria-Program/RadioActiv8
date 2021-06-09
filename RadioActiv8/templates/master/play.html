@@ -7,204 +7,301 @@
     <main style="background: var(--dark);color: var(--warning);font-family: 'Roboto Slab', serif;">
         <!-- Start: 7 Rows 1+4 Columns -->
         <div class="container">
-			<div class="row justify-content-center" style="padding: 10px 0px;">
-				<div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
-					&nbsp;
-				</div>
-			</div>
-			
-			<form action="{{submit_action}}" method="post">
-				<input type="hidden" name="action" value="log-event" />
-            
-				<div class="row justify-content-center" style="background: var(--light); color: var(--dark); padding: 10px 0px 0px 0px;">
-					<div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
-						<h4 class="text-monospace">Log Event</h4>
-					</div>
-				</div>
-				<div class="row justify-content-center" style="background: var(--light); color: var(--dark);">
-					<div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
-						<label class="text-monospace font-weight-bold">
-							Select a Patrol:
-							<select class="form-control">
-								<optgroup label="Select a Patrol">
-									<option value="-1">---</option>
-									{% for patrol in patrols %}
-									<option value="{{patrol.id}}">{{patrol.name}}</option>
-									{% endfor %}
-								</optgroup>
-							</select>
-						</label>
-					</div>
-					<div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
-						<label class="text-monospace font-weight-bold">
-							Reported Location:
-							<select class="form-control">
-								<optgroup label="Location">
-									<option value="-1">---</option>
-									{% for base in bases %}
-									<option value="{{base.id}}">{{base.name}}</option>
-									{% endfor %}
-								</optgroup>
-							</select>
-						</label>
-					</div>
-					<div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
-						<label class="text-monospace font-weight-bold">
-							Event Type:
-							<select class="form-control">
-								<optgroup label="Event Type">
-									<option value="-1">---</option>
-									<option value="-1">We have arrived at this location.</option>
-									<option value="-1">We are taking a short break.</option>
-									<option value="-1">We are leaving this location.</option>
-									<option value="-1">First Aid needed.</option>
-									<option value="-1">💩</option>                                       
-								</optgroup>
-							</select>
-						</label>
-					</div>
-				</div>
-				<div class="row justify-content-center" style="background: var(--light); color: var(--dark);">
-					<div class="col-md-6 col-xl-6 offset-xl-0 text-monospace" style="padding: 10px 0px;">
-						<button class="btn btn-info btn-block" type="button">LOG UPDATE</button>
-					</div>
-				</div>
-			</form>
 
-			<div class="row justify-content-center" style="padding: 10px 0px;">
-				<div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
-					&nbsp;
-				</div>
-			</div>
-			
-            <div class="row">
-                <div class="col-md-3 col-xl-3 text-monospace" style="background: var(--light); color: var(--dark); padding: 10px;">
-                    <form action="{{submit_action}}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="check-in" />
-                        <h4 class="text-monospace">Patrol Check In</h4>
+            <div class="row justify-content-center" style="padding: 5px 0px;">
+                <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace"></div>
+            </div>
+
+            <div style="border-style: dashed; border-width: 4px; border-color: var(--warning);">
+                <div class="row mx-0 justify-content-center"
+                    style="background: var(--dark); color: var(--warning); padding: 10px 0px 0px 0px;">
+                    <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
                         <div class="form-group">
-                            <label class="text-monospace font-weight-bold">
-                                Select a Patrol:
-                                <select name="patrol" class="form-control">
-                                    <optgroup label="Select a Patrol">
-                                        <option value="-1">---</option>
-                                        {% for patrol in patrols %}
-                                        <option value="{{patrol.id}}">{{patrol.name}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                </select>
-                            </label>
+                            <!-- Start: sort by "Longest Waiting Patrol" -->
+                            <h1 class="text-monospace text-uppercase font-weight-bold"
+                                style="font-size: 12pt;color: var(--black);">
+                                Waiting PATROLS:&nbsp;
+                            </h1>
+                            <!-- End: sort by "Longest Waiting Patrol" -->
+                            <ul class="list-unstyled text-monospace text-uppercase">
+                                <li><a class="text-success" href="#">2042</a></li>
+                                <li><a class="text-success" href="#">2081</a></li>
+                                <li><a class="text-success" href="#">1012</a></li>
+                                <li><a class="text-success" href="#">1064</a></li>
+                            </ul>
                         </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
                         <div class="form-group">
-                            <label class="text-monospace font-weight-bold">
-                                Reported Location:
-                                <select name="base" class="form-control">
-                                    <optgroup label="Location">
-                                        <option value="-1">---</option>
-                                        {% for base in bases %}
-                                        <option value="{{base.id}}">{{base.name}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                </select>
-                            </label>
+                            <!-- Start: Sort by "Longest Time since used" -->
+                            <h1 class="text-monospace text-uppercase font-weight-bold"
+                                style="font-size: 12pt;color: var(--black);">AVAILABLE BASES:
+                            </h1>
+                            <!-- End: Sort by "Longest Time since used" -->
+                            <ul class="list-unstyled text-monospace text-uppercase">
+                                {% if available_bases %}
+                                {% for available_base in available_bases %}
+                                <li><a class="text-success" href="#">{{ available_base }} ({{
+                                        available_base.get_patrols_count }}/{% if available_base.max_patrols == 0 %}∞{%
+                                        else %}{{ available_base.max_patrols }}{% endif %})</a></li>
+                                {% endfor %}
+                                {% else %}
+                                <li>NO AVAILABLE BASES!!!</li>
+                                {% endif %}
+                            </ul>
                         </div>
-                        <button type="submit" class="btn btn-success btn-block">CHECK IN</button>
-                    </form>
+                    </div>
+                    <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
+                        <div class="form-group">
+                            <!-- Start: sort by "Last Updated" -->
+                            <h1 class="text-monospace text-uppercase font-weight-bold"
+                                style="font-size: 12pt;color: var(--black);">
+                                BUSY PATROLS:
+                            </h1>
+                            <!-- End: sort by "Last Updated" -->
+                            <ul class="list-unstyled text-monospace text-uppercase text-light">
+                                {% if busy_patrols %}
+                                {% for busy_patrol in busy_patrols %}
+                                <li><a class="text-danger" href="#">{{busy_patrol.name}}</a> @ <a class="text-warning"
+                                        href="#">{{busy_patrol.base.name}}</a></li>
+                                {% endfor %}
+                                {% else %}
+                                <li>NO BUSY PATROLS!!!</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
+                        <div class="form-group">
+                            <h1 class="text-monospace text-uppercase font-weight-bold"
+                                style="font-size: 12pt;color: var(--black);">FULL BASES:</h1>
+                            <ul class="list-unstyled text-monospace text-light">
+                                {% if full_bases %}
+                                {% for full_base in full_bases %}
+                                <li>
+                                    <a class="text-nowrap text-danger" href="#">{{full_base.name}}</a>:<br />
+                                    {% for patrol in full_base.get_patrols %}
+                                    <a class="text-warning" href="#">{{patrol.name}}</a>{% if not forloop.last %},{%
+                                    endif %}
+                                    {% endfor %}
+                                </li>
+                                {% endfor %}
+                                {% else %}
+                                <li>NO FULL BASES 😀</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4 col-xl-4 offset-md-1 offset-lg-1 offset-xl-1 text-monospace" style="background: var(--light); color: var(--dark); padding: 10px;">
-                    <form action="{{submit_action}}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="intel" />
-                        <h4 class="text-monospace">Intelligence Exchange</h4>
-                        <div class="form-group">
-                            <label class="text-monospace font-weight-bold">Select a Patrol:</label>
-                            <select class="form-control" onChange="updateIntelligencePatrol(this)">
+            </div>
+
+            <div class="row justify-content-center" style="padding: 10px 0px;">
+                <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace"></div>
+            </div>
+
+            <div style="border-style: dashed; border-width: 4px; border-color: var(--warning);">
+                <form action="{{submit_action}}" method="post">
+                    <input type="hidden" name="action" value="log-event" />
+
+                    <div class="row mx-0 justify-content-center"
+                        style="background: var(--dark); color: var(--warning); padding: 10px 0px 0px 0px;">
+                        <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
+                            <h4 class="text-monospace font-weight-bold">Log Event</h4>
+                        </div>
+                    </div>
+                    <div class="row mx-0 justify-content-center" style="background: var(--dark); color: var(--warning);"">
+                        <div class=" col-md-4 col-xl-4 offset-xl-0 text-monospace">
+                        <label class="text-monospace font-weight-bold">
+                            Select a Patrol:
+                            <select class="form-control">
                                 <optgroup label="Select a Patrol">
                                     <option value="-1">---</option>
                                     {% for patrol in patrols %}
-                                    <option value="{{patrol.id}}" data-active-base="{{patrol.base}}">{{patrol.name}}</option>
+                                    <option value="{{patrol.id}}">{{patrol.name}}</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
-                            <label class="text-monospace font-weight-bold">Select Activity Base:</label>
-                            <select id="activitySelector" class="form-control" onChange="updateIntelligenceBase(this)">
+                        </label>
+                    </div>
+                    <div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
+                        <label class="text-monospace font-weight-bold">
+                            Reported Location:
+                            <select class="form-control">
                                 <optgroup label="Location">
-                                    <option value="-1" data-type="X">---</option>
+                                    <option value="-1">---</option>
                                     {% for base in bases %}
-                                    <option value="{{base.id}}" data-type="{{base.activity_type}}">{{base.name}}
-                                    </option>
+                                    <option value="{{base.id}}">{{base.name}}</option>
                                     {% endfor %}
                                 </optgroup>
                             </select>
-                            <label class="text-monospace font-weight-bold" for="activityType">Type:</label>
-                            <input id="activityType" class="form-control-plaintext d-inline-block" type="text"
-                                value="" readonly="" style="color: var(--dark);width: 100%;">
-                        </div>
-                        <div class="form-group">
-                            <label class="text-monospace font-weight-bold">Intelligence Expected:</label>
-                            <input class="form-control-plaintext float-left" type="text" value="Mafeking" readonly=""
-                                style="color: var(--dark);">
-                        </div>
-                        <div class="form-group">
-                            <label class="d-inline-block font-weight-bold">Intelligence Provided:</label>
-                            <input class="form-control" type="text"><br>
-                            <button class="btn btn-warning text-monospace d-inline-block" type="submit">CHECK</button>
-                            <input class="form-control-plaintext float-right" type="text" value="Valid | Invalid"
-                                readonly="" style="color: var(--dark);">
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger btn-lg float-left" type="button">TRY AGAIN</button>
-                            <button class="btn btn-success btn-lg float-right" type="button">PASS</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-3 col-xl-3 offset-md-1 offset-lg-1 offset-xl-1 text-monospace" style="background: var(--light); color: var(--dark); padding: 10px;">
-                    <form action="{{submit_action}}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="check-out" />
-                        <h4 class="text-monospace">Patrol Check Out</h4>
-                        <div class="form-group">
-                            <label class="text-monospace font-weight-bold">
-                                Select a Patrol:
-                                <select name="patrol" class="form-control">
-                                    <optgroup label="Select a Patrol">
-                                        <option value="-1">---</option>
-                                        {% for patrol in patrols %}
-                                        <option value="{{patrol.id}}">{{patrol.name}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                </select>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="text-monospace font-weight-bold">
-                                Send to Location:
-                                <select name="base" class="form-control">
-                                    <optgroup label="Location">
-                                        <option value="-1">---</option>
-                                        {% for base in bases %}
-                                        <option value="{{base.id}}">{{base.name}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                </select>
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-danger btn-block">CHECK OUT</button>
-                    </form>
+                        </label>
+                    </div>
+                    <div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
+                        <label class="text-monospace font-weight-bold">
+                            Status:
+                            <select class="form-control">
+                                <optgroup label="Status">
+                                    <option value="-1">---</option>
+                                    <option value="-1">We have arrived at this location.</option>
+                                    <option value="-1">We are taking a short break.</option>
+                                    <option value="-1">We are leaving this location.</option>
+                                    <option value="-1">First Aid needed.</option>
+                                    <option value="-1">💩</option>
+                                </optgroup>
+                            </select>
+                        </label>
+                    </div>
+            </div>
+            <div class="row mx-0 justify-content-center" style="background: var(--dark); color: var(--warning);">
+                <div class="col-md-6 col-xl-6 offset-xl-0 text-monospace" style="padding: 10px 10px;">
+                    <button class="btn btn-info btn-block" type="button">LOG UPDATE</button>
                 </div>
             </div>
-			
-			<div class="row justify-content-center" style="padding: 10px 0px;">
-				<div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
-					&nbsp;
-				</div>
-			</div>
-			
+            </form>
         </div>
-        <!-- End: 7 Rows 1+4 Columns -->
-    </main>
-    <!-- End: Patrol Control Frame-->
+
+        <div class="row justify-content-center" style="padding: 10px 0px;">
+            <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace"></div>
+        </div>
+
+        <div class="row mx-0">
+            <div class="col-md-3 col-xl-3 text-monospace"
+                style="background: var(--dark); color: var(--warning); padding: 10px; border-style: dashed; border-width: 4px; border-color: var(--warning);">
+                <form action="{{submit_action}}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="check-in" />
+                    <h4 class="text-monospace font-weight-bold">Patrol Check In</h4>
+                    <div class="form-group">
+                        <label class="text-monospace font-weight-bold">
+                            Select a Patrol:
+                            <select name="patrol" class="form-control">
+                                <optgroup label="Select a Patrol">
+                                    <option value="-1">---</option>
+                                    {% for patrol in patrols %}
+                                    <option value="{{patrol.id}}">{{patrol.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-monospace font-weight-bold">
+                            Reported Location:
+                            <select name="base" class="form-control">
+                                <optgroup label="Location">
+                                    <option value="-1">---</option>
+                                    {% for base in bases %}
+                                    <option value="{{base.id}}">{{base.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">CHECK IN</button>
+                </form>
+            </div>
+
+            <div class="col-md-12 d-md-none offset-xl-0 text-monospace">&nbsp;</div>
+
+            <div class="col-md-4 col-xl-4 offset-md-1 offset-lg-1 offset-xl-1 text-monospace"
+                style="background: var(--dark); color: var(--warning); padding: 10px; border-style: dashed; border-width: 4px; border-color: var(--warning);">
+                <form action="{{submit_action}}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="intel" />
+                    <h4 class="text-monospace font-weight-bold">Intelligence Exchange</h4>
+                    <div class="form-group">
+                        <label class="text-monospace font-weight-bold">Select a Patrol:</label>
+                        <select class="form-control" onChange="updateIntelligencePatrol(this)">
+                            <optgroup label="Select a Patrol">
+                                <option value="-1">---</option>
+                                {% for patrol in patrols %}
+                                <option value="{{patrol.id}}" data-active-base="{{patrol.base}}">{{patrol.name}}
+                                </option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                        <label class="text-monospace font-weight-bold">Select Activity Base:</label>
+                        <select id="activitySelector" class="form-control" onChange="updateIntelligenceBase(this)">
+                            <optgroup label="Location">
+                                <option value="-1" data-type="X">---</option>
+                                {% for base in bases %}
+                                <option value="{{base.id}}" data-type="{{base.activity_type}}">{{base.name}}
+                                </option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                        <label class="text-monospace font-weight-bold" for="activityType">Type:</label>
+                        <input id="activityType" class="form-control-plaintext d-inline-block" type="text"
+                            value="Dummy Value" readonly="" style="color:var(--light);width: 100%;">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-monospace font-weight-bold">Intelligence Expected:</label>
+                        <input class="form-control-plaintext float-left" type="text" value="Mafeking" readonly=""
+                            style="color: var(--light);">
+                    </div>
+                    <div class="form-group">
+                        <label class="d-inline-block font-weight-bold">Intelligence Provided:</label>
+                        <input class="form-control" type="text"><br>
+                        <button class="btn btn-warning text-monospace d-inline-block" type="submit">CHECK</button>
+                        <input class="form-control-plaintext float-right" type="text" value="Valid | Invalid"
+                            readonly="" style="color: var(--light);">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-danger btn-lg float-left" type="button">TRY AGAIN</button>
+                        <button class="btn btn-success btn-lg float-right" type="button">PASS</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-12 d-md-none offset-xl-0 text-monospace">&nbsp;</div>
+
+            <div class="col-md-3 col-xl-3 offset-lg-1 offset-md-1 offset-xl-1 text-monospace"
+                style="background: var(--dark); color: var(--warning); padding: 10px;border-style: dashed; border-width: 4px; border-color: var(--warning);">
+                <form action="{{submit_action}}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="check-out" />
+                    <h4 class="text-monospace font-weight-bold">Patrol Check Out</h4>
+                    <div class="form-group">
+                        <label class="text-monospace font-weight-bold">
+                            Select a Patrol:
+                            <select name="patrol" class="form-control">
+                                <optgroup label="Select a Patrol">
+                                    <option value="-1">---</option>
+                                    {% for patrol in patrols %}
+                                    <option value="{{patrol.id}}">{{patrol.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-monospace font-weight-bold">
+                            Send to Location:
+                            <select name="base" class="form-control">
+                                <optgroup label="Location">
+                                    <option value="-1">---</option>
+                                    {% for base in bases %}
+                                    <option value="{{base.id}}">{{base.name}}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-block">CHECK OUT</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" style="padding: 10px 0px;">
+            <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
+                &nbsp;
+            </div>
+        </div>
+
+</div>
+<!-- End: 7 Rows 1+4 Columns -->
+</main>
+<!-- End: Patrol Control Frame-->
 </div>
 
 <script>

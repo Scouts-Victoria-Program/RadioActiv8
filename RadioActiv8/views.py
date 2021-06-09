@@ -43,10 +43,16 @@ def play(request):
     submit_action = reverse("RadioActiv8:play")
     patrols = Patrol.objects.all()
     bases = Base.objects.all()
+    ab = [b for b in Base.objects.all() if not b.is_full()]
+    bp = [p for p in Patrol.objects.all() if p.base]
+    fb = [b for b in Base.objects.all() if b.is_full()]
     context = {
         "submit_action": submit_action,
         "patrols": patrols,
-        "bases": bases
+        "bases": bases,
+        "available_bases": ab,
+        "busy_patrols": bp,
+        "full_bases": fb
     }
     return render(request, 'master/play.html', context)
 
