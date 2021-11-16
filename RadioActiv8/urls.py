@@ -7,17 +7,12 @@ from django.contrib.auth import views as auth_views
 from . import views, api_views
 
 router = routers.DefaultRouter()
-router.register(r'base', api_views.BaseViewSet)
+router.register(r'location', api_views.LocationViewSet)
 router.register(r'patrol', api_views.PatrolViewSet, basename='patrol')
 router.register(
     r'intelligence',
     api_views.IntelligenceViewSet,
     basename='intelligence')
-router.register(
-    r'patrol_answer',
-    api_views.PatrolAnswerViewSet,
-    basename='patrol_answer')
-router.register(r'queue', api_views.QueueViewSet, basename='queue')
 router.register(r'event', api_views.EventViewSet, basename='event')
 
 app_name = 'RadioActiv8'
@@ -51,17 +46,21 @@ urlpatterns = [
         views.PatrolDetail.as_view(),
         name='PatrolDetail'),
     path(
-        'base/',
-        views.BaseList.as_view(),
-        name='BaseList'),
+        'location/',
+        views.LocationList.as_view(),
+        name='LocationList'),
     path(
-        'base/<int:pk>/',
-        views.BaseDetail.as_view(),
-        name='BaseDetail'),
+        'location/<int:pk>/',
+        views.LocationDetail.as_view(),
+        name='LocationDetail'),
     path(
-        'base_test/<int:base_id>/',
-        views.base_test,
-        name='base_test'),
+        'event/',
+        views.EventList.as_view(),
+        name='EventList'),
+    path(
+        'event/<int:pk>/',
+        views.EventDetail.as_view(),
+        name='EventDetail'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

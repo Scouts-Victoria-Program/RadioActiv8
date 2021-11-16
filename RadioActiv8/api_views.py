@@ -3,12 +3,12 @@ from .serializers import *
 from .models import *
 
 
-class BaseViewSet(viewsets.ModelViewSet):
+class LocationViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows bases to be viewed or edited.
+    API endpoint that allows locations to be viewed or edited.
     """
-    queryset = Base.objects.all()
-    serializer_class = BaseSerializer
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
@@ -27,24 +27,6 @@ class IntelligenceViewSet(viewsets.ModelViewSet):
     """
     queryset = Intelligence.objects.all()
     serializer_class = IntelligenceSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class PatrolAnswerViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows patrol_answers to be viewed or edited.
-    """
-    queryset = PatrolAnswer.objects.all()
-    serializer_class = PatrolAnswerSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
-class QueueViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows queues to be viewed or edited.
-    """
-    queryset = Queue.objects.all()
-    serializer_class = QueueSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 

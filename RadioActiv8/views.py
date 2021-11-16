@@ -70,25 +70,27 @@ class PatrolDetail(generic.DetailView):
     template_name = 'patrol/detail.html'
 
 
-class BaseList(generic.ListView):
-    template_name = 'base/index.html'
+class LocationList(generic.ListView):
+    template_name = 'location/index.html'
 
     def get_queryset(self):
-        """Return a list of Bases."""
-        return Base.objects.all()
+        """Return a list of Locations."""
+        return Location.objects.all()
 
 
-class BaseDetail(generic.DetailView):
-    model = Base
-    template_name = 'base/detail.html'
+class LocationDetail(generic.DetailView):
+    model = Location
+    template_name = 'location/detail.html'
 
-def base_test(request, base_id):
-    base = get_object_or_404(Base, pk=base_id)
-    if (request.method == 'POST'):
-        our_form_data = BaseForm(request.POST, instance=base)
-        if our_form_data.is_valid():
-            our_form_data.save()
-    submit_location = reverse('RadioActiv8:base_test', args=(base.id,))
-    form = BaseForm(instance=base)
-    patrol_form = PatrolForm()
-    return render(request, 'base/detail.html', {'base': base, 'form_test': form, 'patrol_form': patrol_form, 'submit_location': submit_location})
+
+class EventList(generic.ListView):
+    template_name = 'event/index.html'
+
+    def get_queryset(self):
+        """Return a list of Events."""
+        return Event.objects.all()
+
+
+class EventDetail(generic.DetailView):
+    model = Event
+    template_name = 'event/detail.html'

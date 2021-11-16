@@ -2,16 +2,11 @@ from rest_framework import serializers
 from .models import *
 
 
-class BaseSerializer(serializers.HyperlinkedModelSerializer):
+class LocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Base
+        model = Location
         fields = ['url',
-                  'name',
-                  'gps_location',
-                  'min_patrols',
-                  'max_patrols',
-                  'activity_type',
-                  'channel']
+                  'gps_location']
         extra_kwargs = {
             'url': {'view_name': 'RadioActiv8:base-detail'},
         }
@@ -37,34 +32,13 @@ class IntelligenceSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 
-class PatrolAnswerSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = PatrolAnswer
-        fields = ['url', 'patrol', 'intelligence']
-        extra_kwargs = {
-            'url': {'view_name': 'RadioActiv8:patrol_answer-detail'},
-            'patrol': {'view_name': 'RadioActiv8:patrol-detail'},
-            'intelligence': {'view_name': 'RadioActiv8:intelligence-detail'},
-        }
-
-
-class QueueSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Queue
-        fields = ['url', 'sequence', 'base', 'patrol']
-        extra_kwargs = {
-            'url': {'view_name': 'RadioActiv8:patrol_answer-detail'},
-            'base': {'view_name': 'RadioActiv8:base-detail'},
-            'patrol': {'view_name': 'RadioActiv8:patrol-detail'},
-        }
-
-
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Event
-        fields = ['url', 'base', 'patrol', 'timestamp', 'check_out']
+        fields = ['url', 'timestamp', 'location', 'patrol', 'comment', 'destination', 'intelligence_request', 'intelligence_answered_correctly']
         extra_kwargs = {
             'url': {'view_name': 'RadioActiv8:event-detail'},
-            'base': {'view_name': 'RadioActiv8:base-detail'},
+            'location': {'view_name': 'RadioActiv8:location-detail'},
             'patrol': {'view_name': 'RadioActiv8:patrol-detail'},
+            'destination': {'view_name': 'RadioActiv8:location-detail'},
         }
