@@ -13,10 +13,6 @@ router.register(
     r'intelligence',
     api_views.IntelligenceViewSet,
     basename='intelligence')
-router.register(
-    r'patrol_answer',
-    api_views.PatrolAnswerViewSet,
-    basename='patrol_answer')
 router.register(r'queue', api_views.QueueViewSet, basename='queue')
 router.register(r'event', api_views.EventViewSet, basename='event')
 

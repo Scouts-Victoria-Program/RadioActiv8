@@ -30,15 +30,6 @@ class IntelligenceViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-class PatrolAnswerViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows patrol_answers to be viewed or edited.
-    """
-    queryset = PatrolAnswer.objects.all()
-    serializer_class = PatrolAnswerSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-
 class QueueViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows queues to be viewed or edited.

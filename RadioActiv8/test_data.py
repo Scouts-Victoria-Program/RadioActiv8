@@ -25,7 +25,7 @@ def find_first_object(model, key, value):
 
 
 def named_base(name):
-    return find_first_object(Base, 'name', name)
+    return find_first_object(Base, 'location_name', name)
 
 # Return the first patrol with the given name
 
@@ -37,7 +37,7 @@ def named_patrol(name):
 def load():
 
     # Base data
-    base_keys = ['name', 'gps_location', 'min_patrols', 'max_patrols']
+    base_keys = ['location_name', 'gps_location', 'min_patrols', 'max_patrols']
     base_values_list = [
         ['Yellow', None, 0, 0],
         ['Red', None, 0, 0],
@@ -52,12 +52,12 @@ def load():
     load_model(Base, base_keys, base_values_list)
 
     # Patrol data
-    patrol_keys = ['name', 'gps_location']
+    patrol_keys = ['name']
     patrol_values_list = [
-        ['Maverick', None],
-        ['Goose', Point(144, -36)],
-        ['Iceman', 'POINT(-95.3385 29.7245)'],
-        ['Viper', None],
+        ['Maverick'],
+        ['Goose'],
+        ['Iceman'],
+        ['Viper'],
     ]
     load_model(Patrol, patrol_keys, patrol_values_list)
 

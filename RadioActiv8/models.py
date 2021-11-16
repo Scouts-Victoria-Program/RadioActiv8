@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from django.core.exceptions import ValidationError
 
 from django.contrib.gis.geos import Point
 from django.db.models import Q
@@ -7,10 +8,25 @@ import random
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
 
-
-class Base(models.Model):
-    name = models.CharField(max_length=128)
+class Location(models.Model):
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
+
+    def __str__(self):
+        if hasattr(self, 'radio'):
+            return str(self.radio)
+        else:
+            return str(self.gps_location)
+
+
+class Radio(Location):
+    location_name = models.CharField(max_length=128)
+    channel = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.location_name
+
+
+class Base(Radio):
     min_patrols = models.IntegerField(blank=True, null=True)
     max_patrols = models.IntegerField(blank=True, null=True)
     ACTIVITY_TYPE_CHOICES = [
@@ -20,10 +36,6 @@ class Base(models.Model):
     ]
     activity_type = models.CharField(
         blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES, default='S')
-    channel = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
 
     def get_intelligence(self, patrol=None):
         """
@@ -32,6 +44,8 @@ class Base(models.Model):
         If passed a Patrol, exclude any intelligence that patrol has already
         answered.
         """
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         if patrol:
             return Intelligence.objects.filter(
                 ~Q(id__in=[
@@ -47,6 +61,8 @@ class Base(models.Model):
         If passed a Patrol, exclude any intelligence that patrol has already
         answered.
         """
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         if patrol:
             intelligence = Intelligence.objects.filter(
                 ~Q(id__in=[
@@ -61,18 +77,24 @@ class Base(models.Model):
         """
         Return a list of patrols currently at this base
         """
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         return Patrol.objects.filter(base=self)
 
     def get_patrols_count(self):
         """
         Return an integer representing the number of patrols currently at this base
         """
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         return self.get_patrols().count()
 
     def is_full(self):
         """
         Return True if this base is at or over its patrol capacity
         """
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         if self.max_patrols != 0:
             return self.get_patrols_count() >= self.max_patrols
         else:
@@ -81,14 +103,13 @@ class Base(models.Model):
 
 class Patrol(models.Model):
     name = models.CharField(max_length=128)
-    base = models.ForeignKey(
-        Base, null=True, blank=True, on_delete=models.PROTECT)
-    gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
 
     def __str__(self):
         return self.name
 
     def check_in(self, base):
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         if self.base is not None:
             print(f"Already checked in to {self.base}")
             return False
@@ -99,13 +120,17 @@ class Patrol(models.Model):
         return True
 
     def log_intelligence(self, base, intelligence):
-        # Do we also need to pass base here? Handle that etc.
-        PatrolAnswer(patrol=self, intelligence=intelligence).save()
+        # FIXME Update this to work with new model and pull data from Events
+        pass
 
     def log_event(self, base, comment):
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         Event(base=base, patrol=self, comment=comment)
 
     def check_out(self):
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         #Should we assign next base here?
         if self.base is None:
             print("Not checked in")
@@ -118,6 +143,8 @@ class Patrol(models.Model):
         return True
 
     def last_seen(self):
+        # FIXME Update this to work with new model and pull data from Events
+        pass
         return str(
             Event.objects.filter(
                 patrol=self).order_by('-timestamp').first())
@@ -133,15 +160,13 @@ class Intelligence(models.Model):
         base = f'{self.base} base:' if self.base else '(no base)'
         return f'{base} {self.question} - {self.answer}'
 
+'''
 
-class PatrolAnswer(models.Model):
-    patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
-    intelligence = models.ForeignKey(Intelligence, on_delete=models.PROTECT)
+Need to filter available intelligence based on
+(a) which base this is, and
+(b) which intelligence this patrol has not answered
 
-    def __str__(self):
-        return f'{self.patrol} answered {self.intelligence.base}' + \
-            f' base: {self.intelligence.question}'
-
+'''
 
 class Queue(models.Model):
     sequence = models.IntegerField(unique=True)
@@ -156,15 +181,34 @@ class Queue(models.Model):
 
 
 class Event(models.Model):
-    base = models.ForeignKey(Base, on_delete=models.CASCADE)
-    patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
+    # TODO: Allow manually setting and editing of timestamp
     timestamp = models.DateTimeField(auto_now_add=True)
-    check_out = models.BooleanField(default=False)
+    patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    intelligence_request = models.ForeignKey(
+        Intelligence, blank=True, null=True, on_delete=models.SET_NULL)
+    intelligence_answered_correctly = models.BooleanField(default=False)
+    destination = models.ForeignKey(
+        Location, on_delete=models.CASCADE, related_name="Destination",
+        blank=True, null=True)
     comment = models.CharField(max_length=1024, null=True, blank=True)
 
     class Meta:
         ordering = ['timestamp']
+        constraints = [
+            # models.CheckConstraint(check=models.Q(location=intelligence_request.base), name='valid_intelligence_for_base'),
+        ]
 
     def __str__(self):
-        status = 'at' if not self.check_out else 'leaving'
-        return f'{self.timestamp}: {self.patrol} {status} {self.base}'
+        comment = ''
+        next_location = ''
+
+        if self.comment:
+            comment = ': ' + self.comment
+        if self.destination:
+            next_location = ', heading to ' + str(self.destination)
+
+        return f'{self.timestamp}: {self.patrol} at {str(self.location)}{next_location}{comment}'
+
+
+# Game component patrol check-in/out.

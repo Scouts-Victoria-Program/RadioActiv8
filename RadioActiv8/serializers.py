@@ -37,17 +37,6 @@ class IntelligenceSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 
-class PatrolAnswerSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = PatrolAnswer
-        fields = ['url', 'patrol', 'intelligence']
-        extra_kwargs = {
-            'url': {'view_name': 'RadioActiv8:patrol_answer-detail'},
-            'patrol': {'view_name': 'RadioActiv8:patrol-detail'},
-            'intelligence': {'view_name': 'RadioActiv8:intelligence-detail'},
-        }
-
-
 class QueueSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Queue
