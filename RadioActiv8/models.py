@@ -199,6 +199,22 @@ class Event(models.Model):
             # models.CheckConstraint(check=models.Q(location=intelligence_request.base), name='valid_intelligence_for_base'),
         ]
 
+    def clean(self):
+
+        # Check Intelligence is valid for this Base
+        # FIXME: Should we be explicitly using 'id' below? It didn't work without it
+        if self.intelligence_request.base.id != self.location.id:
+            raise ValidationError('Can only use Intelligence for current Location')
+
+        # Check that Intelligence hasn't already been allocated to this Patrol
+        # FIXME: Deduplicate this code
+        patrol_answers = [e.intelligence_request for e in
+                      Event.objects.filter(patrol=self.patrol,
+                      intelligence_answered_correctly=True,
+                      timestamp__lt=self.timestamp).order_by('timestamp')]
+        if self.intelligence_request in patrol_answers:
+            raise ValidationError("Can only use Intelligence that Patrol hasn't already answered")
+
     def __str__(self):
         comment = ''
         next_location = ''
