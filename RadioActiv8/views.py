@@ -114,7 +114,7 @@ def valid_intelligence_options(request):
         # FIXME: Can this be done as a DB query instead?
         unused_options = list(set(intelligence_options.order_by('question')) - set(patrol_answers))
     else:
-        unused_options = intelligence_options.order_by('question')
+        unused_options = []
 
     # FIXME: Use a proper template for this; possibly inherit from
     # 'django/forms/widgets/select.html' or
