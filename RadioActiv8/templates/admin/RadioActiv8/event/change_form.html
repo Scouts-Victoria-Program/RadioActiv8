@@ -1,0 +1,28 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls static admin_modify %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script>
+function valid_intelligence_list(){
+    var patrol = django.jQuery("#id_patrol").val();
+    var location = django.jQuery("#id_location").val();
+    var url="{% url 'RadioActiv8:check_intelligence' %}"
+    django.jQuery.ajax({         // initialize an AJAX request
+    url: url,                    // set the url of the request
+    data: {
+      'patrol': patrol,
+      'current_location': location
+    },
+    success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
+        django.jQuery("#id_intelligence_request").html(data);
+    }
+  });
+}
+django.jQuery(document).ready(function(){
+    django.jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
+    django.jQuery("#id_patrol").change(valid_intelligence_list);
+    django.jQuery("#id_location").change(valid_intelligence_list);
+})
+</script>
+{% endblock %}

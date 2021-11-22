@@ -58,6 +58,10 @@ urlpatterns = [
         'base_test/<int:base_id>/',
         views.base_test,
         name='base_test'),
+    path(
+        'check_intelligence',
+        views.valid_intelligence_options,
+        name='check_intelligence'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

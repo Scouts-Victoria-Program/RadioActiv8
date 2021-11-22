@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from .models import *
 from .forms import *
 
@@ -82,6 +83,7 @@ class BaseDetail(generic.DetailView):
     model = Base
     template_name = 'base/detail.html'
 
+
 def base_test(request, base_id):
     base = get_object_or_404(Base, pk=base_id)
     if (request.method == 'POST'):
@@ -92,3 +94,37 @@ def base_test(request, base_id):
     form = BaseForm(instance=base)
     patrol_form = PatrolForm()
     return render(request, 'base/detail.html', {'base': base, 'form_test': form, 'patrol_form': patrol_form, 'submit_location': submit_location})
+
+
+def valid_intelligence_options(request):
+    #patrol = Patrol.objects.get(name = request.GET.get('patrol'))
+    patrol = request.GET['patrol']
+    current_location = request.GET['current_location']
+
+    intelligence_options = Intelligence.objects.all()
+    if current_location:
+        intelligence_options = intelligence_options.filter(base=current_location)
+
+    # FIXME: Should we bother limiting based on location here?
+    if patrol:
+        patrol_answers = [e.intelligence_request for e in
+                        Event.objects.filter(patrol=patrol,
+                        intelligence_answered_correctly=True).order_by('timestamp')]
+
+        # FIXME: Can this be done as a DB query instead?
+        unused_options = list(set(intelligence_options.order_by('question')) - set(patrol_answers))
+    else:
+        unused_options = intelligence_options.order_by('question')
+
+    # FIXME: Use a proper template for this; possibly inherit from
+    # 'django/forms/widgets/select.html' or
+    # 'django/forms/widgets/select_option.html'
+    # Or at least use render() instead of HttpResponse()
+    #
+    # See https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+    html = '<option value="" selected="">---------</option>\n'
+    for option in unused_options:
+        html += f'<option value="{option.id}">{option}</option>\n'
+    return HttpResponse(html)
+
+    # field-intelligence_request
