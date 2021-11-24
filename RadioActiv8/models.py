@@ -207,11 +207,10 @@ class Event(models.Model):
             raise ValidationError('Can only use Intelligence for current Location')
 
         # Check that Intelligence hasn't already been allocated to this Patrol
-        # FIXME: Deduplicate this code
+        # FIXME: Deduplicate this code from views.valid_intelligence_options
         patrol_answers = [e.intelligence_request for e in
                       Event.objects.filter(patrol=self.patrol,
-                      intelligence_answered_correctly=True,
-                      timestamp__lt=self.timestamp).order_by('timestamp')]
+                      intelligence_answered_correctly=True).order_by('timestamp')]
         if self.intelligence_request in patrol_answers:
             raise ValidationError("Can only use Intelligence that Patrol hasn't already answered")
 
