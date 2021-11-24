@@ -15,12 +15,14 @@ function valid_intelligence_list(){
       'current_location': location
     },
     success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
+        //console.log(data)
         django.jQuery("#id_intelligence_request").html(data);
     }
   });
 }
 django.jQuery(document).ready(function(){
     django.jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
+    valid_intelligence_list();
     django.jQuery("#id_patrol").change(valid_intelligence_list);
     django.jQuery("#id_location").change(valid_intelligence_list);
 })
