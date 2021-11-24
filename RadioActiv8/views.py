@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+from random import randrange
 
 
 @login_required(login_url='RadioActiv8:login')
@@ -122,9 +123,15 @@ def valid_intelligence_options(request):
     # Or at least use render() instead of HttpResponse()
     #
     # See https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
-    html = '<option value="" selected="">---------</option>\n'
-    for option in unused_options:
-        html += f'<option value="{option.id}">{option}</option>\n'
+    html = '<option value="">---------</option>\n'
+    unused_option_count = len(unused_options)
+    random_option = randrange(unused_option_count)
+    for option in range(unused_option_count):
+        if option == random_option:
+            selected=' selected=""'
+        else:
+            selected=''
+        html += f'<option value="{unused_options[option].id}"{selected}>{unused_options[option]}</option>\n'
     return HttpResponse(html)
 
     # field-intelligence_request
