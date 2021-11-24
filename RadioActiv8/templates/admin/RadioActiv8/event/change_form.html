@@ -1,10 +1,19 @@
 {% extends "admin/change_form.html" %}
 {% load i18n admin_urls static admin_modify %}
 
+{% block field_sets %}
+<strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
+{{ block.super }}
+<strong>Base history:</strong>
+<ol id='base_history'>
+  <li>UNKNOWN</li>
+</ol>
+{% endblock %}
+
 {% block admin_change_form_document_ready %}
 {{ block.super }}
 <script>
-function limit_form_fields(){
+function dynamic_form_update(){
     var patrol = django.jQuery("#id_patrol").val();
     var location = django.jQuery("#id_location").val();
 
@@ -22,6 +31,7 @@ function limit_form_fields(){
     }
   });
 
+    // FIXME: Deduplicate these AJAX query blocks
     // Update Destination drop-down
     var url="{% url 'RadioActiv8:valid_next_base_options' %}"
     django.jQuery.ajax({         // initialize an AJAX request
@@ -35,14 +45,48 @@ function limit_form_fields(){
         django.jQuery("#id_destination").html(data);
     }
   });
+
+    // FIXME: Deduplicate these AJAX query blocks
+    // Update Destination drop-down
+    var url="{% url 'RadioActiv8:patrol_base_history' %}"
+    django.jQuery.ajax({         // initialize an AJAX request
+    url: url,                    // set the url of the request
+    data: {
+      'patrol': patrol,
+      'current_location': location
+    },
+    success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
+        console.log(data)
+
+        django.jQuery("#expected_location").html(data.last_destination.name);
+        django.jQuery("#expected_location").attr('data-location-id', data.last_destination.id);
+
+        var base_history = '';
+        for (var i = 0; i < data.visited_bases.length; i++)
+        {
+          var id = data.visited_bases[i].id
+          var name = data.visited_bases[i].name
+          base_history += "<li data-base-id='" + id + "'>" + name + "</li>"
+        }
+        django.jQuery("#base_history").html(base_history);
+
+        var expected_location_id = django.jQuery('#expected_location').attr('data-location-id');
+        var actual_location_id = django.jQuery('#id_location').val();
+        if (expected_location_id != actual_location_id)
+        {
+          django.jQuery("#expected_location").append("<strong> <--- ### WARNING! LOCATION MISMATCH! ###</strong>");
+        }
+
+    }
+  });
 }
 
 django.jQuery(document).ready(function(){
     django.jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
     django.jQuery("#id_destination").html('<option value="" selected="">---------</option>');
-    limit_form_fields();
-    django.jQuery("#id_patrol").change(limit_form_fields);
-    django.jQuery("#id_location").change(limit_form_fields);
+    dynamic_form_update();
+    django.jQuery("#id_patrol").change(dynamic_form_update);
+    django.jQuery("#id_location").change(dynamic_form_update);
 })
 </script>
 {% endblock %}

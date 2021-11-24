@@ -66,6 +66,10 @@ urlpatterns = [
         'valid_next_base_options',
         views.valid_next_base_options,
         name='valid_next_base_options'),
+    path(
+        'patrol_base_history',
+        views.patrol_base_history,
+        name='patrol_base_history'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

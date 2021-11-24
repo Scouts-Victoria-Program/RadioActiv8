@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import *
 from .forms import *
 from random import randrange
@@ -181,3 +181,23 @@ def valid_next_base_options(request):
         html += f'<option value="{base.id}">{base}</option>\n'
 
     return HttpResponse(html)
+
+@login_required(login_url='RadioActiv8:login')
+def patrol_base_history(request):
+    patrol_id = request.GET['patrol']
+    current_location_id = request.GET['current_location']
+
+    visited_bases = [ {'id': event.location.id, 'name': str(event.location)} for event in Event.objects.filter(patrol=patrol_id).order_by('timestamp')]
+    events = Event.objects.filter(patrol=patrol_id).order_by('-timestamp')
+    last_destination = None
+    if events:
+        last_destination = events[0].destination
+    if last_destination:
+        last_destination_response = {'id': last_destination.id, 'name': last_destination.radio.location_name}
+    else:
+        last_destination_response = {'id': -1, 'name': 'NONE'}
+
+
+    response = {'visited_bases': visited_bases, 'last_destination': last_destination_response}
+
+    return JsonResponse(response, safe=False)
