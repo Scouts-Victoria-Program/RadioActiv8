@@ -15,7 +15,7 @@ class RadioAdmin(admin.OSMGeoAdmin):
     ordering = ['location_name']
 
 class IntelligenceAdmin(admin.OSMGeoAdmin):
-    ordering = ['question']
+    ordering = ['base', 'question']
     list_filter= ('base',)
 
 class LocationAdmin(admin.OSMGeoAdmin):
