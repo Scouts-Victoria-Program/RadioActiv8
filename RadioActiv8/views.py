@@ -170,7 +170,10 @@ def valid_next_base_options(request):
     # FIXME: Deal with possibility where all bases are visited
     html += '<option value="">--- Unvisitied Bases</option>\n'
     unvisited_bases_count = len(unvisited_bases)
-    random_base = randrange(unvisited_bases_count)
+    random_base = None
+    if unvisited_bases_count > 0:
+        random_base = randrange(unvisited_bases_count)
+
     for base in range(unvisited_bases_count):
         if base == random_base:
             selected=' selected=""'
