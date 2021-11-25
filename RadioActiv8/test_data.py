@@ -135,7 +135,7 @@ def load():
         [named_base('Aqua'), 'E', 'Mt Baw Baw'],
         [named_base('Aqua'), 'F', 'Strzelecki'],
         [named_base('Indigo'), 'A', 'Wellington'],
-        [named_base('Indigo'), 'B', 'Gippsland'],
+        [named_base('Indigo'), 'B', 'Kingston'],
         [named_base('Indigo'), 'C', 'Emu'],
         [named_base('Indigo'), 'D', 'Geelong Peninsula'],
         [named_base('Indigo'), 'E', 'Cardinia'],
