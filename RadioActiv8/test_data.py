@@ -1,4 +1,5 @@
 from .models import *
+from django.contrib.gis.geos import Point
 
 # Import data by running the following:
 # python manage.py shell -c 'from RadioActiv8 import test_data;
@@ -48,6 +49,9 @@ def load():
         ['Orange', None, 0, 0],
         ['Purple', None, 0, 0],
         ['Grey', None, 0, 0],
+        ['Brown', None, 0, 0],
+        ['Aqua', None, 0, 0],
+        ['Indigo', None, 0, 0]
     ]
     load_model(Base, base_keys, base_values_list)
 
@@ -118,6 +122,24 @@ def load():
         [named_base('Grey'), 'D', 'Loddon-Mallee'],
         [named_base('Grey'), 'E', 'Northern'],
         [named_base('Grey'), 'F', 'Sunraysia'],
+        [named_base('Brown'), 'A', 'Bendigo'],
+        [named_base('Brown'), 'B', 'Alpine Gateway'],
+        [named_base('Brown'), 'C', 'Goulburn Murray'],
+        [named_base('Brown'), 'D', 'River Gums'],
+        [named_base('Brown'), 'E', 'Upper Murray'],
+        [named_base('Brown'), 'F', 'South Gippsland'],
+        [named_base('Aqua'), 'A', 'South Western'],
+        [named_base('Aqua'), 'B', 'Frankston'],
+        [named_base('Aqua'), 'C', 'Geelong Rivers'],
+        [named_base('Aqua'), 'D', 'East Gippsland'],
+        [named_base('Aqua'), 'E', 'Mt Baw Baw'],
+        [named_base('Aqua'), 'F', 'Strzelecki'],
+        [named_base('Indigo'), 'A', 'Wellington'],
+        [named_base('Indigo'), 'B', 'Gippsland'],
+        [named_base('Indigo'), 'C', 'Emu'],
+        [named_base('Indigo'), 'D', 'Geelong Peninsula'],
+        [named_base('Indigo'), 'E', 'Cardinia'],
+        [named_base('Indigo'), 'F', 'Casey'],
     ]
     load_model(Intelligence, intelligence_keys, intelligence_values_list)
 
