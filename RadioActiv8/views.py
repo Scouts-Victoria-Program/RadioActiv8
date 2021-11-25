@@ -112,14 +112,15 @@ def valid_intelligence_options(request):
 
     # FIXME: Should we bother limiting based on location here?
     if patrol:
-        patrol_answers = [e.intelligence_request for e in
+        patrol_answers = [e.intelligence_request.id for e in
                         Event.objects.filter(patrol=patrol,
                         intelligence_answered_correctly=True).order_by('timestamp')]
 
-        # FIXME: Can this be done as a DB query instead?
-        unused_options = list(set(intelligence_options.order_by('question')) - set(patrol_answers))
+        unused_options = intelligence_options.exclude(id__in=patrol_answers).order_by('question')
     else:
         unused_options = []
+
+    print(unused_options)
 
     # FIXME: Use a proper template for this; possibly inherit from
     # 'django/forms/widgets/select.html' or
@@ -185,7 +186,9 @@ def valid_next_base_options(request):
 @login_required(login_url='RadioActiv8:login')
 def patrol_base_history(request):
     patrol_id = request.GET['patrol']
-    current_location_id = request.GET['current_location']
+
+    if not patrol_id:
+        return JsonResponse({'visited_bases': [], 'last_destination': {}})
 
     visited_bases = [ {'id': event.location.id, 'name': str(event.location)} for event in Event.objects.filter(patrol=patrol_id).order_by('timestamp')]
     events = Event.objects.filter(patrol=patrol_id).order_by('-timestamp')

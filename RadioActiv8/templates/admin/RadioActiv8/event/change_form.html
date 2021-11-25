@@ -53,10 +53,9 @@ function dynamic_form_update(){
     url: url,                    // set the url of the request
     data: {
       'patrol': patrol,
-      'current_location': location
     },
     success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-        console.log(data)
+        //console.log(data)
 
         django.jQuery("#expected_location").html(data.last_destination.name);
         django.jQuery("#expected_location").attr('data-location-id', data.last_destination.id);
@@ -72,7 +71,9 @@ function dynamic_form_update(){
 
         var expected_location_id = django.jQuery('#expected_location').attr('data-location-id');
         var actual_location_id = django.jQuery('#id_location').val();
-        if (expected_location_id != actual_location_id)
+        if (expected_location_id != -1 &&
+            !(actual_location_id === "") &&
+            expected_location_id != actual_location_id)
         {
           django.jQuery("#expected_location").append("<strong> <--- ### WARNING! LOCATION MISMATCH! ###</strong>");
         }
