@@ -174,14 +174,18 @@ def valid_next_base_options(request):
         random_base = randrange(unvisited_bases_count)
 
     for base in range(unvisited_bases_count):
-        if base == random_base:
-            selected=' selected=""'
-        else:
-            selected=''
+        selected = ''
+        # FIXME: Only needs to be commented for current event. Remove afterwards
+        #if base == random_base:
+        #    selected=' selected=""'
         html += f'<option value="{unvisited_bases[base].id}"{selected}>{unvisited_bases[base]}</option>\n'
     html += '<option value="">--- Visitied Bases</option>\n'
     for base in visited_bases:
-        html += f'<option value="{base.id}">{base}</option>\n'
+        selected = ''
+        # FIXME: Remove this 'if' block after current event.
+        if(base.id == current_location.id):
+            selected=' selected=""'
+        html += f'<option value="{base.id}"{selected}>{base}</option>\n'
 
     return HttpResponse(html)
 
