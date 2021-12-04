@@ -71,6 +71,14 @@ function dynamic_form_update(){
 
         var expected_location_id = django.jQuery('#expected_location').attr('data-location-id');
         var actual_location_id = django.jQuery('#id_location').val();
+        if(expected_location_id && expected_location_id != -1 &&
+            actual_location_id === "")
+        {
+          actual_location_id = expected_location_id;
+          django.jQuery('#id_location').val(actual_location_id);
+          // FIXME: Recursive function call; this could be nasty...
+          dynamic_form_update();
+        }
         if (expected_location_id != -1 &&
             !(actual_location_id === "") &&
             expected_location_id != actual_location_id)
