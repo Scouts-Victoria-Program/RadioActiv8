@@ -2,7 +2,12 @@
 from django.contrib.admin.models import LogEntry
 from RadioActiv8.models import *
 import csv
+from django.utils.timezone import activate
+from django.conf import settings
+#activate(settings.TIME_ZONE)
+from pytz import timezone
 
+settings_time_zone = timezone(settings.TIME_ZONE)
 event_logs = LogEntry.objects.filter(content_type__app_label = "RadioActiv8", content_type__model = "event")
 
 with open('log.csv', 'w', newline='') as csvfile:
@@ -16,6 +21,6 @@ with open('log.csv', 'w', newline='') as csvfile:
         user = e_log.user.username
 
         #print(f'{e.timestamp},{user},{e.patrol},{e.location},{e.comment}')
-        log_entry = [ e.timestamp, user, e.patrol, e.location, e.comment ]
+        log_entry = [ e.timestamp.astimezone(settings_time_zone), user, e.patrol, e.location, e.comment ]
 
         csvwriter.writerow(log_entry)
