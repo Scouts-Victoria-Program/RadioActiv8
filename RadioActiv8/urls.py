@@ -70,6 +70,10 @@ urlpatterns = [
         'patrol_base_history',
         views.patrol_base_history,
         name='patrol_base_history'),
+    path(
+        'bases_geojson',
+        views.bases_geojson,
+        name='bases_geojson'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

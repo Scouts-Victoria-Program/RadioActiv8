@@ -6,6 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import *
 from .forms import *
 from random import randrange
+from django.core.serializers import serialize
 
 
 @login_required(login_url='RadioActiv8:login')
@@ -120,8 +121,6 @@ def valid_intelligence_options(request):
     else:
         unused_options = []
 
-    print(unused_options)
-
     # FIXME: Use a proper template for this; possibly inherit from
     # 'django/forms/widgets/select.html' or
     # 'django/forms/widgets/select_option.html'
@@ -207,3 +206,47 @@ def patrol_base_history(request):
     response = {'visited_bases': visited_bases, 'last_destination': last_destination_response}
 
     return JsonResponse(response, safe=False)
+
+
+def base_distance(base_a, base_b):
+    '''
+    Calculate distance in metres, between two bases
+    '''
+    a_metres = base_a.gps_location.transform(7855, clone=True)
+    b_metres = base_b.gps_location.transform(7855, clone=True)
+    return a_metres.distance(b_metres)
+
+def total_distance(patrol):
+    '''
+    Calculate total distance a patrol has travelled.
+    FIXME: Try to optimise so this doesn't take ~1sec to run
+    FIXME: Also calculate time between bases and total time taken
+    '''
+    patrol_events = Event.objects.filter(patrol__id = patrol.id)
+
+    bases = [ e.location for e in patrol_events ]
+
+    number_of_bases_visited = len(bases)
+    total_distance = 0
+
+    for i in range(number_of_bases_visited):
+        if(i == 0):
+            continue
+        start = bases[i-1]
+        end = bases[i]
+        distance = base_distance(start, end)
+        print(f'{str(start):10s} to {str(end):10s}: {distance:-8.2f} metres')
+        total_distance += distance
+    print(f'{patrol} Patrol total distance: {total_distance:.2f} metres')
+    return total_distance
+
+#@login_required(login_url='RadioActiv8:login')
+def bases_geojson(request):
+    all_objects = [*Base.objects.all(), *Radio.objects.all(), *Location.objects.all()]
+    response = serialize('geojson', all_objects,
+            #geometry_field='gps_location',
+            #fields=('location_name',)
+            )
+
+    return HttpResponse(response, content_type="application/json")
+
