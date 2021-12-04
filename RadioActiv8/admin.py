@@ -1,5 +1,6 @@
 from django.contrib.gis import admin
 from .models import *
+from RadioActiv8.forms import EventForm
 
 class EventAdmin(admin.ModelAdmin):
     list_display= ('timestamp', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
@@ -7,6 +8,7 @@ class EventAdmin(admin.ModelAdmin):
     list_filter= ('patrol', 'location', 'destination')
     search_fields= ('patrol__name', 'location__radio__location_name', 'intelligence_request__answer', 'destination__radio__location_name', 'comment')
     ordering = ['timestamp']
+    form = EventForm
 
 class PatrolAdmin(admin.OSMGeoAdmin):
     ordering = ['name']

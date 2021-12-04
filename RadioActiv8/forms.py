@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django import forms
 from .models import *
 
 
@@ -11,3 +12,9 @@ class PatrolForm(ModelForm):
     class Meta:
         model = Patrol
         fields = ('name',)
+
+class EventForm(ModelForm):
+    comment = forms.CharField( widget=forms.Textarea )
+    class Meta:
+        model = Event
+        fields = ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
