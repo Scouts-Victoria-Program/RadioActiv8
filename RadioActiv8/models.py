@@ -44,15 +44,14 @@ class Base(Radio):
         If passed a Patrol, exclude any intelligence that patrol has already
         answered.
         """
-        # FIXME Update this to work with new model and pull data from Events
-        pass
+        intelligence = Intelligence.objects.filter(base=self)
         if patrol:
-            return Intelligence.objects.filter(
-                ~Q(id__in=[
-                   i.intelligence.id for i in patrol.patrolanswer_set.all()]),
-                base=self)
+            return intelligence.filter(
+                ~Q(id__in=[e.intelligence_request.id for e in
+                           Event.objects.filter(patrol=patrol,
+                                                intelligence_answered_correctly=True).order_by('timestamp')]))
         else:
-            return Intelligence.objects.filter(base=self)
+            return intelligence
 
     def get_random_intelligence(self, patrol=None):
         """
@@ -62,14 +61,7 @@ class Base(Radio):
         answered.
         """
         # FIXME Update this to work with new model and pull data from Events
-        pass
-        if patrol:
-            intelligence = Intelligence.objects.filter(
-                ~Q(id__in=[
-                   i.intelligence.id for i in patrol.patrolanswer_set.all()]),
-                base=self)
-        else:
-            intelligence = Intelligence.objects.filter(base=self)
+        intelligence = self.get_intelligence(patrol)
 
         return random.choice(list(intelligence))
 
@@ -119,15 +111,6 @@ class Patrol(models.Model):
         self.save()
         return True
 
-    def log_intelligence(self, base, intelligence):
-        # FIXME Update this to work with new model and pull data from Events
-        pass
-
-    def log_event(self, base, comment):
-        # FIXME Update this to work with new model and pull data from Events
-        pass
-        Event(base=base, patrol=self, comment=comment)
-
     def check_out(self):
         # FIXME Update this to work with new model and pull data from Events
         pass
@@ -143,8 +126,6 @@ class Patrol(models.Model):
         return True
 
     def last_seen(self):
-        # FIXME Update this to work with new model and pull data from Events
-        pass
         return str(
             Event.objects.filter(
                 patrol=self).order_by('-timestamp').first())

@@ -101,25 +101,16 @@ def base_test(request, base_id):
 @login_required(login_url='RadioActiv8:login')
 def valid_intelligence_options(request):
     #patrol = Patrol.objects.get(name = request.GET.get('patrol'))
-    patrol = request.GET['patrol']
-    current_location = request.GET['current_location']
+    patrol_id = request.GET['patrol']
+    current_location_id = request.GET['current_location']
 
-    if not current_location or not patrol:
+    if not current_location_id or not patrol_id:
         return HttpResponse('<option value="" selected="">---------</option>')
 
-    intelligence_options = Intelligence.objects.all()
-    if current_location:
-        intelligence_options = intelligence_options.filter(base=current_location)
+    current_location = Base.objects.get(id = current_location_id)
+    patrol = Patrol.objects.get(id = patrol_id)
 
-    # FIXME: Should we bother limiting based on location here?
-    if patrol:
-        patrol_answers = [e.intelligence_request.id for e in
-                        Event.objects.filter(patrol=patrol,
-                        intelligence_answered_correctly=True).order_by('timestamp')]
-
-        unused_options = intelligence_options.exclude(id__in=patrol_answers).order_by('question')
-    else:
-        unused_options = []
+    unused_options = current_location.get_intelligence(patrol)
 
     # FIXME: Use a proper template for this; possibly inherit from
     # 'django/forms/widgets/select.html' or
@@ -138,7 +129,6 @@ def valid_intelligence_options(request):
         html += f'<option value="{unused_options[option].id}"{selected}>{unused_options[option].question} - {unused_options[option].answer}</option>\n'
     return HttpResponse(html)
 
-    # field-intelligence_request
 
 @login_required(login_url='RadioActiv8:login')
 def valid_next_base_options(request):
