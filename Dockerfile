@@ -7,6 +7,7 @@ RUN apt-get update && \
       binutils \
       libproj-dev \
       gdal-bin \
+      less vim \
     && \
     apt-get -y autoremove && \
     apt-get -y clean && \
