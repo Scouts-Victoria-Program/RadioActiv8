@@ -161,18 +161,6 @@ class Intelligence(models.Model):
         return f'{base} {self.question} - {self.answer}'
 
 
-class Queue(models.Model):
-    sequence = models.IntegerField(unique=True)
-    base = models.ForeignKey(Base, on_delete=models.CASCADE)
-    patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
-
-    class Meta:
-        ordering = ['sequence']
-
-    def __str__(self):
-        return str(f'{self.sequence}: {self.patrol} -> {self.base}')
-
-
 class Event(models.Model):
     # TODO: Allow manually setting and editing of timestamp
     timestamp = models.DateTimeField(auto_now_add=True)

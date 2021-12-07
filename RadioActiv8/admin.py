@@ -29,7 +29,6 @@ admin.site.register(Location, LocationAdmin)
 admin.site.register(Radio, RadioAdmin)
 admin.site.register(Base, RadioAdmin)
 admin.site.register(Intelligence, IntelligenceAdmin)
-admin.site.register(Queue)
 admin.site.register(Event, EventAdmin)
 
 admin.site.site_header = "RadioActiv8 Admin"

@@ -13,7 +13,6 @@ router.register(
     r'intelligence',
     api_views.IntelligenceViewSet,
     basename='intelligence')
-router.register(r'queue', api_views.QueueViewSet, basename='queue')
 router.register(r'event', api_views.EventViewSet, basename='event')
 
 app_name = 'RadioActiv8'

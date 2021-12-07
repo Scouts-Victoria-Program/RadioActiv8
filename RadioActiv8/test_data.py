@@ -143,16 +143,3 @@ def load():
     ]
     load_model(Intelligence, intelligence_keys, intelligence_values_list)
 
-    # Queue data
-    queue_keys = ['sequence', 'base', 'patrol']
-    queue_values_list = [
-        [1, named_base('Pink'), named_patrol('Maverick')],
-        [2, named_base('Black'), named_patrol('Goose')],
-        [3, named_base('Yellow'), named_patrol('Iceman')],
-        [4, named_base('Green'), named_patrol('Viper')],
-        [5, named_base('Orange'), named_patrol('Maverick')],
-        [6, named_base('Red'), named_patrol('Goose')],
-        [7, named_base('Black'), named_patrol('Iceman')],
-        [8, named_base('Yellow'), named_patrol('Viper')],
-    ]
-    load_model(Queue, queue_keys, queue_values_list)
