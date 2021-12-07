@@ -19,4 +19,4 @@ class EventForm(ModelForm):
         js = ('assets/js/event-form.js',)
     class Meta:
         model = Event
-        fields = ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
+        fields = ('session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')

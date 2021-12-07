@@ -8,7 +8,18 @@ import random
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
 
+class Session(models.Model):
+    name = models.CharField(max_length=128)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    # FIXME: Specify a list of session *types*
+    #type = 
+
+    def __str__(self):
+        return self.name
+
 class Location(models.Model):
+    session = models.ManyToManyField(Session)
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
 
     def __str__(self):
@@ -94,6 +105,7 @@ class Base(Radio):
 
 
 class Patrol(models.Model):
+    session = models.ManyToManyField(Session)
     name = models.CharField(max_length=128)
 
     def __str__(self):
@@ -147,6 +159,7 @@ class Intelligence(models.Model):
 
 
 class Event(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
     # TODO: Allow manually setting and editing of timestamp
     timestamp = models.DateTimeField(auto_now_add=True)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
