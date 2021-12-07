@@ -160,13 +160,6 @@ class Intelligence(models.Model):
         base = f'{self.base} base:' if self.base else '(no base)'
         return f'{base} {self.question} - {self.answer}'
 
-'''
-
-Need to filter available intelligence based on
-(a) which base this is, and
-(b) which intelligence this patrol has not answered
-
-'''
 
 class Queue(models.Model):
     sequence = models.IntegerField(unique=True)
