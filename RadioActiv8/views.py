@@ -100,34 +100,25 @@ def base_test(request, base_id):
 
 @login_required(login_url='RadioActiv8:login')
 def valid_intelligence_options(request):
-    #patrol = Patrol.objects.get(name = request.GET.get('patrol'))
     patrol_id = request.GET['patrol']
     current_location_id = request.GET['current_location']
 
+    response = {'unused': {}, 'used': {}}
     if not current_location_id or not patrol_id:
-        return HttpResponse('<option value="" selected="">---------</option>')
+        return JsonResponse(response, safe=False)
 
     current_location = Base.objects.get(id = current_location_id)
     patrol = Patrol.objects.get(id = patrol_id)
 
     unused_options = current_location.get_intelligence(patrol)
+    used_options = current_location.get_intelligence().exclude(id__in=unused_options)
 
-    # FIXME: Use a proper template for this; possibly inherit from
-    # 'django/forms/widgets/select.html' or
-    # 'django/forms/widgets/select_option.html'
-    # Or at least use render() instead of HttpResponse()
-    #
-    # See https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
-    html = '<option value="">---------</option>\n'
-    unused_option_count = len(unused_options)
-    random_option = randrange(unused_option_count)
-    for option in range(unused_option_count):
-        if option == random_option:
-            selected=' selected=""'
-        else:
-            selected=''
-        html += f'<option value="{unused_options[option].id}"{selected}>{unused_options[option].question} - {unused_options[option].answer}</option>\n'
-    return HttpResponse(html)
+    response['unused'] = [{'id': o.id, 'q': o.question, 'a': o.answer}
+                          for o in unused_options]
+    response['used'] = [{'id': o.id, 'q': o.question, 'a': o.answer}
+                        for o in used_options]
+
+    return JsonResponse(response, safe=False)
 
 
 @login_required(login_url='RadioActiv8:login')

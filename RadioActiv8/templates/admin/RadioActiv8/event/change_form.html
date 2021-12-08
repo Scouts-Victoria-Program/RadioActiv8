@@ -19,15 +19,35 @@ function dynamic_form_update(){
 
     // Update Intelligence drop-down
     var url="{% url 'RadioActiv8:check_intelligence' %}"
-    django.jQuery.ajax({         // initialize an AJAX request
+    if(patrol && location) django.jQuery.ajax({         // initialize an AJAX request
     url: url,                    // set the url of the request
     data: {
       'patrol': patrol,
       'current_location': location
     },
     success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-        //console.log(data)
-        django.jQuery("#id_intelligence_request").html(data);
+        var intelligence = "<option value=''>---------</option>";
+
+        intelligence += "<option value=''>--- Available intelligence</option>";
+        // Unused intelligence
+        var random_intelligence = Math.floor(Math.random() * data.unused.length);
+        for (var i = 0; i < data.unused.length; i++)
+        {
+          var int = data.unused[i];
+          var selected = (i == random_intelligence) ?  ' selected=""' : '';
+
+          intelligence += "<option value='" + int.id + "'" + selected + ">" + int.q + " - " + int.a + "</option>";
+        }
+        intelligence += "<option value=''>--- Used intelligence</option>";
+        // Used intelligence
+        for (var i = 0; i < data.used.length; i++)
+        {
+          var int = data.used[i];
+          intelligence += "<option value='" + int.id + "'>" + int.q + " - " + int.a + "</option>";
+        }
+        console.log(intelligence)
+        django.jQuery("#id_intelligence_request").html(intelligence);
+
     }
   });
 
