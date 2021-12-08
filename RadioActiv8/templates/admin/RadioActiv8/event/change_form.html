@@ -14,118 +14,99 @@
 {{ block.super }}
 <script>
 function dynamic_form_update(){
-    var patrol = django.jQuery("#id_patrol").val();
-    var location = django.jQuery("#id_location").val();
+  var patrol = django.jQuery("#id_patrol").val();
+  var location = django.jQuery("#id_location").val();
 
-    // Update Intelligence drop-down
-    var url="{% url 'RadioActiv8:check_intelligence' %}"
-    if(patrol && location) django.jQuery.ajax({         // initialize an AJAX request
-    url: url,                    // set the url of the request
+  var url = "{% url 'RadioActiv8:event_ajax' %}"
+  django.jQuery.ajax({
+    url: url,
     data: {
       'patrol': patrol,
       'current_location': location
     },
-    success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
+    success: function (data) {
+
+      { // Update Intelligence drop-down
         var intelligence = "<option value=''>---------</option>";
 
         intelligence += "<option value=''>--- Available intelligence</option>";
         // Unused intelligence
-        var random_intelligence = Math.floor(Math.random() * data.unused.length);
-        for (var i = 0; i < data.unused.length; i++)
-        {
-          var int = data.unused[i];
-          var selected = (i == random_intelligence) ?  ' selected=""' : '';
+        var random_intelligence = Math.floor(Math.random() * data.intelligence_options.unused.length);
+        for (var i = 0; i < data.intelligence_options.unused.length; i++) {
+          var int = data.intelligence_options.unused[i];
+          var selected = (i == random_intelligence) ? ' selected=""' : '';
 
           intelligence += "<option value='" + int.id + "'" + selected + ">" + int.q + " - " + int.a + "</option>";
         }
         intelligence += "<option value=''>--- Used intelligence</option>";
         // Used intelligence
-        for (var i = 0; i < data.used.length; i++)
-        {
-          var int = data.used[i];
+        for (var i = 0; i < data.intelligence_options.used.length; i++) {
+          var int = data.intelligence_options.used[i];
           intelligence += "<option value='" + int.id + "'>" + int.q + " - " + int.a + "</option>";
         }
         django.jQuery("#id_intelligence_request").html(intelligence);
 
-    }
-  });
+      }
 
-    // FIXME: Deduplicate these AJAX query blocks
-    // Update Destination drop-down
-    var url="{% url 'RadioActiv8:valid_next_base_options' %}"
-    django.jQuery.ajax({         // initialize an AJAX request
-    url: url,                    // set the url of the request
-    data: {
-      'patrol': patrol,
-      'current_location': location
-    },
-    success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-
+      { // Update Destination drop-down
         var destination = "<option value=''>---------</option>";
 
         destination += "<option value=''>--- Unvisited Bases</option>";
 
         // Unvisited bases
-        var random_base = Math.floor(Math.random() * data.unvisited.length);
-        for (var i = 0; i < data.unvisited.length; i++)
-        {
-          var base = data.unvisited[i];
-          var selected = (i == random_base) ?  ' selected=""' : '';
+        var random_base = Math.floor(Math.random() * data.valid_destinations.unvisited.length);
+        for (var i = 0; i < data.valid_destinations.unvisited.length; i++) {
+          var base = data.valid_destinations.unvisited[i];
+          var selected = (i == random_base) ? ' selected=""' : '';
 
           destination += "<option value='" + base.id + "'" + selected + ">" + base.b + "</option>";
         }
         destination += "<option value=''>--- Visited Bases</option>";
         // Visited bases
-        for (var i = 0; i < data.visited.length; i++)
-        {
-          var base = data.visited[i];
+        for (var i = 0; i < data.valid_destinations.visited.length; i++) {
+          var base = data.valid_destinations.visited[i];
           destination += "<option value='" + base.id + "'>" + base.b + "</option>";
         }
         django.jQuery("#id_destination").html(destination);
-    }
-  });
+      }
 
-    // FIXME: Deduplicate these AJAX query blocks
-    // Update Destination drop-down
-    var url="{% url 'RadioActiv8:patrol_base_history' %}"
-    django.jQuery.ajax({         // initialize an AJAX request
-    url: url,                    // set the url of the request
-    data: {
-      'patrol': patrol,
-    },
-    success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-
-        django.jQuery("#expected_location").html(data.last_destination.name);
-        django.jQuery("#expected_location").attr('data-location-id', data.last_destination.id);
+      { // Display Base history and last expected destination
 
         var base_history = '';
-        for (var i = 0; i < data.visited_bases.length; i++)
-        {
-          var id = data.visited_bases[i].id
-          var name = data.visited_bases[i].name
-          base_history += "<li data-base-id='" + id + "'>" + name + "</li>"
+        for (var i = 0; i < data.base_history.visited_bases.length; i++) {
+          var id = data.base_history.visited_bases[i].id
+          var name = data.base_history.visited_bases[i].name
+          base_history += "<li data.base_history-base-id='" + id + "'>" + name + "</li>"
         }
         django.jQuery("#base_history").html(base_history);
 
-        var expected_location_id = django.jQuery('#expected_location').attr('data-location-id');
+        var expected_location = data.base_history.last_destination;
+        django.jQuery("#expected_location").html(expected_location.name);
+        django.jQuery("#expected_location").attr('data-location-id', expected_location.id);
+
         var actual_location_id = django.jQuery('#id_location').val();
-        if(expected_location_id && expected_location_id != -1 &&
-            actual_location_id === "")
-        {
-          actual_location_id = expected_location_id;
+
+        // If we know an expected location but don't yet have a current location
+        // set yet, set the current location to the expected one.
+        if (expected_location.id && expected_location.id != -1 &&
+          actual_location_id === "") {
+          actual_location_id = expected_location.id;
           django.jQuery('#id_location').val(actual_location_id);
           // FIXME: Recursive function call; this could be nasty...
           dynamic_form_update();
         }
-        if (expected_location_id != -1 &&
-            !(actual_location_id === "") &&
-            expected_location_id != actual_location_id)
-        {
+
+        // If we have a valid expected location and a valid current location,
+        // and they don't match, warn the user
+        if (expected_location.id != -1 &&
+          !(actual_location_id === "") &&
+          expected_location.id != actual_location_id) {
           django.jQuery("#expected_location").append("<strong> <--- ### WARNING! LOCATION MISMATCH! ###</strong>");
         }
-
+      }
     }
   });
+
 }
 
 django.jQuery(document).ready(function(){

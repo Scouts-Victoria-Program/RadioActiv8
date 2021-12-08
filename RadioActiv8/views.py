@@ -99,42 +99,67 @@ def base_test(request, base_id):
 
 
 @login_required(login_url='RadioActiv8:login')
-def valid_intelligence_options(request):
+def event_ajax(request):
     patrol_id = request.GET['patrol']
     current_location_id = request.GET['current_location']
 
-    response = {'unused': {}, 'used': {}}
-    if not current_location_id or not patrol_id:
+    response = {
+        'intelligence_options': {
+            'unused': {},
+            'used': {}
+        },
+        'valid_destinations': {
+            'unvisited': {},
+            'visited': {}
+        },
+        'base_history': {
+            'visited_bases': [],
+            'last_destination': None
+        }
+    }
+
+    if patrol_id:
+        patrol = Patrol.objects.get(id = patrol_id)
+    else:
         return JsonResponse(response, safe=False)
 
-    current_location = Base.objects.get(id = current_location_id)
-    patrol = Patrol.objects.get(id = patrol_id)
+    if current_location_id:
+        current_location = Base.objects.get(id = current_location_id)
+    else:
+        current_location = None
+        events = Event.objects.filter(patrol=patrol).order_by('-timestamp')
+        if events:
+            current_location = events[0].destination
 
-    unused_options = current_location.get_intelligence(patrol)
-    used_options = current_location.get_intelligence().exclude(id__in=unused_options)
+    response['intelligence_options'] = valid_intelligence_options(patrol, current_location)
+    response['valid_destinations'] = valid_next_base_options(patrol, current_location)
+    response['base_history'] = patrol_base_history(patrol)
+
+    return JsonResponse(response, safe=False)
+
+
+def valid_intelligence_options(patrol, current_location):
+    response = {'unused': {}, 'used': {}}
+
+    if not current_location:
+        return response
+
+    unused_options = current_location.radio.base.get_intelligence(patrol)
+    used_options = current_location.radio.base.get_intelligence().exclude(id__in=unused_options)
 
     response['unused'] = [{'id': o.id, 'q': o.question, 'a': o.answer}
                           for o in unused_options]
     response['used'] = [{'id': o.id, 'q': o.question, 'a': o.answer}
                         for o in used_options]
 
-    return JsonResponse(response, safe=False)
+    return response
 
 
-@login_required(login_url='RadioActiv8:login')
-def valid_next_base_options(request):
-    patrol_id = request.GET['patrol']
-    current_location_id = request.GET['current_location']
+def valid_next_base_options(patrol, current_location):
     response = {'unvisited': {}, 'visited': {}}
 
-    if not current_location_id or not patrol_id:
-        return JsonResponse(response, safe=False)
-
-    current_location = Location.objects.get(id=current_location_id)
-    patrol = Patrol.objects.get(id=patrol_id)
-
     visited_bases_list = list(patrol.visited_bases())
-    visited_bases_list.append(current_location)
+    if current_location: visited_bases_list.append(current_location)
 
     unvisited_bases = Base.objects.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
     visited_bases = Base.objects.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
@@ -144,18 +169,12 @@ def valid_next_base_options(request):
     response['visited'] = [{'id': b.id, 'b': b.location_name}
                         for b in visited_bases]
 
-    return JsonResponse(response, safe=False)
+    return response
 
 
-@login_required(login_url='RadioActiv8:login')
-def patrol_base_history(request):
-    patrol_id = request.GET['patrol']
-
-    if not patrol_id:
-        return JsonResponse({'visited_bases': [], 'last_destination': {}})
-
-    visited_bases = [ {'id': event.location.id, 'name': str(event.location)} for event in Event.objects.filter(patrol=patrol_id).order_by('timestamp')]
-    events = Event.objects.filter(patrol=patrol_id).order_by('-timestamp')
+def patrol_base_history(patrol):
+    visited_bases = [ {'id': event.location.id, 'name': str(event.location)} for event in Event.objects.filter(patrol=patrol).order_by('timestamp')]
+    events = Event.objects.filter(patrol=patrol).order_by('-timestamp')
     last_destination = None
     if events:
         last_destination = events[0].destination
@@ -166,7 +185,7 @@ def patrol_base_history(request):
 
     response = {'visited_bases': visited_bases, 'last_destination': last_destination_response}
 
-    return JsonResponse(response, safe=False)
+    return response
 
 
 def base_distance(base_a, base_b):

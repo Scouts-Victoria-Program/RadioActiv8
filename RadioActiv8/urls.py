@@ -58,17 +58,9 @@ urlpatterns = [
         views.base_test,
         name='base_test'),
     path(
-        'check_intelligence',
-        views.valid_intelligence_options,
-        name='check_intelligence'),
-    path(
-        'valid_next_base_options',
-        views.valid_next_base_options,
-        name='valid_next_base_options'),
-    path(
-        'patrol_base_history',
-        views.patrol_base_history,
-        name='patrol_base_history'),
+        'event_ajax',
+        views.event_ajax,
+        name='event_ajax'),
     path(
         'bases_geojson',
         views.bases_geojson,
