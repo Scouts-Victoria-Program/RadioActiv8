@@ -60,8 +60,28 @@ function dynamic_form_update(){
       'current_location': location
     },
     success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-        console.log(data)
-        django.jQuery("#id_destination").html(data);
+
+        var destination = "<option value=''>---------</option>";
+
+        destination += "<option value=''>--- Unvisited Bases</option>";
+
+        // Unvisited bases
+        var random_base = Math.floor(Math.random() * data.unvisited.length);
+        for (var i = 0; i < data.unvisited.length; i++)
+        {
+          var base = data.unvisited[i];
+          var selected = (i == random_base) ?  ' selected=""' : '';
+
+          destination += "<option value='" + base.id + "'" + selected + ">" + base.b + "</option>";
+        }
+        destination += "<option value=''>--- Visited Bases</option>";
+        // Visited bases
+        for (var i = 0; i < data.visited.length; i++)
+        {
+          var base = data.visited[i];
+          destination += "<option value='" + base.id + "'>" + base.b + "</option>";
+        }
+        django.jQuery("#id_destination").html(destination);
     }
   });
 
@@ -74,7 +94,6 @@ function dynamic_form_update(){
       'patrol': patrol,
     },
     success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-        //console.log(data)
 
         django.jQuery("#expected_location").html(data.last_destination.name);
         django.jQuery("#expected_location").attr('data-location-id', data.last_destination.id);

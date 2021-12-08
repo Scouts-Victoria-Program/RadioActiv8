@@ -125,46 +125,27 @@ def valid_intelligence_options(request):
 def valid_next_base_options(request):
     patrol_id = request.GET['patrol']
     current_location_id = request.GET['current_location']
+    response = {'unvisited': {}, 'visited': {}}
 
     if not current_location_id or not patrol_id:
-        return HttpResponse('<option value="" selected="">---------</option>')
+        return JsonResponse(response, safe=False)
 
     current_location = Location.objects.get(id=current_location_id)
     patrol = Patrol.objects.get(id=patrol_id)
 
-    # FIXME: Surely there's a better way to do these queries, ideally without the list comprehensions?
-    visited_bases = [event.location for event in Event.objects.filter(patrol=patrol_id)]
-    visited_bases.append(current_location)
-    unvisited_bases = Base.objects.exclude(id__in=[b.id for b in visited_bases]).order_by('location_name')
-    # We do this to deduplicate the previous version of the list
-    visited_bases = Base.objects.filter(id__in=[b.id for b in visited_bases]).order_by('location_name')
+    visited_bases_list = list(patrol.visited_bases())
+    visited_bases_list.append(current_location)
 
-    # FIXME: Use a proper template for this; possibly inherit from
-    # 'django/forms/widgets/select.html' or
-    # 'django/forms/widgets/select_option.html'
-    # Or at least use render() instead of HttpResponse()
-    #
-    # See https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
-    html = '<option value="">---------</option>\n'
+    unvisited_bases = Base.objects.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
+    visited_bases = Base.objects.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
 
-    # FIXME: Deal with possibility where all bases are visited
-    html += '<option value="">--- Unvisitied Bases</option>\n'
-    unvisited_bases_count = len(unvisited_bases)
-    random_base = None
-    if unvisited_bases_count > 0:
-        random_base = randrange(unvisited_bases_count)
+    response['unvisited'] = [{'id': b.id, 'b': b.location_name}
+                          for b in unvisited_bases]
+    response['visited'] = [{'id': b.id, 'b': b.location_name}
+                        for b in visited_bases]
 
-    for base in range(unvisited_bases_count):
-        if base == random_base:
-            selected=' selected=""'
-        else:
-            selected=''
-        html += f'<option value="{unvisited_bases[base].id}"{selected}>{unvisited_bases[base]}</option>\n'
-    html += '<option value="">--- Visitied Bases</option>\n'
-    for base in visited_bases:
-        html += f'<option value="{base.id}">{base}</option>\n'
+    return JsonResponse(response, safe=False)
 
-    return HttpResponse(html)
 
 @login_required(login_url='RadioActiv8:login')
 def patrol_base_history(request):
@@ -182,7 +163,6 @@ def patrol_base_history(request):
         last_destination_response = {'id': last_destination.id, 'name': last_destination.radio.location_name}
     else:
         last_destination_response = {'id': -1, 'name': 'NONE'}
-
 
     response = {'visited_bases': visited_bases, 'last_destination': last_destination_response}
 

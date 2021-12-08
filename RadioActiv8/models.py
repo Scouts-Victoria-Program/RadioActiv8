@@ -130,6 +130,10 @@ class Patrol(models.Model):
             Event.objects.filter(
                 patrol=self).order_by('-timestamp').first())
 
+    def visited_bases(self):
+        return Base.objects.filter(id__in = [event.location.id for event in
+                self.event_set.all()])
+
 
 class Intelligence(models.Model):
     base = models.ForeignKey(
