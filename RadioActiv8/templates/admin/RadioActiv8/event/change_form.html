@@ -45,7 +45,6 @@ function dynamic_form_update(){
           var int = data.used[i];
           intelligence += "<option value='" + int.id + "'>" + int.q + " - " + int.a + "</option>";
         }
-        console.log(intelligence)
         django.jQuery("#id_intelligence_request").html(intelligence);
 
     }
@@ -61,7 +60,7 @@ function dynamic_form_update(){
       'current_location': location
     },
     success: function (data) {   // `data` is the return of the `valid_intelligence_options` view function
-        //console.log(data)
+        console.log(data)
         django.jQuery("#id_destination").html(data);
     }
   });
