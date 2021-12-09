@@ -62,6 +62,10 @@ urlpatterns = [
         views.event_ajax,
         name='event_ajax'),
     path(
+        'event_create',
+        views.EventCreate.as_view(),
+        name='EventCreate'),
+    path(
         'bases_geojson',
         views.bases_geojson,
         name='bases_geojson'),

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -84,6 +84,13 @@ class BaseList(generic.ListView):
 class BaseDetail(generic.DetailView):
     model = Base
     template_name = 'base/detail.html'
+
+
+class EventCreate(generic.edit.CreateView):
+    model = Event
+    template_name = 'event/create.html'
+    form_class = EventForm
+    success_url = reverse_lazy('RadioActiv8:EventCreate')
 
 
 def base_test(request, base_id):
