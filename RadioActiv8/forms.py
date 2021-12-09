@@ -15,6 +15,8 @@ class PatrolForm(ModelForm):
 
 class EventForm(ModelForm):
     comment = forms.CharField( widget=forms.Textarea )
+    class Media:
+        js = ('assets/js/event-form.js',)
     class Meta:
         model = Event
         fields = ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')

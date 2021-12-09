@@ -1,0 +1,14 @@
+{% extends 'master/heading.html' %}
+{% load bootstrap4 %}
+{% block bootstrap4_content %}
+<strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
+<form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
+    {{ form.as_p }}
+    {{ form.media }}
+    <input type="submit" value="Add Event">
+</form>
+<strong>Base history:</strong>
+<ol id='base_history'>
+  <li>UNKNOWN</li>
+</ol>
+{% endblock %}
