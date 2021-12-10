@@ -137,6 +137,8 @@ def event_ajax(request):
         events = Event.objects.filter(patrol=patrol).order_by('-timestamp')
         if events:
             current_location = events[0].destination
+            if not current_location:
+                current_location = events[0].location
 
     response['intelligence_options'] = valid_intelligence_options(patrol, current_location)
     response['valid_destinations'] = valid_next_base_options(patrol, current_location)
@@ -185,6 +187,8 @@ def patrol_base_history(patrol):
     last_destination = None
     if events:
         last_destination = events[0].destination
+        if not last_destination:
+            last_destination = events[0].location
     if last_destination:
         last_destination_response = {'id': last_destination.id, 'name': last_destination.radio.location_name}
     else:
