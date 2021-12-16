@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.gis.geos import Point
 from django.db.models import Q
 import random
+from django.utils import timezone
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
@@ -160,8 +161,7 @@ class Intelligence(models.Model):
 
 class Event(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
-    # TODO: Allow manually setting and editing of timestamp
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=timezone.now)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     intelligence_request = models.ForeignKey(
