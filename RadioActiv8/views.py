@@ -8,6 +8,7 @@ from .forms import *
 from random import randrange
 from django.core.serializers import serialize
 
+# FIXME: Ensure most views require login
 
 @login_required(login_url='RadioActiv8:login')
 def index(request):
@@ -146,6 +147,10 @@ def event_ajax(request):
 
     return JsonResponse(response, safe=False)
 
+
+'''
+Only helper functions below this point
+'''
 
 def valid_intelligence_options(patrol, current_location):
     response = {'unused': {}, 'used': {}}
