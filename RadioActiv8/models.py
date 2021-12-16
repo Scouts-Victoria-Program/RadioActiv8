@@ -170,7 +170,7 @@ class Event(models.Model):
     destination = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="Destination",
         blank=True, null=True)
-    comment = models.CharField(max_length=1024, null=True, blank=True)
+    comment = models.TextField(max_length=1024, null=True, blank=True)
 
     class Meta:
         ordering = ['timestamp']
