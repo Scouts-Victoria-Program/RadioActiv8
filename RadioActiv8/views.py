@@ -2,10 +2,9 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import *
 from .forms import *
-from random import randrange
 from django.core.serializers import serialize
 
 # FIXME: Ensure most views require login
@@ -85,6 +84,37 @@ class BaseList(generic.ListView):
 class BaseDetail(generic.DetailView):
     model = Base
     template_name = 'base/detail.html'
+
+
+def EventList(request):
+    template_name = 'event/index.html'
+    context = {}
+
+    ra8_session = None
+    if request.session.get('ra8_session'):
+        ra8_session = request.session['ra8_session']
+
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = SessionListForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            request.session['ra8_session'] = form.cleaned_data['session_list_field']
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('RadioActiv8:EventList'))
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SessionListForm({'session_list_field': ra8_session})
+        context['session_form'] = form
+
+        event_list= Event.objects.all()
+        if ra8_session:
+            event_list = event_list.filter(session__id=ra8_session)
+        context['event_list'] = event_list
+
+        return render(request, template_name, context)
 
 
 class EventCreate(generic.edit.CreateView):

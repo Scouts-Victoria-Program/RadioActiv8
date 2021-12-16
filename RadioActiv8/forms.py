@@ -20,3 +20,8 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = ('session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
+
+class SessionListForm(forms.Form):
+
+    CHOICES = [ (s.id, s.name) for s in Session.objects.all() ]
+    session_list_field = forms.ChoiceField(widget=forms.Select, choices=CHOICES, label='Session')

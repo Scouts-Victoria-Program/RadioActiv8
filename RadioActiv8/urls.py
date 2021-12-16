@@ -62,6 +62,10 @@ urlpatterns = [
         views.event_ajax,
         name='event_ajax'),
     path(
+        'event/',
+        views.EventList,
+        name='EventList'),
+    path(
         'event_create',
         views.EventCreate.as_view(),
         name='EventCreate'),
