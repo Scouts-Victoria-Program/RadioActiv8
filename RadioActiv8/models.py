@@ -192,6 +192,15 @@ class Event(models.Model):
         if self.intelligence_request in patrol_answers:
             raise ValidationError("Can only use Intelligence that Patrol hasn't already answered")
 
+        if not self.patrol.session.contains(self.session):
+            raise ValidationError(f"Patrol must be part of Event session ({self.session})")
+
+        if not self.location.session.contains(self.session):
+            raise ValidationError(f"Location must be part of Event session ({self.session})")
+
+        if not self.destination.session.contains(self.session):
+            raise ValidationError(f"Destination must be part of Event session ({self.session})")
+
     def __str__(self):
         comment = ''
         next_location = ''
