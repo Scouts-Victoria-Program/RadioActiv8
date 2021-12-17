@@ -181,8 +181,7 @@ class Event(models.Model):
     def clean(self):
 
         # Check Intelligence is valid for this Base
-        # FIXME: Should we be explicitly using 'id' below? It didn't work without it
-        if self.intelligence_request.base.id != self.location.id:
+        if self.intelligence_request.base != self.location.radio.base:
             raise ValidationError('Can only use Intelligence for current Location')
 
         # Check that Intelligence hasn't already been allocated to this Patrol
