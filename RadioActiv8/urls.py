@@ -66,7 +66,7 @@ urlpatterns = [
         views.EventList,
         name='EventList'),
     path(
-        'event_create',
+        'event/create',
         views.EventCreate.as_view(),
         name='EventCreate'),
     path(
