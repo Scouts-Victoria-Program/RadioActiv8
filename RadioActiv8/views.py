@@ -138,10 +138,13 @@ def base_test(request, base_id):
 
 @login_required(login_url='RadioActiv8:login')
 def event_ajax(request):
+    session_id = request.GET['ra8_session']
     patrol_id = request.GET['patrol']
     current_location_id = request.GET['current_location']
 
     response = {
+        'patrol_options': [],
+        'location_options': [],
         'intelligence_options': {
             'unused': {},
             'used': {}
@@ -155,6 +158,14 @@ def event_ajax(request):
             'last_destination': None
         }
     }
+
+    if session_id:
+        session = Session.objects.get(id = session_id)
+    else:
+        return JsonResponse(response, safe=False)
+
+    response['patrol_options'] = [ {'id': p.id, 'name': p.name} for p in Patrol.objects.filter(session=session) ]
+    response['location_options'] = [ {'id': b.id, 'name': b.location_name } for b in Base.objects.filter(session=session) ]
 
     if patrol_id:
         patrol = Patrol.objects.get(id = patrol_id)
@@ -172,7 +183,7 @@ def event_ajax(request):
                 current_location = events[0].location
 
     response['intelligence_options'] = valid_intelligence_options(patrol, current_location)
-    response['valid_destinations'] = valid_next_base_options(patrol, current_location)
+    response['valid_destinations'] = valid_next_base_options(session, patrol, current_location)
     response['base_history'] = patrol_base_history(patrol)
 
     return JsonResponse(response, safe=False)
@@ -199,14 +210,15 @@ def valid_intelligence_options(patrol, current_location):
     return response
 
 
-def valid_next_base_options(patrol, current_location):
+def valid_next_base_options(session, patrol, current_location):
     response = {'unvisited': {}, 'visited': {}}
 
     visited_bases_list = list(patrol.visited_bases())
+    session_bases = Base.objects.filter(session=session)
     if current_location: visited_bases_list.append(current_location)
 
-    unvisited_bases = Base.objects.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
-    visited_bases = Base.objects.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
+    unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
+    visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
 
     response['unvisited'] = [{'id': b.id, 'b': b.location_name}
                           for b in unvisited_bases]

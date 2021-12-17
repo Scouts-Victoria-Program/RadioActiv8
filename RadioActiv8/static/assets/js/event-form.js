@@ -1,16 +1,38 @@
 function dynamic_form_update(){
-  var patrol = jQuery("#id_patrol").val();
-  var location = jQuery("#id_location").val();
+  var current_session = jQuery("#id_session").val();
+  var current_patrol = jQuery("#id_patrol").val();
+  var current_location = jQuery("#id_location").val();
 
   //var url = "{% url 'RadioActiv8:event_ajax' %}"
   var url = jQuery('#id_patrol').closest('form').attr('data-ajax-url')
   jQuery.ajax({
     url: url,
     data: {
-      'patrol': patrol,
-      'current_location': location
+      'ra8_session': current_session,
+      'patrol': current_patrol,
+      'current_location': current_location
     },
     success: function (data) {
+
+      { // Update Patrol drop-down
+        var patrol = "<option value=''>---------</option>";
+        for(var i = 0; i < data.patrol_options.length; i++) {
+          var p = data.patrol_options[i];
+          var selected = (p.id == current_patrol) ? ' selected=""' : '';
+          patrol += "<option value='" + p.id + "'" + selected + ">" + p.name + "</option>";
+        }
+        jQuery("#id_patrol").html(patrol);
+      }
+
+      { // Update Location drop-down
+        var location = "<option value=''>---------</option>";
+        for(var i = 0; i < data.location_options.length; i++) {
+          var loc = data.location_options[i];
+          var selected = (loc.id == current_location) ? ' selected=""' : '';
+          location += "<option value='" + loc.id + "'" + selected + ">" + loc.name + "</option>";
+        }
+        jQuery("#id_location").html(location);
+      }
 
       { // Update Intelligence drop-down
         var intelligence = "<option value=''>---------</option>";
@@ -105,6 +127,7 @@ jQuery(document).ready(function(){
     jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
     jQuery("#id_destination").html('<option value="" selected="">---------</option>');
     dynamic_form_update();
+    jQuery("#id_session").change(dynamic_form_update);
     jQuery("#id_patrol").change(dynamic_form_update);
     jQuery("#id_location").change(dynamic_form_update);
 })
