@@ -5,6 +5,8 @@ function dynamic_form_update(){
 
   //var url = "{% url 'RadioActiv8:event_ajax' %}"
   var url = jQuery('#id_patrol').closest('form').attr('data-ajax-url')
+  // FIXME: This is a hack to work with the <form> element created by Django Admin
+  if (!url) { url = jQuery('#ajax_form_url').attr('data-ajax-url'); }
   jQuery.ajax({
     url: url,
     data: {
@@ -124,6 +126,7 @@ function dynamic_form_update(){
 }
 
 jQuery(document).ready(function(){
+    if(!jQuery && django.jQuery) { jQuery = django.jQuery; }
     jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
     jQuery("#id_destination").html('<option value="" selected="">---------</option>');
     dynamic_form_update();
