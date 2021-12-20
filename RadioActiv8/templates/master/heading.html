@@ -3,14 +3,12 @@
 {% block bootstrap4_extra_head %}
 <!-- Start: Head block -->
 <!-- Start: External stylesheets -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bebas+Neue">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+<link rel="stylesheet" href="{% static 'assets/css/fonts.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/fontawesome-all-5.15.4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/fontawesome-5.15.4.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/animate-3.5.2.min.css' %}">
 <!-- End: External stylesheets -->
 <!-- Start: External scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- End: External scripts -->
 <!-- Favicon -->
 <link rel="icon" type="image/png" sizes="938x802" href="{% static 'assets/img/Screen%20Shot%202021-05-04%20at%206.10.38%20pm.png' %}">
@@ -34,7 +32,7 @@
       RadioActiv8&nbsp;&nbsp;<i class="fab fa-codepen"></i>&nbsp;
     </a>
     {% if user.is_authenticated %}
-    
+
 	<div class="btn-group" role="group" style="padding: 10px;">
 		<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="background-color: var(--yellow); border: 0px;">
 		  <span class="sr-only">
