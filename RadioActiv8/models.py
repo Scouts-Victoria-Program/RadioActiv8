@@ -147,6 +147,22 @@ class Patrol(models.Model):
         return Base.objects.filter(id__in = [event.location.id for event in
                 self.event_set.all()])
 
+class Participant(models.Model):
+    p_id = models.IntegerField(null=True)
+    full_name = models.CharField(max_length=128)
+    preferred_name = models.CharField(max_length=128)
+    patrol = models.ForeignKey(Patrol, null=True, on_delete=models.SET_NULL)
+
+    PARTICIPANT_TYPE_CHOICES = [
+        ('J', 'Joey'),
+        ('C', 'Cub'),
+        ('S', 'Scout'),
+        ('V', 'Venturer'),
+        ('R', 'Rover'),
+        ('L', 'Leader'),
+    ]
+    type = models.CharField(
+        blank=True, max_length=1, choices=PARTICIPANT_TYPE_CHOICES, default='S')
 
 class Intelligence(models.Model):
     base = models.ForeignKey(
