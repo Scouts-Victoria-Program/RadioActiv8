@@ -156,16 +156,16 @@ BOOTSTRAP4 = {
     'include_jquery': True,
     'javascript_in_head': True,
      "css_url": {
-        "href": "/" + STATIC_URL + "assets/css/bootstrap-4.6.0.min.css",
+        "href": "/" + STATIC_URL + "RadioActiv8/css/bootstrap-4.6.0.min.css",
     },
      "javascript_url": {
-        "url": "/" + STATIC_URL + "assets/js/bootstrap-4.6.0.bundle.min.js",
+        "url": "/" + STATIC_URL + "RadioActiv8/js/bootstrap-4.6.0.bundle.min.js",
     },
     "jquery_url": {
-        "url": "/" + STATIC_URL + "assets/js/jquery-3.5.1.min.js",
+        "url": "/" + STATIC_URL + "RadioActiv8/js/jquery-3.5.1.min.js",
     },
     "jquery_slim_urjquery.com/l": {
-        "url": "/" + STATIC_URL + "assets/js/jquery-3.5.1.slim.min.js",
+        "url": "/" + STATIC_URL + "RadioActiv8/js/jquery-3.5.1.slim.min.js",
     },
 }
 

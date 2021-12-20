@@ -15,7 +15,7 @@ class PatrolForm(ModelForm):
 
 class EventForm(ModelForm):
     class Media:
-        js = ('assets/js/event-form.js',)
+        js = ('RadioActiv8/js/event-form.js',)
     class Meta:
         model = Event
         fields = ('session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
