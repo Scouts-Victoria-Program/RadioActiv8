@@ -23,4 +23,4 @@ class EventForm(ModelForm):
 class SessionListForm(forms.Form):
 
     CHOICES = [ (s.id, s.name) for s in Session.objects.all() ]
-    session_list_field = forms.ChoiceField(widget=forms.Select, choices=CHOICES, label='Session')
+    session_list_field = forms.ChoiceField(widget=forms.Select, choices=CHOICES, label='Session', initial='')

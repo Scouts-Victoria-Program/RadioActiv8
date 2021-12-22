@@ -5,6 +5,7 @@ from django.contrib.gis.geos import Point
 from django.db.models import Q
 import random
 from django.utils import timezone
+from datetime import timedelta
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
@@ -32,6 +33,7 @@ class Location(models.Model):
 
 class Radio(Location):
     location_name = models.CharField(max_length=128)
+    description = models.CharField(max_length=256, null=True)
     channel = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -41,6 +43,10 @@ class Radio(Location):
 class Base(Radio):
     min_patrols = models.IntegerField(blank=True, null=True)
     max_patrols = models.IntegerField(blank=True, null=True)
+    run_time = models.DurationField(default=timedelta(minutes=5))
+    repeatable = models.BooleanField(default=True)
+    attendance_points = models.IntegerField(default=100)
+
     ACTIVITY_TYPE_CHOICES = [
         ('R', 'Reading data'),
         ('S', 'Self-directed'),
@@ -164,15 +170,18 @@ class Participant(models.Model):
     type = models.CharField(
         blank=True, max_length=1, choices=PARTICIPANT_TYPE_CHOICES, default='S')
 
+    def __str__(self):
+        return f'({self.p_id}) {self.full_name} - {self.patrol}'
+
 class Intelligence(models.Model):
-    base = models.ForeignKey(
-        Base, blank=True, null=True, on_delete=models.SET_NULL)
+    base = models.ForeignKey(Base, null=True, on_delete=models.CASCADE)
     question = models.CharField(max_length=1024)
     answer = models.CharField(max_length=1024)
+    completion_points = models.IntegerField(default=200)
 
     def __str__(self):
         base = f'{self.base} base:' if self.base else '(no base)'
-        return f'{base} {self.question} - {self.answer}'
+        return f'{base} {self.question} - {self.answer} ({self.completion_points})'
 
 
 class Event(models.Model):

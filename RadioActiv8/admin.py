@@ -10,11 +10,18 @@ class EventAdmin(admin.ModelAdmin):
     ordering = ['timestamp']
     form = EventForm
 
+class ParticipantAdmin(admin.OSMGeoAdmin):
+    ordering = ['full_name']
+    search_fields = ('full_name', 'p_id', 'patrol__name')
+
 class PatrolAdmin(admin.OSMGeoAdmin):
     ordering = ['name']
+    search_fields = ('name',)
+    list_filter= ('session',)
 
 class RadioAdmin(admin.OSMGeoAdmin):
     ordering = ['location_name']
+    list_filter= ('session',)
 
 class IntelligenceAdmin(admin.OSMGeoAdmin):
     ordering = ['base', 'question']
@@ -23,6 +30,10 @@ class IntelligenceAdmin(admin.OSMGeoAdmin):
 class LocationAdmin(admin.OSMGeoAdmin):
     ordering = ['radio__location_name']
 
+class SessionAdmin(admin.OSMGeoAdmin):
+    ordering = ['name']
+
+
 # Register your models here.
 admin.site.register(Patrol, PatrolAdmin)
 admin.site.register(Location, LocationAdmin)
@@ -30,6 +41,7 @@ admin.site.register(Radio, RadioAdmin)
 admin.site.register(Base, RadioAdmin)
 admin.site.register(Intelligence, IntelligenceAdmin)
 admin.site.register(Event, EventAdmin)
-admin.site.register(Session)
+admin.site.register(Session, SessionAdmin)
+admin.site.register(Participant, ParticipantAdmin)
 
 admin.site.site_header = "RadioActiv8 Admin"
