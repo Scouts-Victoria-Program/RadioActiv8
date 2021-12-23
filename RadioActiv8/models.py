@@ -10,6 +10,10 @@ from datetime import timedelta
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
 
+class GPSTracker(models.Model):
+    eui = models.CharField(max_length=16)
+    name = models.CharField(max_length=32, null=True)
+
 class Session(models.Model):
     name = models.CharField(max_length=128)
     start_time = models.DateTimeField()
@@ -78,34 +82,38 @@ class Base(Radio):
         If passed a Patrol, exclude any intelligence that patrol has already
         answered.
         """
-        # FIXME Update this to work with new model and pull data from Events
         intelligence = self.get_intelligence(patrol)
 
-        return random.choice(list(intelligence))
+        return random.choice(intelligence)
 
     def get_patrols(self):
         """
         Return a list of patrols currently at this base
         """
-        # FIXME Update this to work with new model and pull data from Events
-        pass
-        return Patrol.objects.filter(base=self)
+        return Patrol.objects.filter(current_base=self)
+
+    def get_patrols_via_event(self):
+        """
+        Return a list of patrols currently at this base
+        """
+        patrols_at_base = []
+        for p in Patrol.objects.all():
+            e = p.last_seen()
+            if e and e.location and e.location.radio and e.location.radio.base == self:
+                patrols_at_base.append(p)
+        return patrols_at_base
 
     def get_patrols_count(self):
         """
         Return an integer representing the number of patrols currently at this base
         """
-        # FIXME Update this to work with new model and pull data from Events
-        pass
-        return self.get_patrols().count()
+        return len(self.get_patrols())
 
     def is_full(self):
         """
         Return True if this base is at or over its patrol capacity
         """
-        # FIXME Update this to work with new model and pull data from Events
-        pass
-        if self.max_patrols != 0:
+        if self.max_patrols:
             return self.get_patrols_count() >= self.max_patrols
         else:
             return False
@@ -114,6 +122,11 @@ class Base(Radio):
 class Patrol(models.Model):
     session = models.ManyToManyField(Session)
     name = models.CharField(max_length=128)
+    current_base = models.ForeignKey(Base, null=True, on_delete=models.SET_NULL)
+    attendance_points = models.IntegerField(default=0)
+    completion_points = models.IntegerField(default=0)
+    bonus_points = models.IntegerField(default=0)
+    gps_tracker = models.ForeignKey(GPSTracker, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
@@ -145,13 +158,18 @@ class Patrol(models.Model):
         return True
 
     def last_seen(self):
-        return str(
-            Event.objects.filter(
-                patrol=self).order_by('-timestamp').first())
+        return Event.objects.filter(
+                patrol=self).order_by('-timestamp').first()
 
     def visited_bases(self):
         return Base.objects.filter(id__in = [event.location.id for event in
                 self.event_set.all()])
+
+    def get_total_points(self):
+        """
+        Tally and return different types of points for Patrol
+        """
+        return self.attendance_points + self.completion_points + self.bonus_points
 
 class Participant(models.Model):
     p_id = models.IntegerField(null=True)
@@ -191,7 +209,7 @@ class Event(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     intelligence_request = models.ForeignKey(
         Intelligence, blank=True, null=True, on_delete=models.SET_NULL)
-    intelligence_answered_correctly = models.BooleanField(default=False)
+    intelligence_answered_correctly = models.BooleanField(default=True)
     destination = models.ForeignKey(
         Location, on_delete=models.CASCADE, related_name="Destination",
         blank=True, null=True)
@@ -236,6 +254,3 @@ class Event(models.Model):
             next_location = ', heading to ' + str(self.destination)
 
         return f'{self.timestamp}: {self.patrol} at {str(self.location)}{next_location}{comment}'
-
-
-# Game component patrol check-in/out.
