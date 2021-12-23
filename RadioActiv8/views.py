@@ -165,7 +165,7 @@ def event_ajax(request):
         return JsonResponse(response, safe=False)
 
     response['patrol_options'] = [ {'id': p.id, 'name': p.name} for p in Patrol.objects.filter(session=session) ]
-    response['location_options'] = [ {'id': b.id, 'name': b.location_name } for b in Base.objects.filter(session=session) ]
+    response['location_options'] = [ {'id': b.id, 'name': b.name } for b in Base.objects.filter(session=session) ]
 
     if patrol_id:
         patrol = Patrol.objects.get(id = patrol_id)
@@ -217,12 +217,12 @@ def valid_next_base_options(session, patrol, current_location):
     session_bases = Base.objects.filter(session=session)
     if current_location: visited_bases_list.append(current_location)
 
-    unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
-    visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('location_name')
+    unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('name')
+    visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('name')
 
-    response['unvisited'] = [{'id': b.id, 'b': b.location_name}
+    response['unvisited'] = [{'id': b.id, 'b': b.name}
                           for b in unvisited_bases]
-    response['visited'] = [{'id': b.id, 'b': b.location_name}
+    response['visited'] = [{'id': b.id, 'b': b.name}
                         for b in visited_bases]
 
     return response
@@ -237,7 +237,7 @@ def patrol_base_history(patrol):
         if not last_destination:
             last_destination = events[0].location
     if last_destination:
-        last_destination_response = {'id': last_destination.id, 'name': last_destination.radio.location_name}
+        last_destination_response = {'id': last_destination.id, 'name': last_destination.radio.name}
     else:
         last_destination_response = {'id': -1, 'name': 'NONE'}
 
@@ -283,7 +283,7 @@ def bases_geojson(request):
     all_objects = [*Base.objects.all(), *Radio.objects.all(), *Location.objects.all()]
     response = serialize('geojson', all_objects,
             #geometry_field='gps_location',
-            #fields=('location_name',)
+            #fields=('name',)
             )
 
     return HttpResponse(response, content_type="application/json")

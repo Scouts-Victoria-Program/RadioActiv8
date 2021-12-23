@@ -36,12 +36,12 @@ class Location(models.Model):
 
 
 class Radio(Location):
-    location_name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128)
     description = models.CharField(max_length=256, null=True)
     channel = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.location_name
+        return self.name
 
 
 class Base(Radio):

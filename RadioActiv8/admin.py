@@ -6,7 +6,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display= ('timestamp', 'session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
     #list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
     list_filter= ('patrol', 'location', 'destination', 'session')
-    search_fields= ('patrol__name', 'location__radio__location_name', 'intelligence_request__answer', 'destination__radio__location_name', 'comment')
+    search_fields= ('patrol__name', 'location__radio__name', 'intelligence_request__answer', 'destination__radio__name', 'comment')
     ordering = ['timestamp']
     form = EventForm
 
@@ -20,7 +20,7 @@ class PatrolAdmin(admin.ModelAdmin):
     list_filter= ('session',)
 
 class RadioAdmin(admin.OSMGeoAdmin):
-    ordering = ['location_name']
+    ordering = ['name']
     list_filter= ('session',)
 
 class IntelligenceAdmin(admin.OSMGeoAdmin):
@@ -28,7 +28,7 @@ class IntelligenceAdmin(admin.OSMGeoAdmin):
     list_filter= ('base',)
 
 class LocationAdmin(admin.OSMGeoAdmin):
-    ordering = ['radio__location_name']
+    ordering = ['radio__name']
 
 class SessionAdmin(admin.ModelAdmin):
     ordering = ['name']
