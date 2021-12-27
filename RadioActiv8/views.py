@@ -218,7 +218,7 @@ def add_patrol_to_session(request, pk):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        session_form = SessionAddPatrolForm(request.POST, initial={'session': pk})
+        session_form = SessionAddPatrolForm(request.POST, data=None, initial={'session': pk})
         # check whether it's valid:
         if session_form.is_valid():
             # process the data in form.cleaned_data as required
@@ -233,7 +233,7 @@ def add_patrol_to_session(request, pk):
             return HttpResponseRedirect(reverse('RadioActiv8:SessionAddPatrol', args=[pk]))
     # if a GET (or any other method) we'll create a blank form
     else:
-        session_add_patrol_form = SessionAddPatrolForm(initial={'session': pk})
+        session_add_patrol_form = SessionAddPatrolForm(data=context, initial={'session': pk})
         context['session_add_patrol_form'] = session_add_patrol_form
 
         return render(request, template_name, context)

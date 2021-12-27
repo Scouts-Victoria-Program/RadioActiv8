@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from .models import *
+import random
 
 
 class BaseForm(ModelForm):
@@ -24,6 +25,15 @@ class SessionListForm(forms.Form):
     session_list_field = forms.ModelChoiceField(queryset=Session.objects.all().order_by('name'), widget=forms.Select, label='Session')
 
 class SessionAddPatrolForm(forms.Form):
+    def __init__(self, data, *args, **kwargs):
+        super(SessionAddPatrolForm, self).__init__(*args, **kwargs)
+        session = data['session']
+        bases = Base.objects.all().order_by('name').filter(session=session)
+        if session.home_base:
+            bases = bases.exclude(id=session.home_base.id)
+        random_base = random.choice(bases)
+        self.fields['base'] = forms.ModelChoiceField(queryset=bases, initial=random_base)
+
     session = forms.ModelChoiceField(queryset=Session.objects.all().order_by('name'), widget=forms.widgets.HiddenInput)
     patrol = forms.ModelChoiceField(queryset=Patrol.objects.all().order_by('name'))
     gps_tracker = forms.ModelChoiceField(queryset=GPSTracker.objects.filter(patrol=None).order_by('name'), label='GPS Tracker')
