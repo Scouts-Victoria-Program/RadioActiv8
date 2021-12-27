@@ -11,30 +11,26 @@ class EventAdmin(admin.ModelAdmin):
     form = EventForm
 
 class ParticipantAdmin(admin.ModelAdmin):
-    ordering = ['full_name']
     search_fields = ('full_name', 'p_id', 'patrol__name')
 
 class PatrolAdmin(admin.ModelAdmin):
-    ordering = ['name']
     search_fields = ('name',)
     list_filter= ('session',)
 
 class RadioAdmin(admin.OSMGeoAdmin):
-    ordering = ['name']
     list_filter= ('session',)
 
 class IntelligenceAdmin(admin.OSMGeoAdmin):
-    ordering = ['base', 'question']
     list_filter= ('base',)
 
 class LocationAdmin(admin.OSMGeoAdmin):
     ordering = ['radio__name']
 
 class SessionAdmin(admin.ModelAdmin):
-    ordering = ['name']
+    pass
 
 class GPSTrackerAdmin(admin.ModelAdmin):
-    ordering = ['name']
+    pass
 
 
 # Register your models here.

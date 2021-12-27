@@ -14,6 +14,9 @@ class GPSTracker(models.Model):
     eui = models.CharField(max_length=16)
     name = models.CharField(max_length=32, null=True)
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -50,6 +53,9 @@ class Radio(Location):
     description = models.CharField(max_length=256, null=True)
     channel = models.IntegerField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -60,6 +66,9 @@ class Base(Radio):
     run_time = models.DurationField(default=timedelta(minutes=5))
     repeatable = models.BooleanField(default=True)
     attendance_points = models.IntegerField(default=100)
+
+    class Meta:
+        ordering = ['name']
 
     ACTIVITY_TYPE_CHOICES = [
         ('R', 'Reading data'),
@@ -138,6 +147,9 @@ class Patrol(models.Model):
     bonus_points = models.IntegerField(default=0)
     gps_tracker = models.OneToOneField(GPSTracker, blank=True, null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -187,6 +199,9 @@ class Participant(models.Model):
     preferred_name = models.CharField(max_length=128)
     patrol = models.ForeignKey(Patrol, null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        ordering = ['full_name']
+
     PARTICIPANT_TYPE_CHOICES = [
         ('J', 'Joey'),
         ('C', 'Cub'),
@@ -206,6 +221,9 @@ class Intelligence(models.Model):
     question = models.CharField(max_length=1024)
     answer = models.CharField(max_length=1024)
     completion_points = models.IntegerField(default=200)
+
+    class Meta:
+        ordering = ['base', 'question']
 
     def __str__(self):
         base = f'{self.base} base:' if self.base else '(no base)'

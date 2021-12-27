@@ -271,8 +271,8 @@ def valid_next_base_options(session, patrol, current_location):
         response['home_base'] = {'id': session.home_base.id, 'b': session.home_base.name}
     if current_location: visited_bases_list.append(current_location)
 
-    unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('name')
-    visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ]).order_by('name')
+    unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ])
+    visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ])
 
     response['unvisited'] = [{'id': b.id, 'b': b.name}
                           for b in unvisited_bases]
