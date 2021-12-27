@@ -41,7 +41,11 @@ function dynamic_form_update(){
 
         intelligence += "<option value=''>--- Available intelligence</option>";
         // Unused intelligence
-        var random_intelligence = Math.floor(Math.random() * data.intelligence_options.unused.length);
+        var random_intelligence = 0;
+        if(data.intelligence_options.random)
+          random_intelligence = Math.floor(Math.random() * data.intelligence_options.unused.length);
+        else
+          random_intelligence = -1;
         for (var i = 0; i < data.intelligence_options.unused.length; i++) {
           var int = data.intelligence_options.unused[i];
           var selected = (i == random_intelligence) ? ' selected=""' : '';

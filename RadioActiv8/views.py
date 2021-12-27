@@ -194,7 +194,7 @@ Only helper functions below this point
 '''
 
 def valid_intelligence_options(patrol, current_location):
-    response = {'unused': {}, 'used': {}}
+    response = {'unused': {}, 'used': {}, 'random': False}
 
     if not current_location:
         return response
@@ -206,6 +206,8 @@ def valid_intelligence_options(patrol, current_location):
                           for o in unused_options]
     response['used'] = [{'id': o.id, 'q': o.question, 'a': o.answer}
                         for o in used_options]
+    if current_location.radio.base.activity_type == 'R':
+        response['random'] = True
 
     return response
 
