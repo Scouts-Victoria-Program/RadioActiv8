@@ -1,5 +1,6 @@
 {% extends 'RadioActiv8/master/heading.html' %}
 {% load bootstrap4 %}
+{% block bootstrap4_title %}RadioActiv8 - Event Create{% endblock %}
 {% block bootstrap4_content %}
 <strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
 <form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
