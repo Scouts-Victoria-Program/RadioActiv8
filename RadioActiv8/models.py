@@ -125,7 +125,7 @@ class Base(Radio):
 class Patrol(models.Model):
     session = models.ManyToManyField(Session)
     name = models.CharField(max_length=128)
-    current_base = models.ForeignKey(Base, null=True, on_delete=models.SET_NULL)
+    current_base = models.ForeignKey(Base, blank=True, null=True, on_delete=models.SET_NULL)
     attendance_points = models.IntegerField(default=0)
     completion_points = models.IntegerField(default=0)
     bonus_points = models.IntegerField(default=0)
