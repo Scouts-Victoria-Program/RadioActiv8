@@ -89,6 +89,10 @@ urlpatterns = [
         'session/<int:pk>/base/',
         views.SessionDetail.as_view(template_name='RadioActiv8/session/base_index.html'),
         name='SessionBaseList'),
+    path(
+        'session/<int:pk>/patrol/add',
+        views.add_patrol_to_session,
+        name='SessionAddPatrol'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

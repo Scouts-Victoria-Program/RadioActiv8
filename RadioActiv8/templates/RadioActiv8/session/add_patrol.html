@@ -2,12 +2,9 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Add Patrols to Session{% endblock %}
 {% block bootstrap4_content %}
+<h1>Adding Patrol to Session {{session.name}}</h1>
 <form method="post">{% csrf_token %}
-    {{ session_form }}
-    <input type="submit" value="Choose Session">
-</form>
-<form method="post">{% csrf_token %}
-    {{ session_patrol_form.as_p }}
-    <input type="submit" value="Allocate Patrols">
+    {{ session_add_patrol_form.as_p }}
+    <input type="submit" value="Add Patrol">
 </form>
 {% endblock %}

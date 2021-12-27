@@ -21,5 +21,9 @@ class EventForm(ModelForm):
         fields = ('session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
 
 class SessionListForm(forms.Form):
-    session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select,  label='Session')
+    session_list_field = forms.ModelChoiceField(queryset=Session.objects.all().order_by('name'), widget=forms.Select, label='Session')
 
+class SessionAddPatrolForm(forms.Form):
+    session = forms.ModelChoiceField(queryset=Session.objects.all().order_by('name'), widget=forms.widgets.HiddenInput)
+    patrol = forms.ModelChoiceField(queryset=Patrol.objects.all().order_by('name'))
+    gps_tracker = forms.ModelChoiceField(queryset=GPSTracker.objects.filter(patrol=None).order_by('name'), label='GPS Tracker')

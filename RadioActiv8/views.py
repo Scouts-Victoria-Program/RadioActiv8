@@ -123,6 +123,9 @@ class EventCreate(generic.edit.CreateView):
     form_class = EventForm
     success_url = reverse_lazy('RadioActiv8:EventCreate')
 
+    def get_session(self):
+        return self.request['session']
+
 class SessionList(generic.ListView):
     template_name = 'RadioActiv8/session/index.html'
 
@@ -200,6 +203,40 @@ def event_ajax(request):
 
     return JsonResponse(response, safe=False)
 
+@login_required(login_url='RadioActiv8:login')
+def add_patrol_to_session(request, pk):
+    template_name = 'RadioActiv8/session/add_patrol.html'
+    context = {}
+
+    this_session = Session.objects.get(id=pk)
+    context['session'] = this_session
+
+    ra8_session = None
+    if request.session.get('ra8_session'):
+        ra8_session = request.session['ra8_session']
+
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        session_form = SessionAddPatrolForm(request.POST, initial={'session': pk})
+        # check whether it's valid:
+        if session_form.is_valid():
+            # process the data in form.cleaned_data as required
+            session = Session.objects.get(id=request.POST['session'])
+            patrol = Patrol.objects.get(id=request.POST['patrol'])
+            gps_tracker = GPSTracker.objects.get(id=request.POST['gps_tracker'])
+
+            patrol.session.add(session)
+            patrol.gps_tracker = gps_tracker
+            patrol.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('RadioActiv8:SessionAddPatrol', args=[pk]))
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        session_add_patrol_form = SessionAddPatrolForm(initial={'session': pk})
+        context['session_add_patrol_form'] = session_add_patrol_form
+
+        return render(request, template_name, context)
 
 '''
 Only helper functions below this point
