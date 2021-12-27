@@ -268,16 +268,16 @@ class Event(models.Model):
         patrol_answers = [e.intelligence_request for e in
                       Event.objects.filter(patrol=self.patrol,
                       intelligence_answered_correctly=True).order_by('timestamp')]
-        if self.intelligence_request in patrol_answers:
+        if self.intelligence_request and self.intelligence_request in patrol_answers:
             raise ValidationError("Can only use Intelligence that Patrol hasn't already answered")
 
-        if not self.patrol.session.contains(self.session):
+        if self.patrol and not self.patrol.session.contains(self.session):
             raise ValidationError(f"Patrol must be part of Event session ({self.session})")
 
-        if not self.location.session.contains(self.session):
+        if self.location and not self.location.session.contains(self.session):
             raise ValidationError(f"Location must be part of Event session ({self.session})")
 
-        if not self.destination.session.contains(self.session):
+        if self.destination and not self.destination.session.contains(self.session):
             raise ValidationError(f"Destination must be part of Event session ({self.session})")
 
     def __str__(self):
