@@ -199,7 +199,7 @@ def event_ajax(request):
 
     response['intelligence_options'] = valid_intelligence_options(patrol, current_location)
     response['valid_destinations'] = valid_next_base_options(session, patrol, current_location)
-    response['base_history'] = patrol_base_history(patrol)
+    response['base_history'] = patrol_base_history(session, patrol)
 
     return JsonResponse(response, safe=False)
 
@@ -279,9 +279,9 @@ def valid_next_base_options(session, patrol, current_location):
     return response
 
 
-def patrol_base_history(patrol):
-    visited_bases = [ {'id': event.location.id, 'name': str(event.location)} for event in Event.objects.filter(patrol=patrol).order_by('timestamp')]
-    events = Event.objects.filter(patrol=patrol).order_by('-timestamp')
+def patrol_base_history(session, patrol):
+    visited_bases = [ {'id': event.location.id, 'name': str(event.location)} for event in Event.objects.filter(session=session).filter(patrol=patrol).order_by('timestamp')]
+    events = Event.objects.filter(session=session).filter(patrol=patrol).order_by('-timestamp')
     last_destination = None
     if events:
         last_destination = events[0].destination
