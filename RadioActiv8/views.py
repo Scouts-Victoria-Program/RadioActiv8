@@ -97,17 +97,17 @@ def EventList(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = SessionListForm(request.POST)
+        session_form = SessionListForm(request.POST, initial={'session_list_field': request.session['ra8_session']})
         # check whether it's valid:
-        if form.is_valid():
+        if session_form.is_valid():
             # process the data in form.cleaned_data as required
-            request.session['ra8_session'] = form.cleaned_data['session_list_field']
+            request.session['ra8_session'] = session_form.cleaned_data['session_list_field'].id
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('RadioActiv8:EventList'))
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = SessionListForm({'session_list_field': ra8_session})
-        context['session_form'] = form
+        session_form = SessionListForm(initial={'session_list_field': ra8_session})
+        context['session_form'] = session_form
 
         event_list= Event.objects.all()
         if ra8_session:
