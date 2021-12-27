@@ -21,6 +21,7 @@ class Session(models.Model):
     name = models.CharField(max_length=128)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    home_base = models.ForeignKey('Base', blank=True, null=True, on_delete=models.SET_NULL, related_name='starts_session')
     # FIXME: Specify a list of session *types*
     #type = 
 
