@@ -252,8 +252,15 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         super(Event, self).save(*args, **kwargs)
 
-        if self.location.radio.base:
+        if self.location.radio and self.location.radio.base:
             self.patrol.current_base = self.location.radio.base
+
+            if self.intelligence_request:
+                self.patrol.attendance_points += self.location.radio.base.attendance_points
+
+                if self.intelligence_answered_correctly:
+                    self.patrol.completion_points += self.intelligence_request.completion_points
+
             self.patrol.save()
 
 
