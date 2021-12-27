@@ -25,6 +25,12 @@ class Session(models.Model):
     # FIXME: Specify a list of session *types*
     #type = 
 
+    def clean(self):
+
+        # Check home_base is part of this Session
+        if self.home_base and not self.location_set.filter(id=self.home_base.location_ptr.id).exists():
+            raise ValidationError('Home base must be allocated to this session first.')
+
     def __str__(self):
         return self.name
 
