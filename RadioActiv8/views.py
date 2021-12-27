@@ -123,8 +123,9 @@ class EventCreate(generic.edit.CreateView):
     form_class = EventForm
     success_url = reverse_lazy('RadioActiv8:EventCreate')
 
-    def get_session(self):
-        return self.request['session']
+    def get(self, request, *args, **kwargs):
+        self.initial['session'] = self.request.session['ra8_session']
+        return super().get(request, *args, **kwargs)
 
 class SessionList(generic.ListView):
     template_name = 'RadioActiv8/session/index.html'
