@@ -14,6 +14,9 @@ class GPSTracker(models.Model):
     eui = models.CharField(max_length=16)
     name = models.CharField(max_length=32, null=True)
 
+    def __str__(self):
+        return self.name
+
 class Session(models.Model):
     name = models.CharField(max_length=128)
     start_time = models.DateTimeField()
@@ -126,7 +129,7 @@ class Patrol(models.Model):
     attendance_points = models.IntegerField(default=0)
     completion_points = models.IntegerField(default=0)
     bonus_points = models.IntegerField(default=0)
-    gps_tracker = models.ForeignKey(GPSTracker, null=True, on_delete=models.SET_NULL)
+    gps_tracker = models.OneToOneField(GPSTracker, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
