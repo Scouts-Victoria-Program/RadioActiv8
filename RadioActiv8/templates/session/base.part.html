@@ -1,0 +1,6 @@
+<p><strong>Bases:</strong></p>
+<ul>
+{% for b in session.location_set.all %}
+<li>{{ b.radio }}</li>
+{% endfor %}
+</ul>

@@ -73,6 +73,22 @@ urlpatterns = [
         'bases_geojson',
         views.bases_geojson,
         name='bases_geojson'),
+    path(
+        'session/',
+        views.SessionList.as_view(),
+        name='SessionList'),
+    path(
+        'session/<int:pk>/',
+        views.SessionDetail.as_view(),
+        name='SessionDetail'),
+    path(
+        'session/<int:pk>/patrol/',
+        views.SessionDetail.as_view(template_name='session/patrol_index.html'),
+        name='SessionPatrolList'),
+    path(
+        'session/<int:pk>/base/',
+        views.SessionDetail.as_view(template_name='session/base_index.html'),
+        name='SessionBaseList'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

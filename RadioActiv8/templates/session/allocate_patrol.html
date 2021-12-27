@@ -1,0 +1,13 @@
+{% extends 'master/heading.html' %}
+{% load bootstrap4 %}
+{% block bootstrap4_title %}RadioActiv8 - Add Patrols to Session{% endblock %}
+{% block bootstrap4_content %}
+<form method="post">{% csrf_token %}
+    {{ session_form }}
+    <input type="submit" value="Choose Session">
+</form>
+<form method="post">{% csrf_token %}
+    {{ session_patrol_form.as_p }}
+    <input type="submit" value="Allocate Patrols">
+</form>
+{% endblock %}

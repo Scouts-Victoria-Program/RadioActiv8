@@ -123,6 +123,18 @@ class EventCreate(generic.edit.CreateView):
     form_class = EventForm
     success_url = reverse_lazy('RadioActiv8:EventCreate')
 
+class SessionList(generic.ListView):
+    template_name = 'session/index.html'
+
+    def get_queryset(self):
+        """Return a list of Sessions."""
+        return Session.objects.all()
+
+
+class SessionDetail(generic.DetailView):
+    model = Session
+    template_name = 'session/detail.html'
+
 
 def base_test(request, base_id):
     base = get_object_or_404(Base, pk=base_id)

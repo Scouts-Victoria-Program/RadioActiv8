@@ -1,0 +1,6 @@
+<p><strong>Patrols:</strong></p>
+<ul>
+{% for p in session.patrol_set.all %}
+<li>{{ p }} (Tracker: {% if p.gps_tracker %}{{ p.gps_tracker }}{% else %}-{% endif %})</li>
+{% endfor %}
+</ul>
