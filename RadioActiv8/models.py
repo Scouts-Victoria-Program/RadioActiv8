@@ -225,6 +225,14 @@ class Event(models.Model):
             # models.CheckConstraint(check=models.Q(location=intelligence_request.base), name='valid_intelligence_for_base'),
         ]
 
+    def save(self, *args, **kwargs):
+        super(Event, self).save(*args, **kwargs)
+
+        if self.location.radio.base:
+            self.patrol.current_base = self.location.radio.base
+            self.patrol.save()
+
+
     def clean(self):
 
         # Check Intelligence is valid for this Base
