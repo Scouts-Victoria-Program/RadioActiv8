@@ -262,10 +262,13 @@ def valid_intelligence_options(patrol, current_location):
 
 
 def valid_next_base_options(session, patrol, current_location):
-    response = {'unvisited': {}, 'visited': {}}
+    response = {'unvisited': {}, 'visited': {}, 'home_base': None}
 
     visited_bases_list = list(patrol.visited_bases())
     session_bases = Base.objects.filter(session=session)
+    if session.home_base:
+        session_bases = session_bases.exclude(id=session.home_base.id)
+        response['home_base'] = {'id': session.home_base.id, 'b': session.home_base.name}
     if current_location: visited_bases_list.append(current_location)
 
     unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ]).order_by('name')

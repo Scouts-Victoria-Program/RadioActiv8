@@ -81,6 +81,11 @@ function dynamic_form_update(){
           var base = data.valid_destinations.visited[i];
           destination += "<option value='" + base.id + "'>" + base.b + "</option>";
         }
+        if(data.valid_destinations.home_base)
+        {
+          var home_base = data.valid_destinations.home_base;
+          destination += "<option value='" + home_base.id +  "'>* Home Base (" + home_base.b + ")</option>";
+        }
         jQuery("#id_destination").html(destination);
       }
 
