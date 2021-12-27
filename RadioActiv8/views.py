@@ -97,7 +97,7 @@ def EventList(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        session_form = SessionListForm(request.POST, initial={'session_list_field': request.session['ra8_session']})
+        session_form = SessionListForm(request.POST)
         # check whether it's valid:
         if session_form.is_valid():
             # process the data in form.cleaned_data as required
