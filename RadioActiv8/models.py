@@ -228,7 +228,7 @@ class Event(models.Model):
     def clean(self):
 
         # Check Intelligence is valid for this Base
-        if self.intelligence_request.base != self.location.radio.base:
+        if self.intelligence_request and self.intelligence_request.base != self.location.radio.base:
             raise ValidationError('Can only use Intelligence for current Location')
 
         # Check that Intelligence hasn't already been allocated to this Patrol
