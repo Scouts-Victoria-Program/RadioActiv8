@@ -1,10 +1,8 @@
 {% extends 'RadioActiv8/master/heading.html' %}
 {% load bootstrap4 %}
+{% block bootstrap4_title %}RadioActiv8 - Events{% endblock %}
 {% block bootstrap4_content %}
-<form method="post">{% csrf_token %}
-    {{ session_form }}
-    <input type="submit" value="Choose Session">
-</form>
+{% include 'RadioActiv8/session/set.html' %}
 {% if event_list %}
 <table class="table table-sm table-striped">
     <thead>

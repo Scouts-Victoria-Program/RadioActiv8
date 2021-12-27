@@ -78,6 +78,10 @@ urlpatterns = [
         views.SessionList.as_view(),
         name='SessionList'),
     path(
+        'session/set',
+        views.SetWorkingSession,
+        name='SetWorkingSession'),
+    path(
         'session/<int:pk>/',
         views.SessionDetail.as_view(),
         name='SessionDetail'),

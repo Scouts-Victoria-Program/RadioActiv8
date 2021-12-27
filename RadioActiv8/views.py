@@ -11,7 +11,13 @@ from django.core.serializers import serialize
 
 @login_required(login_url='RadioActiv8:login')
 def index(request):
-    return render(request, 'RadioActiv8/master/home.html')
+    context = {}
+
+    ra8_session = request.session.get('ra8_session')
+
+    context['session_set_form'] = SessionListForm(initial={'session_list_field': ra8_session})
+
+    return render(request, 'RadioActiv8/master/home.html', context)
 
 
 @login_required(login_url='RadioActiv8:login')
@@ -85,14 +91,7 @@ class BaseDetail(generic.DetailView):
     model = Base
     template_name = 'RadioActiv8/base/detail.html'
 
-
-def EventList(request):
-    template_name = 'RadioActiv8/event/index.html'
-    context = {}
-
-    ra8_session = None
-    if request.session.get('ra8_session'):
-        ra8_session = request.session['ra8_session']
+def SetWorkingSession(request):
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -103,18 +102,23 @@ def EventList(request):
             # process the data in form.cleaned_data as required
             request.session['ra8_session'] = session_form.cleaned_data['session_list_field'].id
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('RadioActiv8:EventList'))
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        session_form = SessionListForm(initial={'session_list_field': ra8_session})
-        context['session_form'] = session_form
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-        event_list= Event.objects.all()
-        if ra8_session:
-            event_list = event_list.filter(session__id=ra8_session)
-        context['event_list'] = event_list
 
-        return render(request, template_name, context)
+def EventList(request):
+    template_name = 'RadioActiv8/event/index.html'
+    context = {}
+
+    ra8_session = request.session.get('ra8_session')
+
+    context['session_set_form'] = SessionListForm(initial={'session_list_field': ra8_session})
+
+    event_list= Event.objects.all()
+    if ra8_session:
+        event_list = event_list.filter(session__id=ra8_session)
+    context['event_list'] = event_list
+
+    return render(request, template_name, context)
 
 
 class EventCreate(generic.edit.CreateView):
@@ -211,10 +215,6 @@ def add_patrol_to_session(request, pk):
 
     this_session = Session.objects.get(id=pk)
     context['session'] = this_session
-
-    ra8_session = None
-    if request.session.get('ra8_session'):
-        ra8_session = request.session['ra8_session']
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
