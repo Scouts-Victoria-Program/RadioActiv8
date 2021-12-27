@@ -47,7 +47,7 @@ def play(request):
     patrols = Patrol.objects.all()
     bases = Base.objects.all()
     ab = [b for b in Base.objects.all() if not b.is_full()]
-    bp = [p for p in Patrol.objects.all() if p.base]
+    bp = [p for p in Patrol.objects.all() if p.current_base]
     fb = [b for b in Base.objects.all() if b.is_full()]
     context = {
         "submit_action": submit_action,
