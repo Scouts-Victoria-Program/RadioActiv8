@@ -11,7 +11,7 @@ from django.core.serializers import serialize
 
 @login_required(login_url='RadioActiv8:login')
 def index(request):
-    return render(request, 'master/home.html')
+    return render(request, 'RadioActiv8/master/home.html')
 
 
 @login_required(login_url='RadioActiv8:login')
@@ -24,7 +24,7 @@ def map(request):
         "busy_patrols": bp,
         "full_bases": fb
     }
-    return render(request, 'master/map.html', context)
+    return render(request, 'RadioActiv8/master/map.html', context)
 
 
 @login_required(login_url='RadioActiv8:login')
@@ -57,11 +57,11 @@ def play(request):
         "busy_patrols": bp,
         "full_bases": fb
     }
-    return render(request, 'master/play.html', context)
+    return render(request, 'RadioActiv8/master/play.html', context)
 
 
 class PatrolList(generic.ListView):
-    template_name = 'patrol/index.html'
+    template_name = 'RadioActiv8/patrol/index.html'
 
     def get_queryset(self):
         """Return a list of Patrols."""
@@ -70,11 +70,11 @@ class PatrolList(generic.ListView):
 
 class PatrolDetail(generic.DetailView):
     model = Patrol
-    template_name = 'patrol/detail.html'
+    template_name = 'RadioActiv8/patrol/detail.html'
 
 
 class BaseList(generic.ListView):
-    template_name = 'base/index.html'
+    template_name = 'RadioActiv8/base/index.html'
 
     def get_queryset(self):
         """Return a list of Bases."""
@@ -83,11 +83,11 @@ class BaseList(generic.ListView):
 
 class BaseDetail(generic.DetailView):
     model = Base
-    template_name = 'base/detail.html'
+    template_name = 'RadioActiv8/base/detail.html'
 
 
 def EventList(request):
-    template_name = 'event/index.html'
+    template_name = 'RadioActiv8/event/index.html'
     context = {}
 
     ra8_session = None
@@ -119,12 +119,12 @@ def EventList(request):
 
 class EventCreate(generic.edit.CreateView):
     model = Event
-    template_name = 'event/create.html'
+    template_name = 'RadioActiv8/event/create.html'
     form_class = EventForm
     success_url = reverse_lazy('RadioActiv8:EventCreate')
 
 class SessionList(generic.ListView):
-    template_name = 'session/index.html'
+    template_name = 'RadioActiv8/session/index.html'
 
     def get_queryset(self):
         """Return a list of Sessions."""
@@ -133,7 +133,7 @@ class SessionList(generic.ListView):
 
 class SessionDetail(generic.DetailView):
     model = Session
-    template_name = 'session/detail.html'
+    template_name = 'RadioActiv8/session/detail.html'
 
 
 def base_test(request, base_id):
@@ -145,7 +145,7 @@ def base_test(request, base_id):
     submit_location = reverse('RadioActiv8:base_test', args=(base.id,))
     form = BaseForm(instance=base)
     patrol_form = PatrolForm()
-    return render(request, 'base/detail.html', {'base': base, 'form_test': form, 'patrol_form': patrol_form, 'submit_location': submit_location})
+    return render(request, 'RadioActiv8/base/detail.html', {'base': base, 'form_test': form, 'patrol_form': patrol_form, 'submit_location': submit_location})
 
 
 @login_required(login_url='RadioActiv8:login')

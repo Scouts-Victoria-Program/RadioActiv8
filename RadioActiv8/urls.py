@@ -23,11 +23,11 @@ urlpatterns = [
         name='index'),
     path(
         'login/',
-        auth_views.LoginView.as_view(template_name='user_auth/login.html'),
+        auth_views.LoginView.as_view(template_name='RadioActiv8/user_auth/login.html'),
         name='login'),
     path(
         'logout/',
-        auth_views.LogoutView.as_view(template_name='user_auth/login.html'),
+        auth_views.LogoutView.as_view(template_name='RadioActiv8/user_auth/login.html'),
         name='logout'),
     path(
         'play/',
@@ -83,11 +83,11 @@ urlpatterns = [
         name='SessionDetail'),
     path(
         'session/<int:pk>/patrol/',
-        views.SessionDetail.as_view(template_name='session/patrol_index.html'),
+        views.SessionDetail.as_view(template_name='RadioActiv8/session/patrol_index.html'),
         name='SessionPatrolList'),
     path(
         'session/<int:pk>/base/',
-        views.SessionDetail.as_view(template_name='session/base_index.html'),
+        views.SessionDetail.as_view(template_name='RadioActiv8/session/base_index.html'),
         name='SessionBaseList'),
     path('api/', include(router.urls)),
 
