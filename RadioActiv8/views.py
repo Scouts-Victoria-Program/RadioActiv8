@@ -8,6 +8,7 @@ from .forms import *
 from django.core.serializers import serialize
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 # FIXME: Ensure most views require login
 
@@ -125,7 +126,7 @@ def EventList(request):
     return render(request, template_name, context)
 
 
-class EventCreate(LoginRequiredMixin, generic.edit.CreateView):
+class EventCreate(LoginRequiredMixin, SuccessMessageMixin, generic.edit.CreateView):
     model = Event
     template_name = 'RadioActiv8/event/create.html'
     form_class = EventForm
@@ -134,6 +135,10 @@ class EventCreate(LoginRequiredMixin, generic.edit.CreateView):
     def get(self, request, *args, **kwargs):
         self.initial['session'] = self.request.session['ra8_session']
         return super().get(request, *args, **kwargs)
+
+    def get_success_message(self, cleaned_data):
+        return f"{self.object} was created successfully."
+
 
 class SessionList(LoginRequiredMixin, generic.ListView):
     template_name = 'RadioActiv8/session/index.html'
