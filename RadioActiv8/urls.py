@@ -101,6 +101,10 @@ urlpatterns = [
         'gpstracker/',
         views.GPSTrackerList.as_view(),
         name='GPSTrackerList'),
+    path(
+        'gpstracker/<int:pk>/',
+        views.GPSTrackerDetail.as_view(),
+        name='GPSTrackerDetail'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -161,6 +161,11 @@ class GPSTrackerList(LoginRequiredMixin, generic.ListView):
         return GPSTracker.objects.all()
 
 
+class GPSTrackerDetail(LoginRequiredMixin, generic.DetailView):
+    model = GPSTracker
+    template_name = 'RadioActiv8/gpstracker/detail.html'
+
+
 @login_required
 def base_test(request, base_id):
     base = get_object_or_404(Base, pk=base_id)

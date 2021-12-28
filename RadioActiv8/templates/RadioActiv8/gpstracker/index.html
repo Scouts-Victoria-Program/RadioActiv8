@@ -5,7 +5,7 @@
 {% if gpstracker_list %}
 <ul>
     {% for gpstracker in gpstracker_list %}
-    <li><a href="#">{{ gpstracker.name }}</a>{% if gpstracker.patrol %} Patrol: {{ gpstracker.patrol }}{% endif %}</li>
+    <li><a href="{% url 'RadioActiv8:GPSTrackerDetail' gpstracker.id %}">{{ gpstracker.name }}</a>{% if gpstracker.patrol %} Patrol: {{ gpstracker.patrol }}{% endif %}</li>
     {% endfor %}
 </ul>
 {% else %}
