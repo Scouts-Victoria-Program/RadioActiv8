@@ -8,4 +8,8 @@
   <li>EUI: {{ gpstracker.eui }}</li>
   <li>Patrol: {{ gpstracker.patrol }}</li>
 </ul>
+<form method="post">{% csrf_token %}
+{{form}}
+<input type="submit" value="Assign to Patrol">
+</form>
 {% endblock %}

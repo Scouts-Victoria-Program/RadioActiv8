@@ -161,10 +161,33 @@ class GPSTrackerList(LoginRequiredMixin, generic.ListView):
         return GPSTracker.objects.all()
 
 
-class GPSTrackerDetail(LoginRequiredMixin, generic.DetailView):
-    model = GPSTracker
+@login_required
+def GPSTrackerDetail(request, pk):
     template_name = 'RadioActiv8/gpstracker/detail.html'
+    context = {}
+    gpstracker = GPSTracker.objects.get(id=pk)
+    form_initial = {}
+    if hasattr(gpstracker, 'patrol'):
+        current_patrol =  gpstracker.patrol
+        form_initial['patrol'] = current_patrol.id
 
+    if request.method == 'POST':
+        form = PatrolListForm(request.POST)
+        if form.is_valid():
+            patrol = Patrol.objects.get(id=request.POST['patrol'])
+            current_patrol.gps_tracker = None
+            current_patrol.save()
+            patrol.gps_tracker = gpstracker
+            patrol.save()
+            messages.success(request, f'Assigned tracker {gpstracker} to patrol {patrol}')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        form = PatrolListForm(initial = form_initial)
+
+        context['gpstracker'] = gpstracker
+        context['form'] = form
+
+        return render(request, template_name, context)
 
 @login_required
 def base_test(request, base_id):

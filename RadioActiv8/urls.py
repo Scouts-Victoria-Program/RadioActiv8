@@ -103,7 +103,7 @@ urlpatterns = [
         name='GPSTrackerList'),
     path(
         'gpstracker/<int:pk>/',
-        views.GPSTrackerDetail.as_view(),
+        views.GPSTrackerDetail,
         name='GPSTrackerDetail'),
     path('api/', include(router.urls)),
 
