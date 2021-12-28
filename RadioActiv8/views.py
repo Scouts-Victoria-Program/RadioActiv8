@@ -7,6 +7,7 @@ from .models import *
 from .forms import *
 from django.core.serializers import serialize
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 # FIXME: Ensure most views require login
 
@@ -234,6 +235,7 @@ def add_patrol_to_session(request, pk):
             patrol.session.add(session)
             patrol.gps_tracker = gps_tracker
             patrol.save()
+            messages.success(request, f'Added patrol {patrol} to session {session} and allocated tracker {gps_tracker}')
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('RadioActiv8:SessionAddPatrol', args=[pk]))
     # if a GET (or any other method) we'll create a blank form
