@@ -25,9 +25,9 @@ class SessionListForm(forms.Form):
     session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select, label='Session')
 
 class SessionAddPatrolForm(forms.Form):
-    def __init__(self, data, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
+        session = kwargs.pop('session')
         super(SessionAddPatrolForm, self).__init__(*args, **kwargs)
-        session = data['session']
         bases = Base.objects.all().filter(session=session)
         if session.home_base:
             bases = bases.exclude(id=session.home_base.id)
