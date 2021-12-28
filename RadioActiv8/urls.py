@@ -97,6 +97,10 @@ urlpatterns = [
         'session/<int:pk>/patrol/add',
         views.add_patrol_to_session,
         name='SessionAddPatrol'),
+    path(
+        'gpstracker/',
+        views.GPSTrackerList.as_view(),
+        name='GPSTrackerList'),
     path('api/', include(router.urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

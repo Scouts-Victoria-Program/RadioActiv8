@@ -153,6 +153,14 @@ class SessionDetail(LoginRequiredMixin, generic.DetailView):
     template_name = 'RadioActiv8/session/detail.html'
 
 
+class GPSTrackerList(LoginRequiredMixin, generic.ListView):
+    template_name = 'RadioActiv8/gpstracker/index.html'
+
+    def get_queryset(self):
+        """Return a list of GPS Trackers."""
+        return GPSTracker.objects.all()
+
+
 @login_required
 def base_test(request, base_id):
     base = get_object_or_404(Base, pk=base_id)
