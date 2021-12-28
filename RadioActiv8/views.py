@@ -6,10 +6,11 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import *
 from .forms import *
 from django.core.serializers import serialize
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # FIXME: Ensure most views require login
 
-@login_required(login_url='RadioActiv8:login')
+@login_required
 def index(request):
     context = {}
 
@@ -20,7 +21,7 @@ def index(request):
     return render(request, 'RadioActiv8/master/home.html', context)
 
 
-@login_required(login_url='RadioActiv8:login')
+@login_required
 def map(request):
     ab = [b for b in Base.objects.all() if not b.is_full()]
     bp = [p for p in Patrol.objects.all() if p.base]
@@ -33,7 +34,7 @@ def map(request):
     return render(request, 'RadioActiv8/master/map.html', context)
 
 
-@login_required(login_url='RadioActiv8:login')
+@login_required
 def play(request):
     if (request.method == "POST"):
         patrol = Patrol.objects.get(id=request.POST.get("patrol"))
@@ -66,7 +67,7 @@ def play(request):
     return render(request, 'RadioActiv8/master/play.html', context)
 
 
-class PatrolList(generic.ListView):
+class PatrolList(LoginRequiredMixin, generic.ListView):
     template_name = 'RadioActiv8/patrol/index.html'
 
     def get_queryset(self):
@@ -74,12 +75,12 @@ class PatrolList(generic.ListView):
         return Patrol.objects.all()
 
 
-class PatrolDetail(generic.DetailView):
+class PatrolDetail(LoginRequiredMixin, generic.DetailView):
     model = Patrol
     template_name = 'RadioActiv8/patrol/detail.html'
 
 
-class BaseList(generic.ListView):
+class BaseList(LoginRequiredMixin, generic.ListView):
     template_name = 'RadioActiv8/base/index.html'
 
     def get_queryset(self):
@@ -87,10 +88,11 @@ class BaseList(generic.ListView):
         return Base.objects.all()
 
 
-class BaseDetail(generic.DetailView):
+class BaseDetail(LoginRequiredMixin, generic.DetailView):
     model = Base
     template_name = 'RadioActiv8/base/detail.html'
 
+@login_required
 def SetWorkingSession(request):
 
     # if this is a POST request we need to process the form data
@@ -105,6 +107,7 @@ def SetWorkingSession(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
 def EventList(request):
     template_name = 'RadioActiv8/event/index.html'
     context = {}
@@ -121,7 +124,7 @@ def EventList(request):
     return render(request, template_name, context)
 
 
-class EventCreate(generic.edit.CreateView):
+class EventCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Event
     template_name = 'RadioActiv8/event/create.html'
     form_class = EventForm
@@ -131,7 +134,7 @@ class EventCreate(generic.edit.CreateView):
         self.initial['session'] = self.request.session['ra8_session']
         return super().get(request, *args, **kwargs)
 
-class SessionList(generic.ListView):
+class SessionList(LoginRequiredMixin, generic.ListView):
     template_name = 'RadioActiv8/session/index.html'
 
     def get_queryset(self):
@@ -139,11 +142,12 @@ class SessionList(generic.ListView):
         return Session.objects.all()
 
 
-class SessionDetail(generic.DetailView):
+class SessionDetail(LoginRequiredMixin, generic.DetailView):
     model = Session
     template_name = 'RadioActiv8/session/detail.html'
 
 
+@login_required
 def base_test(request, base_id):
     base = get_object_or_404(Base, pk=base_id)
     if (request.method == 'POST'):
@@ -156,7 +160,7 @@ def base_test(request, base_id):
     return render(request, 'RadioActiv8/base/detail.html', {'base': base, 'form_test': form, 'patrol_form': patrol_form, 'submit_location': submit_location})
 
 
-@login_required(login_url='RadioActiv8:login')
+@login_required
 def event_ajax(request):
     session_id = request.GET['ra8_session']
     patrol_id = request.GET['patrol']
@@ -208,7 +212,7 @@ def event_ajax(request):
 
     return JsonResponse(response, safe=False)
 
-@login_required(login_url='RadioActiv8:login')
+@login_required
 def add_patrol_to_session(request, pk):
     template_name = 'RadioActiv8/session/add_patrol.html'
     context = {}
@@ -333,7 +337,7 @@ def total_distance(patrol):
     print(f'{patrol} Patrol total distance: {total_distance:.2f} metres')
     return total_distance
 
-#@login_required(login_url='RadioActiv8:login')
+#@login_required
 def bases_geojson(request):
     all_objects = [*Base.objects.all(), *Radio.objects.all(), *Location.objects.all()]
     response = serialize('geojson', all_objects,

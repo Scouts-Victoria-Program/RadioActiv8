@@ -169,4 +169,5 @@ BOOTSTRAP4 = {
     },
 }
 
+LOGIN_URL = 'RadioActiv8:login'
 LOGIN_REDIRECT_URL = 'RadioActiv8:index'
