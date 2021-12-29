@@ -34,9 +34,10 @@ class SessionAddPatrolForm(forms.Form):
         random_base = random.choice(bases)
         self.fields['base'] = forms.ModelChoiceField(queryset=bases, initial=random_base)
 
-    session = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.widgets.HiddenInput)
+    session = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.widgets.HiddenInput, disabled=True)
     patrol = forms.ModelChoiceField(queryset=Patrol.objects.all())
     gps_tracker = forms.ModelChoiceField(queryset=GPSTracker.objects.filter(patrol=None), label='GPS Tracker')
 
-class PatrolListForm(forms.Form):
+class GPSTrackerPatrolForm(forms.Form):
+    gpstracker = forms.ModelChoiceField(queryset=GPSTracker.objects.filter(patrol=None), label='GPS Tracker', widget=forms.widgets.HiddenInput, disabled=True)
     patrol = forms.ModelChoiceField(queryset=Patrol.objects.all(), required=False)

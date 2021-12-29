@@ -99,7 +99,7 @@ urlpatterns = [
         name='SessionAddPatrol'),
     path(
         'gpstracker/',
-        views.GPSTrackerList.as_view(),
+        views.GPSTrackerList,
         name='GPSTrackerList'),
     path(
         'gpstracker/<int:pk>/',

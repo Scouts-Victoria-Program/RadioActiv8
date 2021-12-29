@@ -153,12 +153,19 @@ class SessionDetail(LoginRequiredMixin, generic.DetailView):
     template_name = 'RadioActiv8/session/detail.html'
 
 
-class GPSTrackerList(LoginRequiredMixin, generic.ListView):
+@login_required
+def GPSTrackerList(request):
     template_name = 'RadioActiv8/gpstracker/index.html'
+    context = {}
 
-    def get_queryset(self):
-        """Return a list of GPS Trackers."""
-        return GPSTracker.objects.all()
+
+    if request.method == 'POST':
+        pass
+    else:
+        gpstracker_list = GPSTracker.objects.all()
+        context['gpstracker_list'] = gpstracker_list
+
+        return render(request, template_name, context)
 
 
 @login_required
@@ -166,13 +173,13 @@ def GPSTrackerDetail(request, pk):
     template_name = 'RadioActiv8/gpstracker/detail.html'
     context = {}
     gpstracker = GPSTracker.objects.get(id=pk)
-    form_initial = {}
+    form_initial = {'gpstracker': pk}
     if hasattr(gpstracker, 'patrol'):
         current_patrol =  gpstracker.patrol
         form_initial['patrol'] = current_patrol.id
 
     if request.method == 'POST':
-        form = PatrolListForm(request.POST)
+        form = GPSTrackerPatrolForm(request.POST)
         if form.is_valid():
             patrol = Patrol.objects.get(id=request.POST['patrol'])
             current_patrol.gps_tracker = None
@@ -182,7 +189,7 @@ def GPSTrackerDetail(request, pk):
             messages.success(request, f'Assigned tracker {gpstracker} to patrol {patrol}')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
-        form = PatrolListForm(initial = form_initial)
+        form = GPSTrackerPatrolForm(initial = form_initial)
 
         context['gpstracker'] = gpstracker
         context['form'] = form
