@@ -41,3 +41,6 @@ class SessionAddPatrolForm(forms.Form):
 class GPSTrackerPatrolForm(forms.Form):
     gpstracker = forms.ModelChoiceField(queryset=GPSTracker.objects.all(), label='GPS Tracker', widget=forms.widgets.HiddenInput)
     patrol = forms.ModelChoiceField(queryset=Patrol.objects.all(), required=False)
+
+class PatrolForm(forms.Form):
+    patrol = forms.ModelChoiceField(queryset=Patrol.objects.all())

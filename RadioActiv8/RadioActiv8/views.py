@@ -316,7 +316,20 @@ def participant_homepage(request):
     template_name = 'RadioActiv8/master/participant_homepage.html'
     context = {}
 
-    return render(request, template_name, context)
+    if request.method == 'POST':
+        form = PatrolForm(request.POST)
+        if form.is_valid():
+            print("valid")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            context['form'] = form
+
+            return render(request, template_name, context)
+    else:
+        form = PatrolForm()
+        context['form'] = form
+
+        return render(request, template_name, context)
 
 
 def participant_bases(request):
