@@ -319,8 +319,7 @@ def participant_homepage(request):
     if request.method == 'POST':
         form = PatrolForm(request.POST)
         if form.is_valid():
-            print("valid")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            return HttpResponseRedirect(reverse('RadioActiv8:participant_base_list', args=(request.POST['patrol'],)))
         else:
             context['form'] = form
 
@@ -332,9 +331,29 @@ def participant_homepage(request):
         return render(request, template_name, context)
 
 
-def participant_bases(request):
-    template_name = 'RadioActiv8/master/participant_bases.html'
+def participant_base_list(request, pk):
+    template_name = 'RadioActiv8/master/participant_base_list.html'
     context = {}
+
+    patrol = Patrol.objects.get(id=pk)
+
+    context['patrol'] = patrol
+    #context['bases'] = [ base for base in Base.objects.filter(starts_session=None).filter(session__in=patrol.session.all()).exclude(activity_type='F') ]
+    context['bases'] = Base.objects.filter(is_home_base=None).filter(session__in=patrol.session.all()).exclude(activity_type='F')
+
+    return render(request, template_name, context)
+
+
+def participant_base_detail(request, patrol_pk, base_pk):
+    template_name = 'RadioActiv8/master/participant_base_detail.html'
+    context = {}
+
+    patrol = Patrol.objects.get(id=patrol_pk)
+    base = Base.objects.get(id=base_pk)
+
+    intelligence = base.get_random_intelligence(patrol)
+    print(intelligence)
+    context['intelligence'] = intelligence
 
     return render(request, template_name, context)
 

@@ -1,0 +1,18 @@
+{% extends 'RadioActiv8/master/heading.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block bootstrap4_title %}RadioActiv8 - Participant Bases{% endblock %}
+{% block bootstrap4_content %}
+{% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+{% endif %}
+<ul>
+{% for base in bases %}
+<li><a href="{% url 'RadioActiv8:participant_base_detail' patrol.id base.id %}">{{base}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -42,6 +42,14 @@ urlpatterns = [
         views.participant_homepage,
         name='participant_homepage'),
     path(
+        'lab/patrol/<int:pk>',
+        views.participant_base_list,
+        name='participant_base_list'),
+    path(
+        'lab/patrol/<int:patrol_pk>/base/<int:base_pk>',
+        views.participant_base_detail,
+        name='participant_base_detail'),
+    path(
         'patrol/',
         views.PatrolList.as_view(),
         name='PatrolList'),

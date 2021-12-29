@@ -227,7 +227,7 @@ class Intelligence(models.Model):
 
     def __str__(self):
         base = f'{self.base} base:' if self.base else '(no base)'
-        return f'{base} {self.question} - {self.answer} ({self.completion_points})'
+        return f'{base} Q: {self.question}? A: {self.answer} ({self.completion_points})'
 
 
 class Event(models.Model):
