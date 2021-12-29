@@ -2,6 +2,20 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - GPS Tracker {{ gpstracker }}{% endblock %}
 {% block bootstrap4_content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+{% endif %}
 <p><strong>GPS Tracker:</strong> {{ gpstracker }}</p>
 <ul>
   <li>Name: {{ gpstracker.name }}</li>

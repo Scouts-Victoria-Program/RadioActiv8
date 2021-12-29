@@ -174,20 +174,30 @@ def GPSTrackerDetail(request, pk):
     context = {}
     gpstracker = GPSTracker.objects.get(id=pk)
     form_initial = {'gpstracker': pk}
+    current_patrol = None
     if hasattr(gpstracker, 'patrol'):
-        current_patrol =  gpstracker.patrol
-        form_initial['patrol'] = current_patrol.id
+        current_patrol = gpstracker.patrol
 
     if request.method == 'POST':
         form = GPSTrackerPatrolForm(request.POST)
+        print(request.POST)
         if form.is_valid():
-            patrol = Patrol.objects.get(id=request.POST['patrol'])
-            current_patrol.gps_tracker = None
-            current_patrol.save()
-            patrol.gps_tracker = gpstracker
-            patrol.save()
-            messages.success(request, f'Assigned tracker {gpstracker} to patrol {patrol}')
+            if current_patrol:
+                current_patrol.gps_tracker = None
+                current_patrol.save()
+            if request.POST['patrol']:
+                patrol = Patrol.objects.get(id=request.POST['patrol'])
+                patrol.gps_tracker = GPSTracker.objects.get(id=request.POST['gpstracker'])
+                patrol.save()
+                messages.success(request, f'Assigned tracker {gpstracker} to patrol {patrol}')
+            else:
+                messages.success(request, f'Unassigned tracker {gpstracker} from patrol {current_patrol}')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            context['gpstracker'] = gpstracker
+            context['form'] = form
+
+            return render(request, template_name, context)
     else:
         form = GPSTrackerPatrolForm(initial = form_initial)
 
@@ -271,12 +281,13 @@ def add_patrol_to_session(request, pk):
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
+        print(request.POST)
         # create a form instance and populate it with data from the request:
-        session_form = SessionAddPatrolForm(request.POST, session=this_session, initial={'session': pk})
+        session_form = SessionAddPatrolForm(request.POST, session=this_session)
         # check whether it's valid:
         if session_form.is_valid():
             # process the data in form.cleaned_data as required
-            session = Session.objects.get(id=request.POST['session'])
+            session = Session.objects.get(id=request.POST['ra8_session'])
             patrol = Patrol.objects.get(id=request.POST['patrol'])
             gps_tracker = GPSTracker.objects.get(id=request.POST['gps_tracker'])
 
@@ -288,7 +299,7 @@ def add_patrol_to_session(request, pk):
             return HttpResponseRedirect(reverse('RadioActiv8:SessionAddPatrol', args=[pk]))
     # if a GET (or any other method) we'll create a blank form
     else:
-        session_add_patrol_form = SessionAddPatrolForm(session=this_session, initial={'session': pk})
+        session_add_patrol_form = SessionAddPatrolForm(session=this_session, initial={'ra8_session': pk})
         context['session_add_patrol_form'] = session_add_patrol_form
 
         return render(request, template_name, context)
