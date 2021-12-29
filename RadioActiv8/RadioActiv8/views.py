@@ -311,6 +311,25 @@ def add_patrol_to_session(request, pk):
 
         return render(request, template_name, context)
 
+
+def participant_homepage(request):
+    template_name = 'RadioActiv8/master/participant_homepage.html'
+    context = {}
+
+    return render(request, template_name, context)
+
+def participant_map(request):
+    template_name = 'RadioActiv8/master/participant_map.html'
+    context = {}
+
+    return render(request, template_name, context)
+
+def participant_bases(request):
+    template_name = 'RadioActiv8/master/participant_bases.html'
+    context = {}
+
+    return render(request, template_name, context)
+
 '''
 Only helper functions below this point
 '''
