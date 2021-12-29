@@ -189,7 +189,6 @@ def GPSTrackerDetail(request, pk):
 
     if request.method == 'POST':
         form = GPSTrackerPatrolForm(request.POST)
-        print(request.POST)
         if form.is_valid():
             if current_patrol:
                 current_patrol.gps_tracker = None
@@ -290,7 +289,6 @@ def add_patrol_to_session(request, pk):
 
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        print(request.POST)
         # create a form instance and populate it with data from the request:
         session_form = SessionAddPatrolForm(request.POST, session=this_session)
         # check whether it's valid:
