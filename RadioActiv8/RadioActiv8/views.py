@@ -148,6 +148,15 @@ class SessionList(LoginRequiredMixin, generic.ListView):
         return Session.objects.all()
 
 
+@login_required
+def CurrentSessionDetail(request, path=None):
+    ra8_session = request.session.get('ra8_session')
+    redirect = reverse('RadioActiv8:SessionDetail', args=(ra8_session,))
+    if path:
+        redirect += path
+    return HttpResponseRedirect(redirect)
+
+
 class SessionDetail(LoginRequiredMixin, generic.DetailView):
     model = Session
     template_name = 'RadioActiv8/session/detail.html'
