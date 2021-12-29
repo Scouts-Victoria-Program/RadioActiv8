@@ -1,5 +1,5 @@
 
 <form method="post" action="{% url 'RadioActiv8:SetWorkingSession' %}">{% csrf_token %}
-    {{ session_set_form }}
+    {{ session_set_form.as_p }}
     <input type="submit" value="Choose Session">
 </form>
