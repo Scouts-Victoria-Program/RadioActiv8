@@ -19,12 +19,23 @@
     <div class="row">
       <div class="col">
           {% include 'RadioActiv8/session/set.html' %}
+          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol" style="margin: 20px;">
+            Add Patrols to Session&nbsp;&nbsp;<i class="fas fa-running"></i>
+          </a>
+          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:EventCreate' %}" style="margin: 20px;">
+            Log Events&nbsp;&nbsp;<i class="fas fa-running"></i>
+          </a>
+          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:GPSTrackerList' %}" style="margin: 20px;">
+            List and Reassign Trackers&nbsp;&nbsp;<i class="fas fa-running"></i>
+          </a>
+          <!--
           <a class="btn btn-success" role="button" href="play" style="margin: 20px;">
             Play&nbsp;&nbsp;<i class="fas fa-running"></i>
           </a>
           <a class="btn btn-success" role="button" href="map" target="_blank" style="margin: 20px;">
             Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i>
           </a>
+          -->
       </div>
     </div>
 
@@ -38,6 +49,10 @@
 
     <div class="row">
       <div class="col">
+          <a class="btn btn-warning" role="button" href="{% url 'RadioActiv8:EventList' %}" style="margin: 20px;">
+            Event List&nbsp;&nbsp;<i class="fas fa-location-arrow"></i>
+          </a>
+          <!--
           <a class="btn btn-warning" role="button" href="./trackers" style="margin: 20px;">
             GPS Allocations&nbsp;&nbsp;<i class="fas fa-location-arrow"></i>
           </a>
@@ -53,9 +68,11 @@
           <a class="btn btn-warning" role="button" href="./scores" style="margin: 20px;" target="_blank">
             Scoreboard&nbsp;&nbsp;<i class="fas fa-trophy"></i>
           </a>
+          -->
       </div>
     </div>
 
+    <!--
     <div class="row" style="margin: 10px;">
       <div class="col" style="background: var(--primary);">
         <h1 style="color: white;padding: 10px;">
@@ -108,6 +125,7 @@
           </a>
       </div>
     </div>
+    -->
   </div>
 </div>
 <!-- End: Content block -->

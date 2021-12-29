@@ -16,6 +16,7 @@
     {% endfor %}
     </ol>
 {% endif %}
+<a href="{% url 'RadioActiv8:GPSTrackerList' %}">Back to tracker list</a>
 <p><strong>GPS Tracker:</strong> {{ gpstracker }}</p>
 <ul>
   <li>Name: {{ gpstracker.name }}</li>

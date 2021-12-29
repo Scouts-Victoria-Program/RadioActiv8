@@ -9,7 +9,9 @@
     {% endfor %}
 </ul>
 {% endif %}
+<a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol">Back to patrol list</a>
 <h1>Adding Patrol to Session {{session.name}}</h1>
+<a href="{% url 'admin:RadioActiv8_participant_changelist' %}" target="_blank">Find participant's Patrol</a>
 <form method="post">{% csrf_token %}
     {{ session_add_patrol_form.as_p }}
     <input type="submit" value="Add Patrol">
