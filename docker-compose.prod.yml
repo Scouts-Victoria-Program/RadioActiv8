@@ -12,7 +12,7 @@ services:
       timeout: 5s
       retries: 5
   app:
-    build: .
+    build: ./RadioActiv8
     image: mattcen/radioactiv8
     command: gunicorn geodjango.wsgi -b 0.0.0.0:8000
     env_file: .env

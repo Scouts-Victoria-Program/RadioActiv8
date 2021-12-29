@@ -12,12 +12,12 @@ services:
       timeout: 5s
       retries: 5
   app:
-    build: .
+    build: ./RadioActiv8
     image: mattcen/radioactiv8
     command: python manage.py runserver 0.0.0.0:8000
     env_file: .env
     volumes:
-      - .:/code
+      - ./RadioActiv8:/code
     ports:
       - "$APP_PORT:8000"
     depends_on:
