@@ -2,6 +2,7 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Home{% endblock %}
 {% block bootstrap4_content %}
+{% load static %}
 <!-- Start: Content block -->
 <div style="color: var(--dark);background: var(--light);">
   <div class="container-fluid"
@@ -32,10 +33,10 @@
           <a class="btn btn-success" role="button" href="play" style="margin: 20px;">
             Play&nbsp;&nbsp;<i class="fas fa-running"></i>
           </a>
-          <a class="btn btn-success" role="button" href="map" target="_blank" style="margin: 20px;">
+          -->
+          <a class="btn btn-success" role="button" href="{% static 'RadioActiv8/img/participant_map.png' %}" target="_blank" style="margin: 20px;">
             Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i>
           </a>
-          -->
       </div>
     </div>
 
