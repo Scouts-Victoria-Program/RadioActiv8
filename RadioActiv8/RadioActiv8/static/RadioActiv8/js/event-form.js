@@ -50,7 +50,7 @@ function dynamic_form_update(){
           var int = data.intelligence_options.unused[i];
           var selected = (i == random_intelligence) ? ' selected=""' : '';
 
-          intelligence += "<option value='" + int.id + "'" + selected + ">" + int.q + " - " + int.a + "</option>";
+          intelligence += "<option value='" + int.id + "'" + selected + "> Q: " + int.q + "? A: " + int.a + "</option>";
         }
         intelligence += "<option value=''>--- Used intelligence</option>";
         // Used intelligence
