@@ -3,5 +3,6 @@ django-environ
 djangorestframework
 psycopg2-binary
 django-bootstrap4
+gunicorn
 # Just useful for debugging
 ipython

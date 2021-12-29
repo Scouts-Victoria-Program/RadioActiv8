@@ -145,6 +145,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -171,3 +172,5 @@ BOOTSTRAP4 = {
 
 LOGIN_URL = 'RadioActiv8:login'
 LOGIN_REDIRECT_URL = 'RadioActiv8:index'
+
+CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS').split(',')
