@@ -313,6 +313,7 @@ def add_patrol_to_session(request, pk):
 
 
 def participant_homepage(request):
+    return HttpResponseRedirect('/static/RadioActiv8/img/participant_map.png')
     template_name = 'RadioActiv8/master/participant_homepage.html'
     context = {}
 
