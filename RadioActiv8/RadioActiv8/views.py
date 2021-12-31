@@ -229,6 +229,7 @@ def GPSTrackerDetail(request, pk):
         if form.is_valid():
             if current_patrol:
                 current_patrol.gps_tracker = None
+                current_patrol.current_base = None
                 current_patrol.save()
             if request.POST['patrol']:
                 patrol = Patrol.objects.get(id=request.POST['patrol'])
