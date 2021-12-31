@@ -297,11 +297,15 @@ def add_patrol_to_session(request, pk):
             session = Session.objects.get(id=request.POST['ra8_session'])
             patrol = Patrol.objects.get(id=request.POST['patrol'])
             gps_tracker = GPSTracker.objects.get(id=request.POST['gps_tracker'])
+            base = Base.objects.get(id=request.POST['base'])
 
             patrol.session.add(session)
             patrol.gps_tracker = gps_tracker
             patrol.save()
-            messages.success(request, f'Added patrol {patrol} to session {session} and allocated tracker {gps_tracker}')
+
+            event = Event(session=session, patrol=patrol, location=session.home_base, intelligence_answered_correctly=False, destination=base)
+            event.save()
+            messages.success(request, f'Patrol {patrol} added to session {session} allocated tracker {gps_tracker}, sent to base {base}')
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('RadioActiv8:SessionAddPatrol', args=[pk]))
     # if a GET (or any other method) we'll create a blank form
