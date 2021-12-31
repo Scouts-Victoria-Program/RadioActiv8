@@ -1,4 +1,5 @@
 {% extends 'RadioActiv8/master/heading.html' %}
+{% load static %}
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Play{% endblock %}
 {% block bootstrap4_content %}
@@ -51,7 +52,7 @@
                             <ul class="list-unstyled text-monospace text-uppercase">
                                 {% if available_bases %}
                                 {% for available_base in available_bases %}
-                                <li><a class="text-success" href="#">{{ available_base }} ({{ available_base.get_patrols_count }}/{% if available_base.max_patrols == 0 %}∞{% else %}{{ available_base.max_patrols }}{% endif %})</a></li> {% endfor %}
+                                <li><a class="text-success" href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{ available_base }} ({{ available_base.get_patrols_count }}/{% if available_base.max_patrols is None %}∞{% else %}{{ available_base.max_patrols }}{% endif %})</a></li> {% endfor %}
                                 {% else %}
                                 <li>NO AVAILABLE BASES!!!</li>
                                 {% endif %}
@@ -62,9 +63,9 @@
                                 {% if full_bases %}
                                 {% for full_base in full_bases %}
                                 <li>
-                                    <a class="text-nowrap text-danger" href="#">{{full_base.name}}</a>:<br />
+                                    <a class="text-nowrap text-danger" href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{full_base.name}}</a>:<br />
                                     {% for patrol in full_base.get_patrols %}
-                                    <a class="text-warning" href="#">{{patrol.name}}</a>{% if not forloop.last %},{% endif %}
+                                    <a class="text-warning" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{patrol.name}}</a>{% if not forloop.last %},{% endif %}
                                     {% endfor %}
                                 </li>
                                 {% endfor %}
@@ -85,8 +86,8 @@
                             <ul class="list-unstyled text-monospace text-uppercase text-light">
                                 {% if busy_patrols %}
                                 {% for busy_patrol in busy_patrols %}
-                                <li><a class="text-danger" href="#">{{busy_patrol.name}}</a> @ <a class="text-warning"
-                                        href="#">{{busy_patrol.current_base.name}}</a></li>
+                                <li><a class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{busy_patrol.name}}</a> @ <a class="text-warning"
+                                        href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{busy_patrol.current_base.name}}</a></li>
                                 {% endfor %}
                                 {% else %}
                                 <li>NO PATROLS LOGGED!!!</li>
