@@ -28,6 +28,9 @@ class Session(models.Model):
     # FIXME: Specify a list of session *types*
     #type = 
 
+    class Meta:
+        ordering = ['name']
+
     def clean(self):
 
         # Check home_base is part of this Session

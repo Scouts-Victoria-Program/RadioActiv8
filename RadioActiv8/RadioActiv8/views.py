@@ -64,7 +64,6 @@ def play(request):
             comment = event_form.cleaned_data["comment"]
 
             # process the data in form.cleaned_data as required
-            print("valid")
             event = Event(session=session,
                          patrol=patrol,
                          location=location,
@@ -395,7 +394,6 @@ def participant_base_detail(request, patrol_pk, base_pk):
     base = Base.objects.get(id=base_pk)
 
     intelligence = base.get_random_intelligence(patrol)
-    print(intelligence)
     context['intelligence'] = intelligence
 
     return render(request, template_name, context)
