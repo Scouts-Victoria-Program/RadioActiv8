@@ -38,35 +38,72 @@ def map(request):
 
 @login_required
 def play(request):
+    #template_name = 'RadioActiv8/event/create.html'
+    template_name = 'RadioActiv8/master/play.html'
+    form_class = EventForm
+    success_url = reverse_lazy('RadioActiv8:EventCreate')
+    initial = {}
+    context = {}
+
+    ra8_session = request.session.get('ra8_session')
+    initial['session'] = ra8_session
+
     if (request.method == "POST"):
-        patrol = Patrol.objects.get(id=request.POST.get("patrol"))
-        base = Base.objects.get(id=request.POST.get("base"))
-        if (request.POST.get("action") == "check-in"):
-            patrol.check_in(base)
-        elif (request.POST.get("action") == "check-out"):
-            patrol.check_out()
-        elif (request.POST.get("action") == "intel"):
-            #TODO: Fix passing intel
-            patrol.log_intelligence(base, None)
-        elif (request.POST.get("action") == "log-event"):
-            #TODO: Fix passing the comment
-            patrol.log_event(base, None)
+        event_form = EventForm(request.POST)
+
+        # create a form instance and populate it with data from the request:
+        # check whether it's valid:
+        if event_form.is_valid():
+
+            session = event_form.cleaned_data["session"]
+            patrol = event_form.cleaned_data["patrol"]
+            location = event_form.cleaned_data["location"]
+            intelligence_request = event_form.cleaned_data["intelligence_request"]
+            intelligence_answered_correctly = event_form.cleaned_data["intelligence_answered_correctly"]
+            destination = event_form.cleaned_data["destination"]
+            comment = event_form.cleaned_data["comment"]
+
+            # process the data in form.cleaned_data as required
+            print("valid")
+            event = Event(session=session,
+                         patrol=patrol,
+                         location=location,
+                         intelligence_request=intelligence_request,
+                         intelligence_answered_correctly=intelligence_answered_correctly,
+                         destination=destination,
+                         comment=comment
+                         )
+            event.save()
+            messages.success(request, f"{event} was created successfully.")
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            context['form'] = event_form
+            return render(request, template_name, context)
+
+    form = EventForm(initial=initial)
+
+
+    #def get_success_message(self, cleaned_data):
+    #    return f"{self.object} was created successfully."
 
     submit_action = reverse("RadioActiv8:play")
-    patrols = Patrol.objects.all()
-    bases = Base.objects.all()
-    ab = [b for b in Base.objects.all() if not b.is_full()]
-    bp = [p for p in Patrol.objects.all() if p.current_base]
-    fb = [b for b in Base.objects.all() if b.is_full()]
+    patrols = Patrol.objects.filter(session=ra8_session)
+    bases = Base.objects.filter(session=ra8_session)
+    ab = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
+    bp = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
+    fb = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
         "submit_action": submit_action,
         "patrols": patrols,
         "bases": bases,
         "available_bases": ab,
         "busy_patrols": bp,
-        "full_bases": fb
+        "full_bases": fb,
+        "form": form,
     }
-    return render(request, 'RadioActiv8/master/play.html', context)
+    return render(request, template_name, context)
 
 
 class PatrolList(LoginRequiredMixin, generic.ListView):

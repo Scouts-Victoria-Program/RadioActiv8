@@ -1,10 +1,18 @@
 {% extends 'RadioActiv8/master/heading.html' %}
 {% load bootstrap4 %}
+{% block bootstrap4_title %}RadioActiv8 - Play{% endblock %}
 {% block bootstrap4_content %}
 
 <div style="color: var(--light);background: var(--dark);">
     <!-- Start: Patrol Control Frame -->
     <main>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
         <!-- Start: 7 Rows 1+4 Columns -->
         <div class="container">
 
@@ -15,22 +23,6 @@
             <div class="dashed-border">
                 <div class="row mx-0 justify-content-center grey-bg-warning-text"
                     style="padding: 10px 0px 0px 0px;">
-                    <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
-                        <div class="form-group">
-                            <!-- Start: sort by "Longest Waiting Patrol" -->
-                            <h1 class="text-monospace text-uppercase font-weight-bold"
-                                style="font-size: 12pt;color: var(--black);">
-                                Waiting PATROLS:&nbsp;
-                            </h1>
-                            <!-- End: sort by "Longest Waiting Patrol" -->
-                            <ul class="list-unstyled text-monospace text-uppercase">
-                                <li><a class="text-success" href="#">2042</a></li>
-                                <li><a class="text-success" href="#">2081</a></li>
-                                <li><a class="text-success" href="#">1012</a></li>
-                                <li><a class="text-success" href="#">1064</a></li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
                         <div class="form-group">
                             <!-- Start: Sort by "Longest Time since used" -->
@@ -61,7 +53,7 @@
                                 {% if busy_patrols %}
                                 {% for busy_patrol in busy_patrols %}
                                 <li><a class="text-danger" href="#">{{busy_patrol.name}}</a> @ <a class="text-warning"
-                                        href="#">{{busy_patrol.base.name}}</a></li>
+                                        href="#">{{busy_patrol.current_base.name}}</a></li>
                                 {% endfor %}
                                 {% else %}
                                 <li>NO BUSY PATROLS!!!</li>
@@ -97,237 +89,28 @@
             </div>
 
             <div class="dashed-border">
-                <form action="{{submit_action}}" method="post">
-                    <input type="hidden" name="action" value="log-event" />
-
                     <div class="row mx-0 justify-content-center grey-bg-warning-text"
                         style="padding: 10px 0px 0px 0px;">
                         <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
                             <h4 class="text-monospace font-weight-bold">Log Event</h4>
                         </div>
                     </div>
-                    <div class="row mx-0 justify-content-center grey-bg-warning-text">
-                        <div class=" col-md-4 col-xl-4 offset-xl-0 text-monospace">
-                        <label class="text-monospace font-weight-bold">
-                            Select a Patrol:
-                            <select class="form-control">
-                                <optgroup label="Select a Patrol">
-                                    <option value="-1">---</option>
-                                    {% for patrol in patrols %}
-                                    <option value="{{patrol.id}}">{{patrol.name}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
-                        <label class="text-monospace font-weight-bold">
-                            Reported Location:
-                            <select class="form-control">
-                                <optgroup label="Location">
-                                    <option value="-1">---</option>
-                                    {% for base in bases %}
-                                    <option value="{{base.id}}">{{base.name}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="col-md-4 col-xl-4 offset-xl-0 text-monospace">
-                        <label class="text-monospace font-weight-bold">
-                            Status:
-                            <select class="form-control">
-                                <optgroup label="Status">
-                                    <option value="-1">---</option>
-                                    <option value="-1">We have arrived at this location.</option>
-                                    <option value="-1">We are taking a short break.</option>
-                                    <option value="-1">We are leaving this location.</option>
-                                    <option value="-1">First Aid needed.</option>
-                                    <option value="-1">💩</option>
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-            </div>
-            <div class="row mx-0 justify-content-center grey-bg-warning-text">
-                <div class="col-md-6 col-xl-6 offset-xl-0 text-monospace" style="padding: 10px 10px;">
-                    <button class="btn btn-info btn-block" type="button">LOG UPDATE</button>
-                </div>
-            </div>
+            <strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
+            <form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
+                {{ form.as_p }}
+                {{ form.media }}
+                <input type="submit" value="Add Event">
+            </form>
+            <strong>Base history:</strong>
+            <ol id='base_history'>
+            <li>UNKNOWN</li>
+            </ol>
             </form>
         </div>
-
-        <div class="row justify-content-center" style="padding: 10px 0px;">
-            <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace"></div>
-        </div>
-
-        <div class="row mx-0">
-            <div class="col-md-3 col-xl-3 text-monospace dashed-border grey-bg-warning-text"
-                style="padding: 10px;">
-                <form action="{{submit_action}}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="check-in" />
-                    <h4 class="text-monospace font-weight-bold">Patrol Check In</h4>
-                    <div class="form-group">
-                        <label class="text-monospace font-weight-bold">
-                            Select a Patrol:
-                            <select name="patrol" class="form-control">
-                                <optgroup label="Select a Patrol">
-                                    <option value="-1">---</option>
-                                    {% for patrol in patrols %}
-                                    <option value="{{patrol.id}}">{{patrol.name}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="text-monospace font-weight-bold">
-                            Reported Location:
-                            <select name="base" class="form-control">
-                                <optgroup label="Location">
-                                    <option value="-1">---</option>
-                                    {% for base in bases %}
-                                    <option value="{{base.id}}">{{base.name}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-block">CHECK IN</button>
-                </form>
-            </div>
-
-            <div class="col-md-12 d-md-none offset-xl-0 text-monospace">&nbsp;</div>
-
-            <div class="col-md-4 col-xl-4 offset-md-1 offset-lg-1 offset-xl-1 text-monospace dashed-border grey-bg-warning-text"
-                style="padding: 10px;">
-                <form action="{{submit_action}}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="intel" />
-                    <h4 class="text-monospace font-weight-bold">Intelligence Exchange</h4>
-                    <div class="form-group">
-                        <label class="text-monospace font-weight-bold">Select a Patrol:</label>
-                        <select class="form-control" onChange="updateIntelligencePatrol(this)">
-                            <optgroup label="Select a Patrol">
-                                <option value="-1">---</option>
-                                {% for patrol in patrols %}
-                                <option value="{{patrol.id}}" data-active-base="{{patrol.base}}">{{patrol.name}}
-                                </option>
-                                {% endfor %}
-                            </optgroup>
-                        </select>
-                        <label class="text-monospace font-weight-bold">Select Activity Base:</label>
-                        <select id="activitySelector" class="form-control" onChange="updateIntelligenceBase(this)">
-                            <optgroup label="Location">
-                                <option value="-1" data-type="X">---</option>
-                                {% for base in bases %}
-                                <option value="{{base.id}}" data-type="{{base.activity_type}}">{{base.name}}
-                                </option>
-                                {% endfor %}
-                            </optgroup>
-                        </select>
-                        <label class="text-monospace font-weight-bold" for="activityType">Type:</label>
-                        <input id="activityType" class="form-control-plaintext d-inline-block" type="text"
-                            value="Dummy Value" readonly="" style="color:var(--light);width: 100%;">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-monospace font-weight-bold">Intelligence Expected:</label>
-                        <input class="form-control-plaintext float-left" type="text" value="Mafeking" readonly=""
-                            style="color: var(--light);">
-                    </div>
-                    <div class="form-group">
-                        <label class="d-inline-block font-weight-bold">Intelligence Provided:</label>
-                        <input class="form-control" type="text"><br>
-                        <button class="btn btn-warning text-monospace d-inline-block" type="submit">CHECK</button>
-                        <input class="form-control-plaintext float-right" type="text" value="Valid | Invalid"
-                            readonly="" style="color: var(--light);">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-danger btn-lg float-left" type="button">TRY AGAIN</button>
-                        <button class="btn btn-success btn-lg float-right" type="button">PASS</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="col-md-12 d-md-none offset-xl-0 text-monospace">&nbsp;</div>
-
-            <div class="col-md-3 col-xl-3 offset-lg-1 offset-md-1 offset-xl-1 text-monospace dashed-border grey-bg-warning-text"
-                style="padding: 10px;">
-                <form action="{{submit_action}}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="check-out" />
-                    <h4 class="text-monospace font-weight-bold">Patrol Check Out</h4>
-                    <div class="form-group">
-                        <label class="text-monospace font-weight-bold">
-                            Select a Patrol:
-                            <select name="patrol" class="form-control">
-                                <optgroup label="Select a Patrol">
-                                    <option value="-1">---</option>
-                                    {% for patrol in patrols %}
-                                    <option value="{{patrol.id}}">{{patrol.name}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label class="text-monospace font-weight-bold">
-                            Send to Location:
-                            <select name="base" class="form-control">
-                                <optgroup label="Location">
-                                    <option value="-1">---</option>
-                                    {% for base in bases %}
-                                    <option value="{{base.id}}">{{base.name}}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            </select>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-danger btn-block">CHECK OUT</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="row justify-content-center" style="padding: 10px 0px;">
-            <div class="col-md-12 col-xl-12 offset-xl-0 text-monospace">
-                &nbsp;
-            </div>
-        </div>
-
 </div>
 <!-- End: 7 Rows 1+4 Columns -->
 </main>
 <!-- End: Patrol Control Frame-->
 </div>
-
-<script>
-    function updateIntelligencePatrol(sender) {
-        var selectedPatrolId = $(sender).val();
-        var selectedPatrolActivity = $(sender).find("option[value=" + selectedPatrolId + "]").data("active-base");
-        if (selectedPatrolActivity && selectedPatrolActivity != "None") {
-            $("#activitySelector").val(selectedPatrolActivity);
-        }
-    }
-    function updateIntelligenceBase(sender) {
-        var selectedActivityId = $(sender).val();
-        var selectedActivityType = $(sender).find("option[value=" + selectedActivityId + "]").data("type");
-        var selectedActivityTypeName = '';
-        switch (selectedActivityType) {
-            // FIXME: Actually pull these names from the Model
-            default:
-            case 'R':
-                selectedActivityTypeName = 'Reading data';
-                break;
-            case 'S':
-                selectedActivityTypeName = 'Self-directed';
-                break;
-            case 'F':
-                selectedActivityTypeName = 'Facilitated';
-                break;
-        }
-        $("#activityType").val(selectedActivityTypeName);
-    }
-</script>
 
 {% endblock %}
