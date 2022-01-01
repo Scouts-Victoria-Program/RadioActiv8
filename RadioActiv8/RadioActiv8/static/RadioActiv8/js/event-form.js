@@ -86,18 +86,18 @@ function dynamic_form_update(){
           var base = data.valid_destinations.unvisited[i];
           var selected = (i == random_base) ? ' selected=""' : '';
 
-          destination += "<option value='" + base.id + "'" + selected + ">" + base.b + "</option>";
+          destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
         destination += "<option value=''>--- Visited Bases</option>";
         // Visited bases
         for (var i = 0; i < data.valid_destinations.visited.length; i++) {
           var base = data.valid_destinations.visited[i];
-          destination += "<option value='" + base.id + "'>" + base.b + "</option>";
+          destination += "<option value='" + base.id + "'>" + base.name + "</option>";
         }
         if(data.valid_destinations.home_base)
         {
           var home_base = data.valid_destinations.home_base;
-          destination += "<option value='" + home_base.id +  "'>* Home Base (" + home_base.b + ")</option>";
+          destination += "<option value='" + home_base.id +  "'>* Home Base (" + home_base.name + ")</option>";
         }
         jQuery("#id_destination").html(destination);
       }
