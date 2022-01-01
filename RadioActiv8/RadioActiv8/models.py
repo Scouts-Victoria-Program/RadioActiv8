@@ -255,7 +255,7 @@ class Event(models.Model):
     def save(self, *args, **kwargs):
         super(Event, self).save(*args, **kwargs)
 
-        if self.destination.radio and self.destination.radio.base:
+        if self.destination and self.destination.radio and self.destination.radio.base:
             self.patrol.current_base = self.destination.radio.base
 
             if self.intelligence_request:
