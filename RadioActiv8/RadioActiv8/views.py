@@ -72,6 +72,8 @@ def play(request):
                          destination=destination,
                          comment=comment
                          )
+            if session.id != ra8_session:
+                request.session['ra8_session'] = session.id
             event.save()
             messages.success(request, f"{event} was created successfully.")
 
