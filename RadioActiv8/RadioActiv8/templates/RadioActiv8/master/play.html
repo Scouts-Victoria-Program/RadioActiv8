@@ -31,6 +31,7 @@
                             </div>
                         </div>
                         <strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
+                        <strong>Intelligence suggestion:</strong> <span id='intelligence_suggestion'>NONE</span>
                         <form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
                             {{ form.as_p }}
                             {{ form.media }}

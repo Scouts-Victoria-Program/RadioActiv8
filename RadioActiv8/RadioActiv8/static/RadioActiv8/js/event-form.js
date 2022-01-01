@@ -38,6 +38,7 @@ function dynamic_form_update(){
 
       { // Update Intelligence drop-down
         var intelligence = "<option value=''>---------</option>";
+        var selected_intelligence = jQuery("#id_intelligence_request").val()
 
         intelligence += "<option value=''>--- Available intelligence</option>";
         // Unused intelligence
@@ -48,8 +49,16 @@ function dynamic_form_update(){
           random_intelligence = -1;
         for (var i = 0; i < data.intelligence_options.unused.length; i++) {
           var int = data.intelligence_options.unused[i];
-          var selected = (i == random_intelligence) ? ' selected=""' : '';
-
+          if(selected_intelligence)
+          {
+            if(int.id == selected_intelligence)
+            {
+              var selected = ' selected=""';
+              jQuery('#intelligence_suggestion').html("Q: " + int.q + "? <br>A: " + int.a )
+            }
+            else var selected = '';
+          }
+          else var selected = (i == random_intelligence) ? ' selected=""' : '';
           intelligence += "<option value='" + int.id + "'" + selected + "> Q: " + int.q + "? A: " + int.a + "</option>";
         }
         intelligence += "<option value=''>--- Used intelligence</option>";
@@ -142,4 +151,5 @@ jQuery(document).ready(function(){
     jQuery("#id_session").change(dynamic_form_update);
     jQuery("#id_patrol").change(dynamic_form_update);
     jQuery("#id_location").change(dynamic_form_update);
+    jQuery("#id_intelligence_request").change(dynamic_form_update);
 })
