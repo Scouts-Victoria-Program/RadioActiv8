@@ -76,8 +76,8 @@
                             <ul class="list-unstyled text-monospace text-uppercase text-light">
                                 {% if busy_patrols %}
                                 {% for busy_patrol in busy_patrols %}
-                                <li><a class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{busy_patrol.name}}</a> @ <a class="text-warning"
-                                        href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{busy_patrol.current_base.name}}</a></li>
+                                <li><a class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' busy_patrol.id %}">{{busy_patrol.name}}</a> @ <a class="text-warning"
+                                        href="{% url 'admin:RadioActiv8_base_change' busy_patrol.current_base.id %}">{{busy_patrol.current_base.name}}</a></li>
                                 {% endfor %}
                                 {% else %}
                                 <li>NO PATROLS LOGGED!!!</li>
