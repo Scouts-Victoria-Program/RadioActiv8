@@ -78,26 +78,85 @@ function dynamic_form_update(){
       { // Update Destination drop-down
         var destination = "<option value=''>---------</option>";
 
-        destination += "<option value=''>--- Unvisited Bases</option>";
+        console.log(data.valid_destinations);
 
-        // Unvisited bases
-        var random_base = Math.floor(Math.random() * data.valid_destinations.unvisited.length);
-        for (var i = 0; i < data.valid_destinations.unvisited.length; i++) {
-          var base = data.valid_destinations.unvisited[i];
-          var selected = (i == random_base) ? ' selected=""' : '';
+        var visited = [];
+        var full = [];
+        var facilitated = [];
+        var unvisited = [];
+        if (!data.valid_destinations.bases) return;
+        for (var i = 0; i < data.valid_destinations.bases.length; i++)
+        {
+          var base = data.valid_destinations.bases[i];
+          if(base.visited)
+          {
+            visited.push(base);
+          }
+          else if(base.max_patrols != null && base.num_patrols >= base.max_patrols)
+          {
+            full.push(base);
+          }
+          else if(base.type == 'F')
+          {
+            facilitated.push(base);
+          }
+          else
+          {
+            unvisited.push(base);
+          }
+        }
 
+        var suggested_base = null;
+        if(facilitated.length)
+        {
+          // FIXME: Sort the facilitated array by available slots using https://www.w3schools.com/jsref/jsref_sort.asp
+          var random_base = Math.floor(Math.random() * facilitated.length);
+          suggested_base = facilitated[random_base].id;
+        } else if(unvisited.length)
+        {
+          var random_base = Math.floor(Math.random() * unvisited.length);
+          suggested_base = unvisited[random_base].id;
+        }
+
+        // Facilitated bases
+        destination += "<option value=''>--- Available Facilitated Bases</option>";
+        for (var i = 0; i < facilitated.length; i++)
+        {
+          base = facilitated[i];
+          var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
-        destination += "<option value=''>--- Visited Bases</option>";
-        // Visited bases
-        for (var i = 0; i < data.valid_destinations.visited.length; i++) {
-          var base = data.valid_destinations.visited[i];
-          destination += "<option value='" + base.id + "'>" + base.name + "</option>";
+        // Unvisited bases
+        destination += "<option value=''>--- Unvisited Non-facilitated Bases</option>";
+        for (var i = 0; i < unvisited.length; i++)
+        {
+          base = unvisited[i];
+          var selected = (base.id == suggested_base) ? ' selected=""' : '';
+          destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
+        // Full bases
+        destination += "<option value=''>--- Full Facilitated Bases</option>";
+        for (var i = 0; i < full.length; i++)
+        {
+          base = full[i];
+          var selected = (base.id == suggested_base) ? ' selected=""' : '';
+          destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
+        }
+        // Visited bases
+        destination += "<option value=''>--- Visited Bases</option>";
+        for (var i = 0; i < visited.length; i++)
+        {
+          base = visited[i];
+          var selected = (base.id == suggested_base) ? ' selected=""' : '';
+          destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
+        }
+
+
         if(data.valid_destinations.home_base)
         {
           var home_base = data.valid_destinations.home_base;
-          destination += "<option value='" + home_base.id +  "'>* Home Base (" + home_base.name + ")</option>";
+          destination += "<option value=''>--- Home Base</option>";
+          destination += "<option value='" + home_base.id +  "'>" + home_base.name + "</option>";
         }
         jQuery("#id_destination").html(destination);
       }

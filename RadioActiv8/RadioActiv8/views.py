@@ -425,7 +425,7 @@ def valid_intelligence_options(patrol, current_location):
 
 
 def valid_next_base_options(session, patrol, current_location):
-    response = {'unvisited': {}, 'visited': {}, 'home_base': None}
+    response = {'bases': [], 'home_base': None}
 
     visited_bases_list = list(patrol.visited_bases())
     session_bases = Base.objects.filter(session=session)
@@ -437,9 +437,9 @@ def valid_next_base_options(session, patrol, current_location):
     unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ])
     visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ])
 
-    response['unvisited'] = [{'id': b.id, 'name': b.name, }
+    response['bases'] += [{'id': b.id, 'name': b.name, 'type': b.activity_type, 'num_patrols': b.get_patrols_count(), 'max_patrols': b.max_patrols, 'visited': False }
                           for b in unvisited_bases]
-    response['visited'] = [{'id': b.id, 'name': b.name}
+    response['bases'] += [{'id': b.id, 'name': b.name, 'type': b.activity_type, 'num_patrols': b.get_patrols_count(), 'max_patrols': b.max_patrols, 'visited': True }
                         for b in visited_bases]
 
     return response
