@@ -239,7 +239,7 @@ def GPSTrackerDetail(request, pk):
                 messages.success(request, f'Assigned tracker {gpstracker} to patrol {patrol}')
             else:
                 messages.success(request, f'Unassigned tracker {gpstracker} from patrol {current_patrol}')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            return HttpResponseRedirect(reverse('RadioActiv8:GPSTrackerList'))
         else:
             context['gpstracker'] = gpstracker
             context['form'] = form
