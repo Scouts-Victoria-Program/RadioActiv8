@@ -29,7 +29,7 @@ class Session(models.Model):
     #type = 
 
     class Meta:
-        ordering = ['name']
+        ordering = ['start_time', 'name']
 
     def clean(self):
 
