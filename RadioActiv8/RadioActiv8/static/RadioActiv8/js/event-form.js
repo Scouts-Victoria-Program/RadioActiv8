@@ -59,7 +59,11 @@ function dynamic_form_update(){
             else var selected = '';
           }
           else var selected = (i == random_intelligence) ? ' selected=""' : '';
-          intelligence += "<option value='" + int.id + "'" + selected + "> Q: " + int.q + "? A: " + int.a + "</option>";
+          if(int.q.length > 20) question = int.q.substring(0,20) + '…';
+          else question = int.q;
+          if(int.a.length > 20) answer = int.a.substring(0,20) + '…';
+          else answer = int.a;
+          intelligence += "<option value='" + int.id + "'" + selected + "> Q: " + question + "? A: " + answer + "</option>";
         }
         intelligence += "<option value=''>--- Used intelligence</option>";
         // Used intelligence

@@ -1,0 +1,18 @@
+<form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
+  <p>{{ form.session.label_tag }} {{ form.session }}</p>
+  <p>{{ form.patrol.label_tag }} {{ form.patrol }}</p>
+  <p><strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span></p>
+  <p>{{ form.location.label_tag }} {{ form.location }}</p>
+  <p>{{ form.intelligence_request.label_tag }} {{ form.intelligence_request }}</p>
+  <p><strong>Intelligence suggestion:</strong> <span id='intelligence_suggestion'>NONE</span></p>
+  <p>{{ form.intelligence_answered_correctly.label_tag }} {{ form.intelligence_answered_correctly }}</p>
+  <p>{{ form.destination.label_tag }} {{ form.destination }}</p>
+  <p>{{ form.comment.label_tag }} {{ form.comment }}</p>
+
+  {{ form.media }}
+  <input type="submit" value="Add Event">
+</form>
+<strong>Base history:</strong>
+<ol id='base_history'>
+  <li>UNKNOWN</li>
+</ol>

@@ -30,18 +30,7 @@
                                 <h4 class="text-monospace font-weight-bold">Log Event</h4>
                             </div>
                         </div>
-                        <strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
-                        <strong>Intelligence suggestion:</strong> <span id='intelligence_suggestion'>NONE</span>
-                        <form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
-                            {{ form.as_p }}
-                            {{ form.media }}
-                            <input type="submit" value="Add Event">
-                        </form>
-                        <strong>Base history:</strong>
-                        <ol id='base_history'>
-                            <li>UNKNOWN</li>
-                        </ol>
-                        </form>
+                        {% include "RadioActiv8/event/create_form.html" %}
                     </div>
                     <div class="col-md-3 col-xl-3 offset-xl-0 text-monospace">
                         <div class="form-group">
