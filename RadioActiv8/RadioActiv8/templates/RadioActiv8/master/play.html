@@ -52,7 +52,7 @@
                                 {% if full_bases %}
                                 {% for full_base in full_bases %}
                                 <li>
-                                    <a target="_blank" class="text-nowrap text-danger" href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{full_base.name}}</a>:<br />
+                                    <a target="_blank" class="text-nowrap text-danger" href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{full_base.name}}</a>:<br />
                                     {% for patrol in full_base.get_patrols %}
                                     <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{patrol.name}}</a>{% if not forloop.last %},{% endif %}
                                     {% endfor %}
