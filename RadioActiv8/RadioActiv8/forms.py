@@ -25,7 +25,7 @@ class EventForm(ModelForm):
             'patrol': forms.widgets.Select(attrs={'class': 'btn-lg'}),
             'location': forms.widgets.Select(attrs={'class': 'btn-sm'}),
             'intelligence_request': forms.widgets.Select(attrs={'class': 'btn-sm'}),
-            'intelligence_answered_correctly': forms.widgets.Select(attrs={'class': 'btn-sm'}),
+            # 'intelligence_answered_correctly': forms.widgets.Select(attrs={'class': 'btn-sm'}),
             'destination': forms.widgets.Select(attrs={'class': 'btn-sm'}),
             'comment': Textarea(attrs={'cols': 40, 'rows': 3}),
         }
