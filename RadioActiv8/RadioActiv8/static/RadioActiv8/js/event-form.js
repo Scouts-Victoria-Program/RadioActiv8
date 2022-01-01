@@ -198,7 +198,14 @@ function dynamic_form_update(){
         if (expected_location.id != -1 &&
           !(actual_location_id === "") &&
           expected_location.id != actual_location_id) {
-          jQuery("#expected_location").append("<strong> <--- ### WARNING! LOCATION MISMATCH! ###</strong>");
+          jQuery("#expected_location").append("<strong>&nbsp;### WARNING! LOCATION MISMATCH! ###</strong>");
+          jQuery("#expected_location").removeClass('alert-info');
+          jQuery("#expected_location").addClass('alert-danger');
+        }
+        else
+        {
+          jQuery("#expected_location").addClass('alert-info');
+          jQuery("#expected_location").removeClass('alert-danger');
         }
       }
     }

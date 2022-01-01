@@ -2,29 +2,52 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - GPS Tracker {{ gpstracker }}{% endblock %}
 {% block bootstrap4_content %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% if form.subject.errors %}
-    <ol>
-    {% for error in form.subject.errors %}
-        <li><strong>{{ error|escape }}</strong></li>
-    {% endfor %}
-    </ol>
-{% endif %}
-<a href="{% url 'RadioActiv8:GPSTrackerList' %}">Back to tracker list</a>
-<p><strong>GPS Tracker:</strong> {{ gpstracker }}</p>
-<ul>
-  <li>Name: {{ gpstracker.name }}</li>
-  <li>EUI: {{ gpstracker.eui }}</li>
-  <li>Patrol: {{ gpstracker.patrol }}</li>
-</ul>
-<form method="post">{% csrf_token %}
-{{form}}
-<input type="submit" value="Assign to Patrol">
-</form>
-{% endblock %}
+
+<div class="container">
+    {% if messages %}
+    <div class="col m-3">
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if form.subject.errors %}
+        <ol>
+        {% for error in form.subject.errors %}
+            <li><strong>{{ error|escape }}</strong></li>
+        {% endfor %}
+        </ol>
+    {% endif %}
+
+    <div class="col m-3">
+        <a href="{% url 'RadioActiv8:GPSTrackerList' %}" class="btn btn-secondary">Back to tracker list</a>
+
+        <hr>
+
+        <h3><strong>GPS Tracker:</strong> {{ gpstracker }}</h3>
+
+        <hr>
+
+        <ul>
+        <li>Name: {{ gpstracker.name }}</li>
+        <li>EUI: {{ gpstracker.eui }}</li>
+        <li>Patrol: {{ gpstracker.patrol }}</li>
+        </ul>
+
+        <hr>
+
+        <form method="post">{% csrf_token %}
+        {{form}}
+
+        <hr>
+
+        <p>
+            <input type="submit" class="btn btn-warning" value="Assign to Patrol">
+        </p>
+
+        </form>
+        {% endblock %}
+    </div>
+</div>

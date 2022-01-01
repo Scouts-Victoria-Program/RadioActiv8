@@ -2,13 +2,15 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Session {{ session }} Bases{% endblock %}
 {% block bootstrap4_content %}
-{% if session_list %}
-<ul>
-    {% for session in session_list %}
-    <li><a href="{% url 'RadioActiv8:SessionDetail' session.id %}">{{ session.name }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No Sessions are available.</p>
-{% endif %}
+<div class="container">
+    {% if session_list %}
+    <ul>
+        {% for session in session_list %}
+        <li><a href="{% url 'RadioActiv8:SessionDetail' session.id %}">{{ session.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No Sessions are available.</p>
+    {% endif %}
+</div>
 {% endblock %}

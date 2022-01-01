@@ -5,21 +5,21 @@
 {% load static %}
 <!-- Start: Content block -->
 <div style="color: var(--dark);background: var(--light);">
-  <div class="container-fluid"
-       style="font-family: 'Roboto Slab', serif;">
-    <div class="row"
-         style="margin: 10px;">
-      <div class="col"
-           style="background: var(--success);">
-        <h1 style="color: white;padding: 10px;">
-          Run Session<i class="fas fa-running float-right"></i>
-        </h1>
+  <div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
+    <div class="row mt-3 mb-3 ml-0 mr-0">
+      <div class="col">
+        {% include 'RadioActiv8/session/set.html' %}
+      </div>
+    </div>
+
+    <div class="row" style="margin: 10px;">
+      <div class="col" style="background: var(--success);">
+        <h1 style="color: white;padding: 10px;">Run Session<i class="fas fa-running float-right"></i></h1>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-          {% include 'RadioActiv8/session/set.html' %}
           <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol" style="margin: 20px;">
             Add Patrols to Session&nbsp;&nbsp;<i class="fas fa-running"></i>
           </a>
@@ -42,7 +42,7 @@
 
     <div class="row" style="margin: 10px;">
       <div class="col" style="background: var(--warning);">
-        <h1 style="color: white;padding: 10px;">
+        <h1 style="color: black;padding: 10px;">
           Session Data<i class="fas fa-sitemap float-right"></i>
         </h1>
       </div>

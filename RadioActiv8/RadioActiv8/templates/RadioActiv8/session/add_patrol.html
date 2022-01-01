@@ -2,18 +2,20 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Add Patrols to Session{% endblock %}
 {% block bootstrap4_content %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol">Back to patrol list</a>
-<h1>Adding Patrol to Session {{session.name}}</h1>
-<a href="{% url 'admin:RadioActiv8_participant_changelist' %}" target="_blank">Find participant's Patrol</a>
-<form method="post">{% csrf_token %}
-    {{ session_add_patrol_form.as_p }}
-    <input type="submit" value="Add Patrol">
-</form>
+<div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol">Back to patrol list</a>
+    <h1>Adding Patrol to Session {{session.name}}</h1>
+    <a href="{% url 'admin:RadioActiv8_participant_changelist' %}" target="_blank">Find participant's Patrol</a>
+    <form method="post">{% csrf_token %}
+        {{ session_add_patrol_form.as_p }}
+        <input type="submit" value="Add Patrol" class="btn btn-warning">
+    </form>
+</div>
 {% endblock %}

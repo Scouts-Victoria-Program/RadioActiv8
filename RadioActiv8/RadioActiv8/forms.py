@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from django import forms
 from .models import *
 import random
@@ -20,6 +20,9 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = ('session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
+        widgets = {
+            'comment': Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
 class SessionListForm(forms.Form):
     session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select, label='Session')
