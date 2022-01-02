@@ -148,7 +148,8 @@ function dynamic_form_update(){
         {
           base = visited[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
-          destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
+          var repeatable = (base.repeatable) ? '' : " (NOT REPEATABLE!)";
+          destination += "<option value='" + base.id + "'" + selected + ">" + base.name + repeatable + "</option>";
         }
 
 

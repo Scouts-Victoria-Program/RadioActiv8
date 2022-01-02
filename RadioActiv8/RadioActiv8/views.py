@@ -437,9 +437,9 @@ def valid_next_base_options(session, patrol, current_location):
     unvisited_bases = session_bases.exclude(id__in = [ b.id for b in visited_bases_list ])
     visited_bases = session_bases.filter(id__in = [ b.id for b in visited_bases_list ])
 
-    response['bases'] += [{'id': b.id, 'name': b.name, 'type': b.activity_type, 'num_patrols': b.get_patrols_count(), 'max_patrols': b.max_patrols, 'visited': False }
+    response['bases'] += [{'id': b.id, 'name': b.name, 'type': b.activity_type, 'num_patrols': b.get_patrols_count(), 'max_patrols': b.max_patrols, 'visited': False, 'repeatable': b.repeatable }
                           for b in unvisited_bases]
-    response['bases'] += [{'id': b.id, 'name': b.name, 'type': b.activity_type, 'num_patrols': b.get_patrols_count(), 'max_patrols': b.max_patrols, 'visited': True }
+    response['bases'] += [{'id': b.id, 'name': b.name, 'type': b.activity_type, 'num_patrols': b.get_patrols_count(), 'max_patrols': b.max_patrols, 'visited': True , 'repeatable': b.repeatable }
                         for b in visited_bases]
 
     return response
