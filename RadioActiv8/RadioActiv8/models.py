@@ -92,7 +92,7 @@ class Base(Radio):
         if patrol:
             return intelligence.filter(
                 ~Q(id__in=[e.intelligence_request.id for e in
-                           Event.objects.filter(patrol=patrol,
+                           Event.objects.exclude(intelligence_request=None).filter(patrol=patrol,
                                                 intelligence_answered_correctly=True).order_by('timestamp')]))
         else:
             return intelligence
