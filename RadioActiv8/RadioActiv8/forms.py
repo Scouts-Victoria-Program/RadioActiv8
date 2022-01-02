@@ -30,6 +30,10 @@ class EventForm(ModelForm):
             'comment': Textarea(attrs={'cols': 40, 'rows': 3}),
         }
 
+class BonusPointsForm(forms.Form):
+    patrol = forms.ModelChoiceField(queryset=Patrol.objects.all(), widget=forms.widgets.HiddenInput)
+    bonus_points = forms.IntegerField(label='Bonus Points', initial=0)
+
 class SessionListForm(forms.Form):
     session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select, label='Session')
 

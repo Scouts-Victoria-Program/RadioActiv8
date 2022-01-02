@@ -1,1 +1,25 @@
-{{ patrol }}
+{% extends 'RadioActiv8/master/heading.html' %}
+{% load bootstrap4 %}
+{% block bootstrap4_title %}RadioActiv8 - Patrol {{ patrol }}{% endblock %}
+{% block bootstrap4_content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="container">
+  <a href="{% url 'RadioActiv8:PatrolList' %}" class="btn btn-secondary">Back to patrol list</a>
+  <h1>Patrol {{ patrol }}</h1>
+  <ul>
+    <li>Attendance points: {{ patrol.attendance_points }}</li>
+    <li>Completion points: {{ patrol.completion_points }}</li>
+    <li>Bonus points: {{ patrol.bonus_points }}</li>
+  </ul>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p><input type="submit" value="Add/Subtract Bonus Points" class="btn btn-warning"></p>
+  </form>
+</div>
+{% endblock %}

@@ -59,7 +59,7 @@ urlpatterns = [
         name='PatrolList'),
     path(
         'patrol/<int:pk>/',
-        views.PatrolDetail.as_view(),
+        views.PatrolDetail,
         name='PatrolDetail'),
     path(
         'base/',

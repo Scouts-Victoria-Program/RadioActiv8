@@ -126,9 +126,36 @@ class PatrolList(LoginRequiredMixin, generic.ListView):
         return Patrol.objects.all()
 
 
-class PatrolDetail(LoginRequiredMixin, generic.DetailView):
-    model = Patrol
+@login_required
+def PatrolDetail(request, pk):
     template_name = 'RadioActiv8/patrol/detail.html'
+    #form_class = EventForm
+    #success_url = reverse_lazy('RadioActiv8:EventCreate')
+    success_url = request.META.get('HTTP_REFERER')
+    context = {}
+
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        pass
+        # create a form instance and populate it with data from the request:
+        form = BonusPointsForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            patrol = form.cleaned_data['patrol']
+            bonus_points = form.cleaned_data['bonus_points']
+            patrol.bonus_points += bonus_points
+            patrol.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    patrol = Patrol.objects.get(id=pk)
+    context['patrol'] = patrol
+    form = BonusPointsForm(initial={'patrol': patrol })
+    context['form'] = form
+
+    return render(request, template_name, context)
 
 
 class BaseList(LoginRequiredMixin, generic.ListView):
