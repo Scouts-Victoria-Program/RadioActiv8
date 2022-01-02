@@ -2,33 +2,51 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Patrols{% endblock %}
 {% block bootstrap4_content %}
-<p>
-    <label for="id_patrol_filter">Filter Patrols:</label>
-    <input type="text" name="patrol_filter" value="" required id="id_patrol_filter">
-</p>
-{% if patrol_list %}
-<ul id="patrol_list">
-    {% for patrol in patrol_list %}
-    <li><a href="{% url 'RadioActiv8:PatrolDetail' patrol.id %}">{{ patrol.name }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No Patrols are available.</p>
-{% endif %}
+<div class="container">
+    <div class="col m-3">
+        <h3><strong>Filter Patrols</strong></h3>
+        <hr>
 
-<script>
-    function filter_patrol()
-    {
-        var input = jQuery("#id_patrol_filter").val().toLowerCase();
-        list = jQuery("#patrol_list li a");
-        for(var i=0; i<list.length; i++)
-        {
-            if(list[i].innerText.toLowerCase().indexOf(input) > -1) list[i].parentElement.style.display = "";
-            else list[i].parentElement.style.display = "none";
-        }
-    }
-    jQuery(document).ready(function () {
-        jQuery("#id_patrol_filter").on("input", filter_patrol);
-    });
-</script>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Find Patrol by ID</label>
+            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter Patrol ID" name="patrol_filter" value="" required id="id_patrol_filter">
+        </div>
+
+        <hr>
+        {% if patrol_list %}
+        <ul style="list-style: none;" id="patrol_list">
+            {% for patrol in patrol_list %}
+            <li style="display: none;"><a class="btn btn-secondary m-1" href="{% url 'RadioActiv8:PatrolDetail' patrol.id %}">{{ patrol.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No Patrols are available.</p>
+    </div>
+    {% endif %}
+
+    <div class="col m-3">
+        <script>
+            function filter_patrol()
+            {
+                var input = jQuery("#id_patrol_filter").val().toLowerCase();
+                list = jQuery("#patrol_list li a");
+                for(var i=0; i<list.length; i++)
+                {
+                    if(input == "")
+                    {
+                        list[i].parentElement.style.display = "none";
+                    }
+                    else
+                    {
+                        if(list[i].innerText.toLowerCase().indexOf(input) > -1) list[i].parentElement.style.display = "";
+                        else list[i].parentElement.style.display = "none";
+                    }
+                }
+            }
+            jQuery(document).ready(function () {
+                jQuery("#id_patrol_filter").on("input", filter_patrol);
+            });
+        </script>
+    </div>
+</div>
 {% endblock %}

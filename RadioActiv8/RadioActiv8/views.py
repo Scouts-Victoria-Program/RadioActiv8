@@ -144,7 +144,11 @@ def PatrolDetail(request, pk):
             # process the data in form.cleaned_data as required
             patrol = form.cleaned_data['patrol']
             bonus_points = form.cleaned_data['bonus_points']
-            patrol.bonus_points += bonus_points
+            if 'subtract' in request.POST:
+                patrol.bonus_points -= bonus_points
+            else:
+                patrol.bonus_points += bonus_points
+
             patrol.save()
 
             # redirect to a new URL:

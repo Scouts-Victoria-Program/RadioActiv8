@@ -32,7 +32,7 @@ class EventForm(ModelForm):
 
 class BonusPointsForm(forms.Form):
     patrol = forms.ModelChoiceField(queryset=Patrol.objects.all(), widget=forms.widgets.HiddenInput)
-    bonus_points = forms.IntegerField(label='Bonus Points', initial=0)
+    bonus_points = forms.IntegerField(label='Bonus Points', initial=0, widget=forms.widgets.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'inputmode': 'numeric', 'pattern': '[0-9]*'}))
 
 class SessionListForm(forms.Form):
     session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select, label='Session')
