@@ -198,7 +198,7 @@ def EventList(request):
 
     context['session_set_form'] = SessionListForm(initial={'session_list_field': ra8_session})
 
-    event_list= Event.objects.all()
+    event_list= Event.objects.all().order_by('-timestamp')
     if ra8_session:
         event_list = event_list.filter(session__id=ra8_session)
     context['event_list'] = event_list
