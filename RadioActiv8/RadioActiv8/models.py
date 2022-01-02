@@ -41,7 +41,7 @@ class Session(models.Model):
         return self.name
 
 class Location(models.Model):
-    session = models.ManyToManyField(Session)
+    session = models.ManyToManyField(Session, blank=True)
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
 
     def __str__(self):
