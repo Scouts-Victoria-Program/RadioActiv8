@@ -18,6 +18,10 @@ router.register(r'event', api_views.EventViewSet, basename='event')
 app_name = 'RadioActiv8'
 urlpatterns = [
     path(
+        'healthcheck/',
+        views.healthcheck,
+        name='healthcheck'),
+    path(
         '',
         views.index,
         name='index'),

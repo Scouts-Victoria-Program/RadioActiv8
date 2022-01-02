@@ -17,4 +17,5 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 
+HEALTHCHECK --interval=30s --retries=5 CMD ./healthcheck
 ENTRYPOINT ["/code/docker-entrypoint.sh"]

@@ -1,0 +1,2 @@
+#!/bin/bash
+[[ "$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8000/healthcheck/)" == "200" ]]

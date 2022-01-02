@@ -12,6 +12,17 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 # FIXME: Ensure most views require login
 
+def healthcheck(request):
+    context = {}
+    template_name = 'RadioActiv8/'
+
+    # Do a database request to test DB is working
+    x = Session.objects.count()
+
+    #return render(request, template_name, context)
+    return HttpResponse('healthy')
+
+
 @login_required
 def index(request):
     context = {}
