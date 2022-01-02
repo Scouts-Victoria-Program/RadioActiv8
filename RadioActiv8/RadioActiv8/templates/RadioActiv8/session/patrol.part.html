@@ -1,4 +1,5 @@
-<p><strong>Patrols:</strong> <a href="{% url 'RadioActiv8:SessionAddPatrol' session.id %}">(Add Patrol to Session)</a></p>
+<p><a href="{% url 'RadioActiv8:SessionAddPatrol' session.id %}" class="btn btn-warning">Add Patrol to Session</a></p>
+<p><strong>Patrols:</strong></p>
 <ol>
 {% for p in session.patrol_set.all %}
 <li>{{ p }} (Tracker: {% if p.gps_tracker %}<a href="{% url 'RadioActiv8:GPSTrackerDetail' p.gps_tracker.id %}">{{ p.gps_tracker }}</a>{% else %}-{% endif %})</li>

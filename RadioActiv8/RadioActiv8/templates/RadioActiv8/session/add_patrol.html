@@ -10,12 +10,13 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol">Back to patrol list</a>
+    <p><a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol" class="btn btn-secondary mt-3">Back to patrol list</a></p>
+    <hr>
     <h1>Adding Patrol to Session {{session.name}}</h1>
-    <a href="{% url 'admin:RadioActiv8_participant_changelist' %}" target="_blank">Find participant's Patrol</a>
+    <p><a href="{% url 'admin:RadioActiv8_participant_changelist' %}" class="btn btn-secondary" target="_blank">Find participant's Patrol</a></p>
     <form method="post">{% csrf_token %}
         {{ session_add_patrol_form.as_p }}
-        <input type="submit" value="Add Patrol" class="btn btn-warning">
+        <input type="submit" value="Add Patrol" class="btn btn-warning"></p>
     </form>
 </div>
 {% endblock %}
