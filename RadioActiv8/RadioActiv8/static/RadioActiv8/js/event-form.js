@@ -69,7 +69,11 @@ function dynamic_form_update(){
         // Used intelligence
         for (var i = 0; i < data.intelligence_options.used.length; i++) {
           var int = data.intelligence_options.used[i];
-          intelligence += "<option value='" + int.id + "'>" + int.q + " - " + int.a + "</option>";
+          if(int.q.length > 20) question = int.q.substring(0,20) + '…';
+          else question = int.q;
+          if(int.a.length > 20) answer = int.a.substring(0,20) + '…';
+          else answer = int.a;
+          intelligence += "<option value='" + int.id + "'> Q: " + question + "? A: " + answer + "</option>";
         }
         jQuery("#id_intelligence_request").html(intelligence);
 
