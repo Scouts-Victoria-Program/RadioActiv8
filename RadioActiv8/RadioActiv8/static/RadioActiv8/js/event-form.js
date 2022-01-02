@@ -81,9 +81,6 @@ function dynamic_form_update(){
 
       { // Update Destination drop-down
         var destination = "<option value=''>---------</option>";
-
-        console.log(data.valid_destinations);
-
         var visited = [];
         var full = [];
         var facilitated = [];
