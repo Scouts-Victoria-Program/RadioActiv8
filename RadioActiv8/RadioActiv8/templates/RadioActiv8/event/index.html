@@ -1,20 +1,27 @@
 {% extends 'RadioActiv8/master/heading.html' %}
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Events{% endblock %}
+{% block bootstrap4_extra_head %}
+<style>
+    table{text-align:left;}
+    th,td{padding:4px 8px;}
+    th{cursor:pointer;}
+</style>
+{% endblock %}
 {% block bootstrap4_content %}
 {% include 'RadioActiv8/session/set.html' %}
 {% if event_list %}
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped" id="events_table">
     <thead>
         <tr>
-            <th scope="col">Timestamp</th>
-            <th scope="col">Session</th>
-            <th scope="col">Patrol</th>
-            <th scope="col">Location</th>
-            <th scope="col">Intelligence Request</th>
-            <th scope="col">Right Answer?</th>
-            <th scope="col">Destination</th>
-            <th scope="col">Comment</th>
+            <th scope="col" onclick="sortBy(0, 'events_table')">Timestamp<span class="table-arrow"> ▼</span></th>
+            <th scope="col" onclick="sortBy(1, 'events_table')">Session<span class="table-arrow"></span></th>
+            <th scope="col" onclick="sortBy(2, 'events_table')">Patrol<span class="table-arrow"></span></th>
+            <th scope="col" onclick="sortBy(3, 'events_table')">Location<span class="table-arrow"></span></th>
+            <th scope="col" onclick="sortBy(4, 'events_table')">Intelligence Request<span class="table-arrow"></span></th>
+            <th scope="col" onclick="sortBy(5, 'events_table')">Right Answer?<span class="table-arrow"></span></th>
+            <th scope="col" onclick="sortBy(6, 'events_table')">Destination<span class="table-arrow"></span></th>
+            <th scope="col" onclick="sortBy(7, 'events_table')">Comment</th>
         </tr>
     </thead>
     <tbody>
@@ -35,4 +42,49 @@
 {% else %}
 <p>No Events are available.</p>
 {% endif %}
+
+<script>
+    cPrev = -1; // global var saves the previous c, used to
+                // determine if the same column is clicked again
+
+function sortBy(c, id) {
+    rows = document.getElementById(id).rows.length; // num of rows
+    columns = document.getElementById(id).rows[0].cells.length; // num of columns
+    arrTable = [...Array(rows)].map(e => Array(columns)); // create an empty 2d array
+
+    for (ro=0; ro<rows; ro++) { // cycle through rows
+        for (co=0; co<columns; co++) { // cycle through columns
+            // assign the value in each row-column to a 2d array by row-column
+            arrTable[ro][co] = document.getElementById(id).rows[ro].cells[co].innerHTML;
+        }
+    }
+
+    th = arrTable.shift(); // remove the header row from the array, and save it
+
+    if (c !== cPrev) { // different column is clicked, so sort by the new column
+        arrTable.sort(
+            function (a, b) {
+                if (a[c] === b[c]) {
+                    return 0;
+                } else {
+                    return (a[c] < b[c]) ? -1 : 1;
+                }
+            }
+        );
+    } else { // if the same column is clicked then reverse the array
+        arrTable.reverse();
+    }
+
+    cPrev = c; // save in previous c
+
+    arrTable.unshift(th); // put the header back in to the array
+
+    // cycle through rows-columns placing values from the array back into the html table
+    for (ro=0; ro<rows; ro++) {
+        for (co=0; co<columns; co++) {
+            document.getElementById(id).rows[ro].cells[co].innerHTML = arrTable[ro][co];
+        }
+    }
+}
+</script>
 {% endblock %}
