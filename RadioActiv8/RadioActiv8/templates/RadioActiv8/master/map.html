@@ -173,24 +173,7 @@
         <div class="col-sm-3 col-md-2 col-lg-2 col-xl-2"
           style="font-size: 10pt;padding-top: 5px;padding-right: 0px;padding-left: 0px;">
           <div>
-            <a class="btn btn-outline-info text-monospace text-uppercase shake animated" data-toggle="collapse"
-              aria-expanded="true" aria-controls="collapse-2" href="#collapse-2" role="button">
-              Queues
-            </a>
             <div class="collapse show" id="collapse-2">
-              <div class="form-group">
-                <!-- Start: sort by "Longest Waiting Patrol" -->
-                <h1 class="text-monospace text-uppercase" style="font-size: 12pt;color: var(--white);">
-                  Waiting PATROLS:&nbsp;
-                </h1>
-                <!-- End: sort by "Longest Waiting Patrol" -->
-                <ul class="list-unstyled text-monospace text-uppercase">
-                  <li><a class="text-success" href="#">2042</a></li>
-                  <li><a class="text-success" href="#">2081</a></li>
-                  <li><a class="text-success" href="#">1012</a></li>
-                  <li><a class="text-success" href="#">1064</a></li>
-                </ul>
-              </div>
               <div class="form-group">
                 <!-- Start: Sort by "Longest Time since used" -->
                 <h1 class="text-monospace text-uppercase" style="font-size: 12pt;color: var(--white);">AVAILABLE BASES:
@@ -203,22 +186,6 @@
                     {% endfor %}
                   {% else %}
                       <li>NO AVAILABLE BASES!!!</li>
-                  {% endif %}
-                </ul>
-              </div>
-              <div class="form-group">
-                <!-- Start: sort by "Last Updated" -->
-                <h1 class="text-monospace text-uppercase" style="font-size: 12pt;color: var(--white);">
-                  BUSY PATROLS:
-                </h1>
-                <!-- End: sort by "Last Updated" -->
-                <ul class="list-unstyled text-monospace text-uppercase text-light">
-                  {% if busy_patrols %}
-                    {% for busy_patrol in busy_patrols %}
-                      <li><a class="text-danger" href="#">{{busy_patrol.name}}</a> @ <a class="text-warning" href="#">{{busy_patrol.base.name}}</a></li>
-                    {% endfor %}
-                  {% else %}
-                      <li>NO BUSY PATROLS!!!</li>
                   {% endif %}
                 </ul>
               </div>
@@ -236,6 +203,21 @@
                     {% endfor %}
                   {% else %}
                       <li>NO FULL BASES 😀</li>
+                  {% endif %}
+                </ul>
+              </div>              <div class="form-group">
+                <!-- Start: sort by "Last Updated" -->
+                <h1 class="text-monospace text-uppercase" style="font-size: 12pt;color: var(--white);">
+                  BUSY PATROLS:
+                </h1>
+                <!-- End: sort by "Last Updated" -->
+                <ul class="list-unstyled text-monospace text-uppercase text-light">
+                  {% if busy_patrols %}
+                    {% for busy_patrol in busy_patrols %}
+                      <li><a class="text-danger" href="#">{{busy_patrol.name}}</a> @ <a class="text-warning" href="#">{{busy_patrol.base.name}}</a></li>
+                    {% endfor %}
+                  {% else %}
+                      <li>NO BUSY PATROLS!!!</li>
                   {% endif %}
                 </ul>
               </div>

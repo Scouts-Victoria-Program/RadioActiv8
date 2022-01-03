@@ -10,8 +10,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
-# FIXME: Ensure most views require login
-
 def healthcheck(request):
     context = {}
     template_name = 'RadioActiv8/'
@@ -36,9 +34,10 @@ def index(request):
 
 @login_required
 def map(request):
-    ab = [b for b in Base.objects.all() if not b.is_full()]
-    bp = [p for p in Patrol.objects.all() if p.base]
-    fb = [b for b in Base.objects.all() if b.is_full()]
+    ra8_session = request.session.get('ra8_session')
+    ab = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
+    bp = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
+    fb = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
         "available_bases": ab,
         "busy_patrols": bp,
