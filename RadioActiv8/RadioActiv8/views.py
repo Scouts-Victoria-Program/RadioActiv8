@@ -43,7 +43,7 @@ def map(request):
         "available_bases": ab,
         "busy_patrols": bp,
         "full_bases": fb,
-        "bases_geojson" : serialize('geojson', Location.objects.all())
+        "bases_geojson" : serialize('geojson', Location.objects.filter(session=ra8_session))
     }
     return render(request, 'RadioActiv8/master/map.html', context)
 
