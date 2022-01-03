@@ -338,7 +338,15 @@ def event_ajax(request):
         return JsonResponse(response, safe=False)
 
     response['patrol_options'] = [ {'id': p.id, 'name': p.name} for p in Patrol.objects.filter(session=session) ]
-    response['location_options'] = [ {'id': b.id, 'name': b.name } for b in Base.objects.filter(session=session) ]
+    response['location_options'] = []
+    for b in Base.objects.all():
+        this_base = {'id': b.id, 'name': b.name }
+        # FIXME: Is this the best way to see if a Base exists in the Session?
+        if session.location_set.filter(id=b.id).exists():
+            this_base['current_session'] = True
+        else:
+            this_base['current_session'] = False
+        response['location_options'].append(this_base)
 
     if patrol_id:
         patrol = Patrol.objects.get(id = patrol_id)

@@ -28,11 +28,20 @@ function dynamic_form_update(){
 
       { // Update Location drop-down
         var location = "<option value=''>---------</option>";
+        var current_session_locations = ""
+        var non_session_locations = ""
         for(var i = 0; i < data.location_options.length; i++) {
           var loc = data.location_options[i];
           var selected = (loc.id == current_location) ? ' selected=""' : '';
-          location += "<option value='" + loc.id + "'" + selected + ">" + loc.name + "</option>";
+          var this_location = "<option value='" + loc.id + "'" + selected + ">" + loc.name + "</option>";
+          if(loc.current_session)
+            current_session_locations += this_location;
+          else non_session_locations += this_location;
         }
+        location += "<option value=''>--- Current Session</option>";
+        location += current_session_locations;
+        location += "<option value=''>--- Not in Session</option>";
+        location += non_session_locations;
         jQuery("#id_location").html(location);
       }
 
