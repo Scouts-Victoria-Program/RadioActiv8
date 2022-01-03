@@ -46,6 +46,7 @@
 <script>
     cPrev = -1; // global var saves the previous c, used to
                 // determine if the same column is clicked again
+    cAscending = true;
 
 function sortBy(c, id) {
     rows = document.getElementById(id).rows.length; // num of rows
@@ -71,8 +72,10 @@ function sortBy(c, id) {
                 }
             }
         );
+        cAscending = true;
     } else { // if the same column is clicked then reverse the array
         arrTable.reverse();
+        cAscending = !cAscending;
     }
 
     cPrev = c; // save in previous c
@@ -84,6 +87,12 @@ function sortBy(c, id) {
         for (co=0; co<columns; co++) {
             document.getElementById(id).rows[ro].cells[co].innerHTML = arrTable[ro][co];
         }
+    }
+    headers = jQuery('#events_table .table-arrow');
+    for(i=0; i<headers.length; i++)
+    {
+        if(i==c) headers[i].innerHTML =cAscending ? ' ▲' : ' ▼';
+        else headers[i].innerHTML = " ";
     }
 }
 </script>
