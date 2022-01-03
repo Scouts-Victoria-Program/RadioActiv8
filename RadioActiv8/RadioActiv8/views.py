@@ -38,10 +38,12 @@ def map(request):
     ab = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
     bp = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
     fb = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
+
     context = {
         "available_bases": ab,
         "busy_patrols": bp,
-        "full_bases": fb
+        "full_bases": fb,
+        "bases_geojson" : serialize('geojson', Location.objects.all())
     }
     return render(request, 'RadioActiv8/master/map.html', context)
 
