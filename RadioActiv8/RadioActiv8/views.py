@@ -34,18 +34,20 @@ def index(request):
 
 @login_required
 def map(request):
+    template_name = 'RadioActiv8/master/map.html'
     ra8_session = request.session.get('ra8_session')
-    ab = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
-    bp = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
-    fb = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
+    available_bases = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
+    busy_patrols = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
+    full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
 
     context = {
-        "available_bases": ab,
-        "busy_patrols": bp,
-        "full_bases": fb,
-        "bases_geojson" : serialize('geojson', Location.objects.filter(session=ra8_session))
+        "available_bases": available_bases,
+        "busy_patrols": busy_patrols,
+        "full_bases": full_bases,
+        "bases_geojson" : serialize('geojson', Location.objects.filter(session=ra8_session)),
+        "base_locations": Base.objects.filter(session=ra8_session)
     }
-    return render(request, 'RadioActiv8/master/map.html', context)
+    return render(request, template_name, context)
 
 
 @login_required
@@ -97,23 +99,19 @@ def play(request):
 
     form = EventForm(initial=initial)
 
-
-    #def get_success_message(self, cleaned_data):
-    #    return f"{self.object} was created successfully."
-
     submit_action = reverse("RadioActiv8:play")
     patrols = Patrol.objects.filter(session=ra8_session)
     bases = Base.objects.filter(session=ra8_session)
-    ab = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
-    bp = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
-    fb = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
+    available_bases = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
+    busy_patrols = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
+    full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
         "submit_action": submit_action,
         "patrols": patrols,
         "bases": bases,
-        "available_bases": ab,
-        "busy_patrols": bp,
-        "full_bases": fb,
+        "available_bases": available_bases,
+        "busy_patrols": busy_patrols,
+        "full_bases": full_bases,
         "form": form,
     }
     return render(request, template_name, context)
