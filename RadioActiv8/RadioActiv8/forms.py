@@ -35,7 +35,7 @@ class BonusPointsForm(forms.Form):
     bonus_points = forms.IntegerField(label='Bonus Points', initial=0, widget=forms.widgets.NumberInput(attrs={'class': 'form-control', 'type': 'number', 'inputmode': 'numeric', 'pattern': '[0-9]*'}))
 
 class SessionListForm(forms.Form):
-    session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select, label='Session')
+    session_list_field = forms.ModelChoiceField(queryset=Session.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}), label='Session')
 
 class SessionAddPatrolForm(forms.Form):
     def __init__(self, *args, **kwargs):
