@@ -94,6 +94,7 @@ function dynamic_form_update(){
         var full = [];
         var facilitated = [];
         var unvisited = [];
+        var base_choice = []
         if (!data.valid_destinations.bases) return;
         for (var i = 0; i < data.valid_destinations.bases.length; i++)
         {
@@ -109,6 +110,10 @@ function dynamic_form_update(){
           else if(base.type == 'F')
           {
             facilitated.push(base);
+            for(var j = 0; j < (base.max_patrols - base.num_patrols); j++)
+            {
+              base_choice.push(base.id);
+            }
           }
           else
           {
@@ -119,9 +124,8 @@ function dynamic_form_update(){
         var suggested_base = null;
         if(facilitated.length)
         {
-          // FIXME: Sort the facilitated array by available slots using https://www.w3schools.com/jsref/jsref_sort.asp
-          var random_base = Math.floor(Math.random() * facilitated.length);
-          suggested_base = facilitated[random_base].id;
+          var random_base = Math.floor(Math.random() * base_choice.length);
+          suggested_base = base_choice[random_base];
         } else if(unvisited.length)
         {
           var random_base = Math.floor(Math.random() * unvisited.length);
