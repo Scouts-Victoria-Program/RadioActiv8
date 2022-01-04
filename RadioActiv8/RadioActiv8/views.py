@@ -393,7 +393,7 @@ def add_patrol_to_session(request, pk):
             patrol.gps_tracker = gps_tracker
             patrol.save()
 
-            event = Event(session=session, patrol=patrol, location=session.home_base, intelligence_answered_correctly=False, destination=base)
+            event = Event(session=session, patrol=patrol, location=session.home_base, intelligence_answered_correctly=False, destination=base, comment=f"Assigned tracker {gps_tracker}")
             event.save()
             messages.success(request, f'Patrol {patrol} added to session {session} allocated tracker {gps_tracker}, sent to base {base}')
             # redirect to a new URL:
