@@ -114,6 +114,10 @@ urlpatterns = [
         views.SessionDetail.as_view(template_name='RadioActiv8/session/patrol_index.html'),
         name='SessionPatrolList'),
     path(
+        'session/<int:pk>/clock/',
+        views.SessionClock,
+        name='SessionClock'),
+    path(
         'session/<int:pk>/base/',
         views.SessionDetail.as_view(template_name='RadioActiv8/session/base_index.html'),
         name='SessionBaseList'),

@@ -449,6 +449,17 @@ def participant_base_detail(request, patrol_pk, base_pk):
 
     return render(request, template_name, context)
 
+@login_required
+def SessionClock(request, pk):
+    template_name = 'RadioActiv8/session/clock.html'
+    context = {}
+
+    ra8_session = Session.objects.get(id=pk)
+
+    context['ra8_session'] = ra8_session
+
+    return render(request, template_name, context)
+
 
 '''
 Only helper functions below this point
