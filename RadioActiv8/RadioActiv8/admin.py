@@ -1,8 +1,9 @@
 from django.contrib.gis import admin
 from .models import *
 from RadioActiv8.forms import EventForm
+from simple_history.admin import SimpleHistoryAdmin
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(SimpleHistoryAdmin):
     list_display= ('timestamp', 'session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
     #list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
     list_filter= ('patrol', 'location', 'destination', 'session')
@@ -10,26 +11,26 @@ class EventAdmin(admin.ModelAdmin):
     ordering = ['timestamp']
     form = EventForm
 
-class ParticipantAdmin(admin.ModelAdmin):
+class ParticipantAdmin(SimpleHistoryAdmin):
     search_fields = ('full_name', 'p_id', 'patrol__name')
 
-class PatrolAdmin(admin.ModelAdmin):
+class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ('name',)
     list_filter= ('session',)
 
-class RadioAdmin(admin.OSMGeoAdmin):
+class RadioAdmin(admin.OSMGeoAdmin, SimpleHistoryAdmin):
     list_filter= ('session',)
 
-class IntelligenceAdmin(admin.OSMGeoAdmin):
+class IntelligenceAdmin(admin.OSMGeoAdmin, SimpleHistoryAdmin):
     list_filter= ('base',)
 
-class LocationAdmin(admin.OSMGeoAdmin):
+class LocationAdmin(admin.OSMGeoAdmin, SimpleHistoryAdmin):
     ordering = ['radio__name']
 
-class SessionAdmin(admin.ModelAdmin):
+class SessionAdmin(SimpleHistoryAdmin):
     pass
 
-class GPSTrackerAdmin(admin.ModelAdmin):
+class GPSTrackerAdmin(SimpleHistoryAdmin):
     pass
 
 

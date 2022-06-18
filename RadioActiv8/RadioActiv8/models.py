@@ -6,11 +6,13 @@ from django.db.models import Q
 import random
 from django.utils import timezone
 from datetime import timedelta
+from simple_history.models import HistoricalRecords
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
 
 class GPSTracker(models.Model):
+    history = HistoricalRecords()
     eui = models.CharField(max_length=16)
     name = models.CharField(max_length=32, null=True)
 
@@ -21,6 +23,7 @@ class GPSTracker(models.Model):
         return self.name
 
 class Session(models.Model):
+    history = HistoricalRecords()
     name = models.CharField(max_length=128)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
@@ -41,6 +44,7 @@ class Session(models.Model):
         return self.name
 
 class Location(models.Model):
+    history = HistoricalRecords()
     session = models.ManyToManyField(Session, blank=True)
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
 
@@ -52,6 +56,7 @@ class Location(models.Model):
 
 
 class Radio(Location):
+    history = HistoricalRecords()
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=256, null=True)
     channel = models.IntegerField(blank=True, null=True)
@@ -64,6 +69,7 @@ class Radio(Location):
 
 
 class Base(Radio):
+    history = HistoricalRecords()
     min_patrols = models.IntegerField(blank=True, null=True)
     max_patrols = models.IntegerField(blank=True, null=True)
     run_time = models.DurationField(default=timedelta(minutes=5))
@@ -142,6 +148,7 @@ class Base(Radio):
 
 
 class Patrol(models.Model):
+    history = HistoricalRecords()
     session = models.ManyToManyField(Session)
     name = models.CharField(max_length=128)
     current_base = models.ForeignKey(Base, blank=True, null=True, on_delete=models.SET_NULL)
@@ -197,6 +204,7 @@ class Patrol(models.Model):
         return self.attendance_points + self.completion_points + self.bonus_points
 
 class Participant(models.Model):
+    history = HistoricalRecords()
     p_id = models.IntegerField(null=True)
     full_name = models.CharField(max_length=128)
     preferred_name = models.CharField(max_length=128)
@@ -220,6 +228,7 @@ class Participant(models.Model):
         return f'({self.p_id}) {self.full_name} - {self.patrol}'
 
 class Intelligence(models.Model):
+    history = HistoricalRecords()
     base = models.ForeignKey(Base, null=True, on_delete=models.CASCADE)
     question = models.CharField(max_length=1024)
     answer = models.CharField(max_length=1024)
@@ -234,6 +243,7 @@ class Intelligence(models.Model):
 
 
 class Event(models.Model):
+    history = HistoricalRecords()
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
