@@ -4,5 +4,6 @@ djangorestframework
 psycopg2-binary
 django-bootstrap4
 gunicorn
+django-simple-history
 # Just useful for debugging
 ipython
