@@ -179,6 +179,9 @@ class Patrol(models.Model):
         GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
     )
     number_of_members = models.IntegerField(null=True, blank=True)
+    preferred_bases = models.ManyToManyField(
+        Base, blank=True, related_name="patrol_preferred"
+    )
 
     class Meta:
         ordering = ["name"]
