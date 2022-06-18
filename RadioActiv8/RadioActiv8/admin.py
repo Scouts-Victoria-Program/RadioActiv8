@@ -41,7 +41,7 @@ admin.site.register(Base, RadioAdmin)
 admin.site.register(Intelligence, IntelligenceAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Session, SessionAdmin)
-admin.site.register(Participant, ParticipantAdmin)
+#admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(GPSTracker, GPSTrackerAdmin)
 
-admin.site.site_header = "RadioActiv8 Admin"
+#admin.site.site_header = "RadioActiv8 Admin"
