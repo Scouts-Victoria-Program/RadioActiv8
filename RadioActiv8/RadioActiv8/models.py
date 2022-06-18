@@ -156,6 +156,7 @@ class Patrol(models.Model):
     completion_points = models.IntegerField(default=0)
     bonus_points = models.IntegerField(default=0)
     gps_tracker = models.OneToOneField(GPSTracker, blank=True, null=True, on_delete=models.SET_NULL)
+    preferred_bases = models.ManyToManyField(Base, blank=True, related_name='patrol_preferred')
 
     class Meta:
         ordering = ['name']
