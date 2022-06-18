@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "rest_framework",
     # Include this to build on top of Boostrap 4
     "bootstrap4",
+    "simple_history",
     "RadioActiv8",
     # Include this to add history to models
     "simple_history",
