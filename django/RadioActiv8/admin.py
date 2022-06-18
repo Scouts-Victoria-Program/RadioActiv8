@@ -12,6 +12,7 @@ from .models import (
 )
 
 from RadioActiv8.forms import EventForm
+from simple_history.admin import SimpleHistoryAdmin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 import csv
@@ -90,7 +91,7 @@ class SessionAdmin(SimpleHistoryAdmin):
     pass
 
 
-class GPSTrackerAdmin(SimpleHistoryAdmin):
+class GPSTrackerAdmin(admin.ModelAdmin):
     pass
 
 
