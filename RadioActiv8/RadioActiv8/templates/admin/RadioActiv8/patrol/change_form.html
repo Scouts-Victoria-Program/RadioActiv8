@@ -5,7 +5,7 @@
 <h2>Current members</h2>
 <ul>
   {% for registration in original.registration_set.all%}
-  <li><a href="{% url 'admin:scoutsvic_ems_registration_change' registration.id %}">{{registration.registrant}}</a></li>
+  <li><a href="{% url 'admin:scoutsvic_ems_registration_change' registration.id %}">{{registration.registrant}} ({{registration.registrant.member.main_role.group.district.region}}/{{registration.registrant.member.main_role.group.district}}/{{registration.registrant.member.main_role.group}})</a></li>
   {% endfor %}
 </ul>
 {{ block.super }}
