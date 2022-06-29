@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
 from django.utils import timezone
+from scoutsvic_extranet.models import MemberClass
 from simple_history.models import HistoricalRecords
 
 # FIXME: This default should be configurable
@@ -233,6 +234,8 @@ class Patrol(models.Model):
     preferred_bases = models.ManyToManyField(
         Base, blank=True, related_name="patrol_preferred"
     )
+    member_classes = models.ManyToManyField(MemberClass, blank=True)
+    project_patrol = models.BooleanField(default=False)
     number_of_members = models.IntegerField(null=True, blank=True)
 
     class Meta:
