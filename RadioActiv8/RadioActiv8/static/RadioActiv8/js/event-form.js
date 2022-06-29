@@ -38,10 +38,12 @@ function dynamic_form_update(){
             current_session_locations += this_location;
           else non_session_locations += this_location;
         }
-        location += "<option value=''>--- Current Session</option>";
+        location += "<optgroup label='Current Session'>";
         location += current_session_locations;
-        location += "<option value=''>--- Not in Session</option>";
+        location += "</optgroup>";
+        location += "<optgroup label='Not in Session'>";
         location += non_session_locations;
+        location += "</optgroup>";
         jQuery("#id_location").html(location);
       }
 
@@ -49,7 +51,7 @@ function dynamic_form_update(){
         var intelligence = "<option value=''>---------</option>";
         var selected_intelligence = jQuery("#id_intelligence_request").val()
 
-        intelligence += "<option value=''>--- Available intelligence</option>";
+        intelligence += "<optgroup label='Available intelligence'>";
         // Unused intelligence
         var random_intelligence = 0;
         if(data.intelligence_options.random)
@@ -74,7 +76,8 @@ function dynamic_form_update(){
           else answer = int.a;
           intelligence += "<option value='" + int.id + "'" + selected + "> Q: " + question + "? A: " + answer + "</option>";
         }
-        intelligence += "<option value=''>--- Used intelligence</option>";
+        intelligence += "</optgroup>";
+        intelligence += "<optgroup label='Used intelligence'>";
         // Used intelligence
         for (var i = 0; i < data.intelligence_options.used.length; i++) {
           var int = data.intelligence_options.used[i];
@@ -84,6 +87,7 @@ function dynamic_form_update(){
           else answer = int.a;
           intelligence += "<option value='" + int.id + "'> Q: " + question + "? A: " + answer + "</option>";
         }
+        intelligence += "</optgroup>";
         jQuery("#id_intelligence_request").html(intelligence);
 
       }
@@ -133,31 +137,34 @@ function dynamic_form_update(){
         }
 
         // Facilitated bases
-        destination += "<option value=''>--- Available Facilitated Bases</option>";
+        destination += "<optgroup label='Available Facilitated Bases'>";
         for (var i = 0; i < facilitated.length; i++)
         {
           base = facilitated[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
+        destination += "</optgroup>";
         // Unvisited bases
-        destination += "<option value=''>--- Unvisited Non-facilitated Bases</option>";
+        destination += "<optgroup label='Unvisited Non-facilitated Bases'>";
         for (var i = 0; i < unvisited.length; i++)
         {
           base = unvisited[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
+        destination += "</optgroup>";
         // Full bases
-        destination += "<option value=''>--- Full Facilitated Bases</option>";
+        destination += "<optgroup label='Full Facilitated Bases'>";
         for (var i = 0; i < full.length; i++)
         {
           base = full[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
+        destination += "</optgroup>";
         // Visited bases
-        destination += "<option value=''>--- Visited Bases</option>";
+        destination += "<optgroup label='Visited Bases'>";
         for (var i = 0; i < visited.length; i++)
         {
           base = visited[i];
@@ -165,13 +172,15 @@ function dynamic_form_update(){
           var repeatable = (base.repeatable) ? '' : " (NOT REPEATABLE!)";
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + repeatable + "</option>";
         }
+        destination += "</optgroup>";
 
 
         if(data.valid_destinations.home_base)
         {
           var home_base = data.valid_destinations.home_base;
-          destination += "<option value=''>--- Home Base</option>";
+          destination += "<optgroup label='Home Base'>";
           destination += "<option value='" + home_base.id +  "'>" + home_base.name + "</option>";
+          destination += "</optgroup>";
         }
         jQuery("#id_destination").html(destination);
       }
