@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.contrib import admin
 from datetime import timedelta
 from simple_history.models import HistoricalRecords
+from scoutsvic_extranet.models import MemberClass
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
@@ -182,6 +183,8 @@ class Patrol(models.Model):
         GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
     )
     preferred_bases = models.ManyToManyField(Base, blank=True, related_name='patrol_preferred')
+    member_classes = models.ManyToManyField(MemberClass, blank=True)
+    project_patrol = models.BooleanField(default=False)
     number_of_members = models.IntegerField(null=True, blank=True)
 
     class Meta:
