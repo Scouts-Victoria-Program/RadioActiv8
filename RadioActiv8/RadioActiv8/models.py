@@ -7,6 +7,7 @@ import random
 from django.utils import timezone
 from datetime import timedelta
 from simple_history.models import HistoricalRecords
+from scoutsvic_extranet.models import MemberClass
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
@@ -29,7 +30,7 @@ class Session(models.Model):
     end_time = models.DateTimeField()
     home_base = models.ForeignKey('Base', blank=True, null=True, on_delete=models.SET_NULL, related_name='is_home_base')
     # FIXME: Specify a list of session *types*
-    #type = 
+    #type =
 
     class Meta:
         ordering = ['start_time', 'name']
@@ -157,6 +158,8 @@ class Patrol(models.Model):
     bonus_points = models.IntegerField(default=0)
     gps_tracker = models.OneToOneField(GPSTracker, blank=True, null=True, on_delete=models.SET_NULL)
     preferred_bases = models.ManyToManyField(Base, blank=True, related_name='patrol_preferred')
+    member_classes = models.ManyToManyField(MemberClass, blank=True)
+    project_patrol = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['name']
