@@ -120,9 +120,10 @@ function dynamic_form_update(destination_toggle = false) {
         var destination = "<option value=''>---------</option>";
         var visited = [];
         var full = [];
-        var facilitated = [];
+        var preferred = [];
         var unvisited = [];
-        var base_choice = []
+        var ineligible = [];
+        var base_choice = [];
         if (!data.valid_destinations.bases) return;
         for (var i = 0; i < data.valid_destinations.bases.length; i++)
         {
@@ -135,16 +136,21 @@ function dynamic_form_update(destination_toggle = false) {
             base.name = `${base.name} (${min}:${sec})`;*/
             base.name = `${base.name} (${min}m ${sec}s)`;
           }
-          if (base.visited) {
+          if(!base.eligible)
+          {
+            ineligible.push(base);
+          }
+          else if(base.visited)
+          {
             visited.push(base);
           }
           else if(base.max_patrols != null && base.num_patrols >= base.max_patrols)
           {
             full.push(base);
           }
-          else if(base.type == 'F')
+          else if(base.preferred)
           {
-            facilitated.push(base);
+            preferred.push(base);
             for(var j = 0; j < (base.max_patrols - base.num_patrols); j++)
             {
               base_choice.push(base.id);
@@ -157,7 +163,7 @@ function dynamic_form_update(destination_toggle = false) {
         }
 
         var suggested_base = null;
-        if(facilitated.length)
+        if(preferred.length)
         {
           var random_base = Math.floor(Math.random() * base_choice.length);
           suggested_base = base_choice[random_base];
@@ -167,17 +173,17 @@ function dynamic_form_update(destination_toggle = false) {
           suggested_base = unvisited[random_base].id;
         }
 
-        // Facilitated bases
-        destination += "<optgroup label='Available Facilitated Bases'>";
-        for (var i = 0; i < facilitated.length; i++)
+        // Preferred bases
+        destination += "<optgroup label='Available Preferred Bases'>";
+        for (var i = 0; i < preferred.length; i++)
         {
-          base = facilitated[i];
+          base = preferred[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
         }
         destination += "</optgroup>";
         // Unvisited bases
-        destination += "<optgroup label='Unvisited Non-facilitated Bases'>";
+        destination += "<optgroup label='Unvisited Non-preferred Bases'>";
         for (var i = 0; i < unvisited.length; i++)
         {
           base = unvisited[i];
@@ -186,7 +192,7 @@ function dynamic_form_update(destination_toggle = false) {
         }
         destination += "</optgroup>";
         // Full bases
-        destination += "<optgroup label='Full Facilitated Bases'>";
+        destination += "<optgroup label='Full Bases'>";
         for (var i = 0; i < full.length; i++)
         {
           base = full[i];
@@ -202,6 +208,16 @@ function dynamic_form_update(destination_toggle = false) {
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           var repeatable = (base.repeatable) ? '' : " (NOT REPEATABLE!)";
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + repeatable + "</option>";
+        }
+        destination += "</optgroup>";
+        // Ineligible bases
+        destination += "<optgroup label='Ineligible Bases'>";
+        for (var i = 0; i < ineligible.length; i++)
+        {
+          base = ineligible[i];
+          var selected = (base.id == suggested_base) ? ' selected=""' : '';
+          var repeatable = (base.repeatable) ? '' : " (NOT REPEATABLE!)";
+          destination += "<option value=''" + selected + " disabled>" + base.name + repeatable + "</option>";
         }
         destination += "</optgroup>";
 

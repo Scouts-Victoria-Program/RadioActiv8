@@ -645,37 +645,27 @@ def valid_next_base_options(session, patrol, current_location):
                 for d in current_location.radio.base.nearest()
             }
 
-    unvisited_bases = session_bases.exclude(id__in=[b.id for b in visited_bases_list])
     visited_bases = session_bases.filter(id__in=[b.id for b in visited_bases_list])
+    eligible_bases = session_bases.filter(
+        mission__member_classes__in=patrol.member_classes.all()
+    ).distinct()
 
-    response["bases"] += [
-        {
+    for b in session_bases:
+        base = {
             "id": b.id,
             "name": b.name,
             "type": b.activity_type,
             "num_patrols": b.get_patrols_count(),
             "max_patrols": b.max_patrols,
             "visited": b in visited_bases,
-            # "eligible": b in eligible_bases,
-            # "top_priority": b in top_priority_bases,
-            # "preferred": base_preferences[b] if b in base_preferences else None,
+            "eligible": b in eligible_bases,
+            #"top_priority": b in top_priority_bases,
+            #"preferred": base_preferences[b] if b in base_preferences else None,
+            "preferred": b in patrol.preferred_bases.all(),
             "time": routes[b] if routes and b in routes else None,
             "repeatable": b.repeatable,
         }
-        for b in unvisited_bases
-    ]
-    response["bases"] += [
-        {
-            "id": b.id,
-            "name": b.name,
-            "type": b.activity_type,
-            "num_patrols": b.get_patrols_count(),
-            "max_patrols": b.max_patrols,
-            "visited": True,
-            "repeatable": b.repeatable,
-        }
-        for b in visited_bases
-    ]
+        response["bases"].append(base)
 
     return response
 
