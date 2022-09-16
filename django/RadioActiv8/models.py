@@ -246,6 +246,7 @@ class Event(models.Model):
         Location, on_delete=models.CASCADE, related_name="Destination",
         blank=True, null=True)
     comment = models.TextField(max_length=1024, null=True, blank=True)
+    actual_event_time = models.DateTimeField(null=True, blank=False, verbose_name='Reported event time')
 
     class Meta:
         ordering = ['timestamp']

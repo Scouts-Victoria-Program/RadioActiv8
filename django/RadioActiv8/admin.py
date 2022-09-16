@@ -27,7 +27,7 @@ def download_csv(modeladmin, request, queryset):
 admin.site.add_action(download_csv, 'download_csv')
 
 class EventAdmin(admin.ModelAdmin):
-    list_display= ('timestamp', 'session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
+    list_display= ('timestamp', 'actual_event_time', 'session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
     #list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
     list_filter= ('patrol', 'location', 'destination', 'session')
     search_fields= ('patrol__name', 'location__radio__name', 'intelligence_request__answer', 'destination__radio__name', 'comment')
