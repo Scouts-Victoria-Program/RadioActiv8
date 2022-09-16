@@ -1,7 +1,10 @@
-from django.forms import ModelForm, Textarea
-from django import forms
-from .models import Base, Patrol, Event, Session, GPSTracker
 import random
+from datetime import datetime
+
+from django import forms
+from django.forms import ModelForm, Textarea
+
+from .models import Base, Event, GPSTracker, Patrol, Session
 
 
 class BaseForm(ModelForm):
@@ -24,6 +27,7 @@ class EventForm(ModelForm):
         model = Event
         fields = (
             "session",
+            "actual_event_time",
             "patrol",
             "location",
             "intelligence_request",
@@ -31,8 +35,25 @@ class EventForm(ModelForm):
             "destination",
             "comment",
         )
+        field_classes = {
+            "actual_event_time": forms.SplitDateTimeField,
+        }
         widgets = {
             "session": forms.widgets.Select(),
+            "actual_event_time": forms.widgets.SplitDateTimeWidget(
+                date_format="%Y-%m-%d",
+                time_format="%H:%m:%s",
+                date_attrs={
+                    "placeholder": "YYYY-MM-DD",
+                    "value": datetime.today().date(),
+                    "pattern": "\d{4}-\d{2}-\d{2}",
+                },
+                time_attrs={
+                    "placeholder": "HH:MM",
+                    "pattern": "\d{2}:\d{2}(:\d{2})?",
+                    "step": 60,
+                },
+            ),
             "patrol": forms.widgets.Select(),
             "location": forms.widgets.Select(),
             "intelligence_request": forms.widgets.Select(),

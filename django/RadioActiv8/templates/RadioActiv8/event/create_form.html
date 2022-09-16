@@ -3,6 +3,8 @@
     {% csrf_token %}
     <p>{% bootstrap_field form.session %}</p>
     <p>{% bootstrap_field form.patrol %}</p>
+    <p>{% bootstrap_field form.actual_event_time %}</p>
+    <input class="btn btn-primary" type="button" value="Set to current time" onclick="$('#id_actual_event_time_1').val(new Date().toTimeString().substring(0,8))">
     <span class="form-current-location">
         <p>
             <strong>Expected Location:</strong>

@@ -46,6 +46,7 @@ admin.site.add_action(download_csv, "download_csv")
 class EventAdmin(SimpleHistoryAdmin):
     list_display = (
         "timestamp",
+        "actual_event_time",
         "timesince",
         "patrol",
         "location",
