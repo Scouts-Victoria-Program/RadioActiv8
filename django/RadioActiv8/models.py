@@ -26,7 +26,7 @@ class Session(models.Model):
     end_time = models.DateTimeField()
     home_base = models.ForeignKey('Base', blank=True, null=True, on_delete=models.SET_NULL, related_name='is_home_base')
     # FIXME: Specify a list of session *types*
-    #type = 
+    #type =
 
     class Meta:
         ordering = ['start_time', 'name']
