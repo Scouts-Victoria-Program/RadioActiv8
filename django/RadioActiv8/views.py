@@ -69,25 +69,9 @@ def play(request):
         # check whether it's valid:
         if event_form.is_valid():
 
-            session = event_form.cleaned_data["session"]
-            patrol = event_form.cleaned_data["patrol"]
-            location = event_form.cleaned_data["location"]
-            intelligence_request = event_form.cleaned_data["intelligence_request"]
-            intelligence_answered_correctly = event_form.cleaned_data["intelligence_answered_correctly"]
-            destination = event_form.cleaned_data["destination"]
-            comment = event_form.cleaned_data["comment"]
-
-            # process the data in form.cleaned_data as required
-            event = Event(session=session,
-                         patrol=patrol,
-                         location=location,
-                         intelligence_request=intelligence_request,
-                         intelligence_answered_correctly=intelligence_answered_correctly,
-                         destination=destination,
-                         comment=comment
-                         )
-            if session.id != ra8_session:
-                request.session['ra8_session'] = session.id
+            event = event_form.save()
+            if event.session.id != ra8_session:
+                request.session['ra8_session'] = event.session.id
             event.save()
             messages.success(request, f"{event} was created successfully.")
 
