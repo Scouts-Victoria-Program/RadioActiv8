@@ -21,12 +21,12 @@ class EventForm(ModelForm):
         model = Event
         fields = ('session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
         widgets = {
-            'session': forms.widgets.Select(attrs={'class': 'btn-sm'}),
-            'patrol': forms.widgets.Select(attrs={'class': 'btn-lg'}),
-            'location': forms.widgets.Select(attrs={'class': 'btn-sm'}),
-            'intelligence_request': forms.widgets.Select(attrs={'class': 'btn-sm'}),
-            # 'intelligence_answered_correctly': forms.widgets.Select(attrs={'class': 'btn-sm'}),
-            'destination': forms.widgets.Select(attrs={'class': 'btn-sm'}),
+            'session': forms.widgets.Select(),
+            'patrol': forms.widgets.Select(),
+            'location': forms.widgets.Select(),
+            'intelligence_request': forms.widgets.Select(),
+            # 'intelligence_answered_correctly': forms.widgets.Select(),
+            'destination': forms.widgets.Select(),
             'comment': Textarea(attrs={'cols': 40, 'rows': 3}),
         }
 
