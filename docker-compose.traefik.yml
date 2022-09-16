@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   # To use an built-in Postgres server, uncomment this service
-  #db:
+  #ra8db:
   #  # Use regular Postgres by default
   #  #image: postgres
   #  # Use PostGIS for spatial apps
@@ -36,7 +36,7 @@ services:
     restart: "unless-stopped"
     # To use an built-in Postgres server, uncomment this dependency
     #depends_on:
-    #  db:
+    #  ra8db:
     #    condition: service_healthy
     networks:
       - backend
