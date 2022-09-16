@@ -27,3 +27,4 @@ main {
   background: var(--dark);
   color: var(--warning);
 }
+.form-intelligence-request { display: none; }

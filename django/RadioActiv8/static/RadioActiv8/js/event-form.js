@@ -126,6 +126,7 @@ function dynamic_form_update(){
         }
 
         var suggested_base = null;
+        /*
         if(facilitated.length)
         {
           var random_base = Math.floor(Math.random() * base_choice.length);
@@ -135,6 +136,7 @@ function dynamic_form_update(){
           var random_base = Math.floor(Math.random() * unvisited.length);
           suggested_base = unvisited[random_base].id;
         }
+        */
 
         // Facilitated bases
         destination += "<optgroup label='Available Facilitated Bases'>";
