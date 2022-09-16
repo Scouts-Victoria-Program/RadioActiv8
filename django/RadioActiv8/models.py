@@ -149,6 +149,7 @@ class Patrol(models.Model):
     completion_points = models.IntegerField(default=0)
     bonus_points = models.IntegerField(default=0)
     gps_tracker = models.OneToOneField(GPSTracker, blank=True, null=True, on_delete=models.SET_NULL)
+    number_of_members = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']

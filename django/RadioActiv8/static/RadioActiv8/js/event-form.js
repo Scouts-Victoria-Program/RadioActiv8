@@ -21,7 +21,7 @@ function dynamic_form_update(){
         for(var i = 0; i < data.patrol_options.length; i++) {
           var p = data.patrol_options[i];
           var selected = (p.id == current_patrol) ? ' selected=""' : '';
-          patrol += "<option value='" + p.id + "'" + selected + ">" + p.name + "</option>";
+          patrol += "<option value='" + p.id + "'" + selected + ">" + p.name + " (" + p.number_of_members + " members) </option>";
         }
         jQuery("#id_patrol").html(patrol);
       }

@@ -319,7 +319,7 @@ def event_ajax(request):
     else:
         return JsonResponse(response, safe=False)
 
-    response['patrol_options'] = [ {'id': p.id, 'name': p.name} for p in Patrol.objects.filter(session=session) ]
+    response['patrol_options'] = [ {'id': p.id, 'name': p.name, 'number_of_members': p.number_of_members or len(p.participant_set.all()) } for p in Patrol.objects.filter(session=session) ]
     response['location_options'] = []
     for b in Base.objects.all():
         this_base = {'id': b.id, 'name': b.name }
