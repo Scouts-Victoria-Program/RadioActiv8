@@ -37,12 +37,12 @@ def map(request):
     template_name = 'RadioActiv8/master/map.html'
     ra8_session = request.session.get('ra8_session')
     available_bases = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
-    busy_patrols = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
+    latest_patrol_event = [p.event_set.last() for p in Patrol.objects.filter(session=ra8_session) if not p.current_base]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
 
     context = {
         "available_bases": available_bases,
-        "busy_patrols": busy_patrols,
+        "latest_patrol_event": latest_patrol_event,
         "full_bases": full_bases,
         "bases_geojson" : serialize('geojson', Location.objects.filter(session=ra8_session)),
         "base_locations": Base.objects.filter(session=ra8_session)
@@ -87,14 +87,15 @@ def play(request):
     patrols = Patrol.objects.filter(session=ra8_session)
     bases = Base.objects.filter(session=ra8_session)
     available_bases = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
-    busy_patrols = [p for p in Patrol.objects.filter(session=ra8_session) if p.current_base]
+    latest_patrol_event = [p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
+    print(latest_patrol_event)
     context = {
         "submit_action": submit_action,
         "patrols": patrols,
         "bases": bases,
         "available_bases": available_bases,
-        "busy_patrols": busy_patrols,
+        "latest_patrol_event": latest_patrol_event,
         "full_bases": full_bases,
         "form": form,
     }

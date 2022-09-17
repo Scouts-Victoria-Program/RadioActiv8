@@ -73,10 +73,16 @@
                             </h1>
                             <!-- End: sort by "Last Updated" -->
                             <ul class="list-unstyled text-monospace text-uppercase text-light">
-                                {% if busy_patrols %}
-                                {% for busy_patrol in busy_patrols %}
-                                <li><a target="_blank" class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' busy_patrol.id %}">{{busy_patrol.name}}</a> @ <a target="_blank" class="text-warning"
-                                        href="{% url 'admin:RadioActiv8_base_change' busy_patrol.current_base.id %}">{{busy_patrol.current_base.name}}</a></li>
+                                {% if latest_patrol_event %}
+                                {% for event in latest_patrol_event %}
+                                <li>
+                                    <a target="_blank" class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{event.patrol.name}}</a> @
+                                    <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.location.radio.base.id %}">{{event.location}}</a>
+                                    {% if event.destination %}
+                                        &#8594;
+                                        <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{event.destination.radio.base.name}}</a>
+                                    {% endif %}
+                                </li>
                                 {% endfor %}
                                 {% else %}
                                 <li>NO PATROLS LOGGED!!!</li>
