@@ -89,7 +89,6 @@ def play(request):
     available_bases = [b for b in Base.objects.filter(session=ra8_session) if not b.is_full()]
     latest_patrol_event = [p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
-    print(latest_patrol_event)
     context = {
         "submit_action": submit_action,
         "patrols": patrols,
