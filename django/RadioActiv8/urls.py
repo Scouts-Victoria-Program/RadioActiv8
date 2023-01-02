@@ -1,7 +1,5 @@
 from django.urls import include, path
 from rest_framework import routers
-from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 from . import views, api_views
@@ -135,5 +133,4 @@ urlpatterns = [
         name='GPSTrackerDetail'),
     path('api/', include(router.urls)),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-# FIXME: Serve static files properly in production
+]

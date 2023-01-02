@@ -23,32 +23,21 @@ services:
       context: ./django
       # To build image with extra dev tools
       #dockerfile: Dockerfile.dev
-    command: gunicorn myproject.wsgi -b 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     env_file: .env
     volumes:
+      - ./django:/code
       - static_files:/static
       - media_files:/media
       # Uncomment this to use SQLite
-      #- db_data:/db
+      #- ./db:/db
     restart: "unless-stopped"
     # To use an external database server, comment out this dependency
     depends_on:
       db:
         condition: service_healthy
-
-  web:
-    image: mattcen/nginx_django
-    build: ./nginx
-    environment:
-      # Replace 'app' below with the name of the django service above
-      WEB_APP_HOST: app:8000
     ports:
-      - "$APP_PORT:80"
-    depends_on:
-      - app
-    volumes:
-      - static_files:/static
-      - media_files:/media
+      - "$APP_PORT:8000"
 
 volumes:
   db_data:
