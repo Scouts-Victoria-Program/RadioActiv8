@@ -1,6 +1,8 @@
-.env
-.venv
-__pycache__/
+.ipynb_checkpoints
 node_modules/
 scratch/
-.ipynb_checkpoints
+.venv/
+__pycache__/
+static/
+media/
+db/
