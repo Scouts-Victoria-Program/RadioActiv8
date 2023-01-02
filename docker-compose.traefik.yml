@@ -22,7 +22,7 @@ services:
   app:
     image: ghcr.io/mattcen/radioactiv8
     build:
-      context: ./RadioActiv8
+      context: ./django
       # To build image with extra dev tools
       #dockerfile: Dockerfile.dev
     command: gunicorn myproject.wsgi -b 0.0.0.0:8000

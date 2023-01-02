@@ -13,8 +13,8 @@ steps:
       from_secret: DOCKER_PASSWORD
     # Replace this with your own Git host
     repo: git.mattcen.com/${DRONE_REPO}
-    context: RadioActiv8/
-    dockerfile: RadioActiv8/Dockerfile
+    context: django/
+    dockerfile: django/Dockerfile
     # Replace this with your own Git host
     cache_from: git.mattcen.com/${DRONE_REPO}
 
