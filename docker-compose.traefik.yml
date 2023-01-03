@@ -20,7 +20,7 @@ services:
       - backend
 
   app:
-    image: ghcr.io/mattcen/radioactiv8:v1.1.5
+    image: ghcr.io/scouts-victoria-program/radioactiv8:main
     build:
       context: ./django
       # To build image with extra dev tools
