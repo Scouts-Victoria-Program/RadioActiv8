@@ -54,10 +54,10 @@ cp .env.example .env
     ./manage.py runserver
     ```
 
-4. Load in some test data (stored in `test_data.py`)
+4. Load in some sample data
 
 ```
-docker-compose exec app python manage.py shell -c 'from RadioActiv8 import test_data; test_data.load()'
+docker-compose exec app ./manage.py loaddata sample
 ```
 
 5. Log into admin console at http://localhost:8000/admin as `root`/`root`
