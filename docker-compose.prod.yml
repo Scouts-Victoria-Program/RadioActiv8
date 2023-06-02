@@ -1,21 +1,21 @@
 version: "3.8"
 
 services:
-  # To use an external database server, comment out this service
-  db:
-    # Use regular Postgres by default
-    #image: postgres
-    # Use PostGIS for spatial apps
-    image: postgis/postgis
-    env_file: .env
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: "unless-stopped"
+  # To use an built-in Postgres server, uncomment this service
+  #db:
+  #  # Use regular Postgres by default
+  #  #image: postgres
+  #  # Use PostGIS for spatial apps
+  #  image: postgis/postgis
+  #  env_file: .env
+  #  volumes:
+  #    - db_data:/var/lib/postgresql/data
+  #  healthcheck:
+  #    test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+  #    interval: 10s
+  #    timeout: 5s
+  #    retries: 5
+  #  restart: "unless-stopped"
 
   app:
     image: ghcr.io/scouts-victoria-program/radioactiv8:main
@@ -23,19 +23,19 @@ services:
       context: ./django
       # To build image with extra dev tools
       #dockerfile: Dockerfile.dev
-    command: gunicorn myproject.wsgi -b 0.0.0.0:8000
+    command: python -m gunicorn myproject.wsgi -b 0.0.0.0:8000
     env_file: .env
     volumes:
       - static_files:/static
       - media_files:/media
       - docs:/docs
-      # Uncomment this to use SQLite
-      #- db_data:/db
+      # Comment this out if you're not using SQLite
+      - ./db:/db
     restart: "unless-stopped"
-    # To use an external database server, comment out this dependency
-    depends_on:
-      db:
-        condition: service_healthy
+    # To use an built-in Postgres server, uncomment this dependency
+    #depends_on:
+    #  db:
+    #    condition: service_healthy
 
   web:
     image: mattcen/nginx_django
