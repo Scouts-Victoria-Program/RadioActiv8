@@ -25,6 +25,7 @@ class Session(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     home_base = models.ForeignKey('Base', blank=True, null=True, on_delete=models.SET_NULL, related_name='is_home_base')
+    route = models.LineStringField(null=True, default=None)
     # FIXME: Specify a list of session *types*
     #type =
 
@@ -36,6 +37,14 @@ class Session(models.Model):
         # Check home_base is part of this Session
         if self.home_base and not self.location_set.filter(id=self.home_base.location_ptr.id).exists():
             raise ValidationError('Home base must be allocated to this session first.')
+
+    @property
+    def map_extent(self):
+        if self.route:
+            return self.route.extent
+        else:
+            return self.location_set.all().aggregate(
+                models.Extent("gps_location"))['gps_location__extent']
 
     def __str__(self):
         return self.name
