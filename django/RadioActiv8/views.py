@@ -500,7 +500,11 @@ def patrol_base_history(session, patrol):
     if last_destination:
         last_destination_response = {'id': last_destination.id, 'name': last_destination.radio.name}
     else:
-        last_destination_response = {'id': -1, 'name': 'NONE'}
+        # If there's no event history for this patrol, but their *current base* is set, use that
+        if patrol.current_base:
+            last_destination_response = {'id': patrol.current_base.id, 'name': patrol.current_base.name}
+        else:
+            last_destination_response = {'id': -1, 'name': 'NONE'}
 
     response = {'visited_bases': visited_bases, 'last_destination': last_destination_response}
 
