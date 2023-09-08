@@ -125,7 +125,7 @@ function dynamic_form_update(){
           }
         }
 
-        var suggested_base = null;
+        var suggested_base = current_location;
         /*
         if(facilitated.length)
         {
