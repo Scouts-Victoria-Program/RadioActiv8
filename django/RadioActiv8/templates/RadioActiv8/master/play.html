@@ -79,7 +79,7 @@
                                             <li>
                                                 <a target="_blank" class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{event.patrol.name}}</a> @
                                                 <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.location.radio.base.id %}">{{event.location}}</a>
-                                                {% if event.destination %}
+                                                {% if event.destination and event.destination != event.location %}
                                                     &#8594;
                                                     <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{event.destination.radio.base.name}}</a>
                                                 {% endif %}
