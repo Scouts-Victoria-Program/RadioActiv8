@@ -263,17 +263,17 @@ class Event(models.Model):
             if self.destination != self.location:
                 self.patrol.current_base = None
 
-            # Given the patrol is checking *out* of a base, we process any
-            # points they may have been awarded.
-            if self.intelligence_request:
-                self.patrol.attendance_points += self.location.radio.base.attendance_points
+                # Given the patrol is checking *out* of a base, we process any
+                # points they may have been awarded.
+                if self.intelligence_request:
+                    self.patrol.attendance_points += self.location.radio.base.attendance_points
 
-                if self.intelligence_answered_correctly:
-                    self.patrol.completion_points += self.intelligence_request.completion_points
-        elif self.location.radio and self.location.radio.base:
-            # After confirming that the current location is a base, set this as
-            # the patrol's current base
-            self.patrol.current_base = self.location.radio.base
+                    if self.intelligence_answered_correctly:
+                        self.patrol.completion_points += self.intelligence_request.completion_points
+            elif self.location.radio and self.location.radio.base:
+                # After confirming that the current location is a base, set this as
+                # the patrol's current base
+                self.patrol.current_base = self.location.radio.base
 
         self.patrol.save()
 
