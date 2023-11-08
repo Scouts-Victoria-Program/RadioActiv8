@@ -4,6 +4,6 @@ scratch/
 .env
 .venv/
 __pycache__/
-static/
-media/
+/static/
+/media/
 db/
