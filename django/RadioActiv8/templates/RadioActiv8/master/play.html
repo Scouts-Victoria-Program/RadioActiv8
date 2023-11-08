@@ -32,7 +32,7 @@
                         </ol>
                     </div>
                     <div class="col-md-2 col-xl-2 offset-xl-0 text-monospace">
-                        <div class="form-group">
+                        <div id="base-status" class="form-group" hx-trigger="every 10s" hx-get="" hx-target="this" hx-select="#base-status" hx-swap="outerHTML" hx-select-oob="#patrol-locations">
                             <!-- Start: Sort by "Longest Time since used" -->
                             <h1 class="text-monospace text-uppercase font-weight-bold"
                                 style="font-size: 12pt;color: var(--black);">AVAILABLE BASES:
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-5 col-xl-5 offset-xl-0 text-monospace">
-                        <div class="form-group">
+                        <div id="patrol-locations" class="form-group">
                             <!-- Start: sort by "Last Updated" -->
                             <h1 class="text-monospace text-uppercase font-weight-bold"
                                 style="font-size: 12pt;color: var(--black);">
