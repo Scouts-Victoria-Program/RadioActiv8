@@ -18,13 +18,13 @@ class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ('name',)
     list_filter= ('session',)
 
-class RadioAdmin(admin.OSMGeoAdmin, SimpleHistoryAdmin):
+class RadioAdmin(admin.GISModelAdmin, SimpleHistoryAdmin):
     list_filter= ('session',)
 
-class IntelligenceAdmin(admin.OSMGeoAdmin, SimpleHistoryAdmin):
+class IntelligenceAdmin(admin.GISModelAdmin, SimpleHistoryAdmin):
     list_filter= ('base',)
 
-class LocationAdmin(admin.OSMGeoAdmin, SimpleHistoryAdmin):
+class LocationAdmin(admin.GISModelAdmin, SimpleHistoryAdmin):
     ordering = ['radio__name']
 
 class SessionAdmin(SimpleHistoryAdmin):
