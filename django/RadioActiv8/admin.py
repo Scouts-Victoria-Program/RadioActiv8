@@ -41,13 +41,13 @@ class PatrolAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter= ('session',)
 
-class RadioAdmin(admin.OSMGeoAdmin):
+class RadioAdmin(admin.GISModelAdmin):
     list_filter= ('session',)
 
-class IntelligenceAdmin(admin.OSMGeoAdmin):
+class IntelligenceAdmin(admin.GISModelAdmin):
     list_filter= ('base',)
 
-class LocationAdmin(admin.OSMGeoAdmin):
+class LocationAdmin(admin.GISModelAdmin):
     ordering = ['radio__name']
 
 class SessionAdmin(admin.ModelAdmin):
