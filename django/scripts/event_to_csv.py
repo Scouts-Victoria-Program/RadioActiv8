@@ -1,8 +1,7 @@
 # docker-compose exec app ./manage.py shell -c 'import event_to_csv'
 from django.contrib.admin.models import LogEntry
-from RadioActiv8.models import *
+from RadioActiv8.models import Event
 import csv
-from django.utils.timezone import activate
 from django.conf import settings
 
 # activate(settings.TIME_ZONE)

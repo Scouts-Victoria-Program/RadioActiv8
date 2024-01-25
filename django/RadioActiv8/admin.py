@@ -1,5 +1,16 @@
 from django.contrib.gis import admin
-from .models import *
+from .models import (
+    Patrol,
+    Location,
+    Radio,
+    Base,
+    Intelligence,
+    Event,
+    Session,
+    Participant,
+    GPSTracker,
+)
+
 from RadioActiv8.forms import EventForm
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
@@ -11,7 +22,7 @@ def download_csv(modeladmin, request, queryset):
     if not request.user.is_staff:
         raise PermissionDenied
     opts = queryset.model._meta
-    model = queryset.model
+    # model = queryset.model
     response = HttpResponse(content_type="text/csv")
     # force download.
     response["Content-Disposition"] = "attachment;filename=export.csv"

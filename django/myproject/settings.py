@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 
 from pathlib import Path
 
+from django.conf.locale.en import formats as en_formats
+
 import environ
 
 env = environ.Env(
@@ -19,8 +21,6 @@ env = environ.Env(
     DEBUG=(bool, False),
     TIME_ZONE=(str, "UTC"),
 )
-
-from django.conf.locale.en import formats as en_formats
 
 en_formats.DATETIME_FORMAT = "Y-m-d H:i:s"
 

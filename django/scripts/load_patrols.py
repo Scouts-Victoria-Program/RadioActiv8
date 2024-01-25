@@ -1,5 +1,5 @@
 # docker compose exec app ./manage.py shell -c 'import load_patrols'
-from RadioActiv8.models import *
+from RadioActiv8.models import Patrol
 
 with open("patrols.txt", "r") as f:
     lines = f.readlines()
