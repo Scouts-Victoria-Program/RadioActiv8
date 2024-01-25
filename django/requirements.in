@@ -1,0 +1,10 @@
+Django
+django-environ
+djangorestframework
+django-simple-history
+psycopg2-binary
+django-bootstrap4
+gunicorn
+django-extensions
+# Just useful for debugging
+ipython
