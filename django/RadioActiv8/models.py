@@ -10,42 +10,53 @@ from datetime import timedelta
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
 
+
 class GPSTracker(models.Model):
     eui = models.CharField(max_length=16)
     name = models.CharField(max_length=32, null=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
+
 
 class Session(models.Model):
     name = models.CharField(max_length=128)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    home_base = models.ForeignKey('Base', blank=True, null=True, on_delete=models.SET_NULL, related_name='is_home_base')
+    home_base = models.ForeignKey(
+        "Base",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="is_home_base",
+    )
     # FIXME: Specify a list of session *types*
-    #type =
+    # type =
 
     class Meta:
-        ordering = ['start_time', 'name']
+        ordering = ["start_time", "name"]
 
     def clean(self):
-
         # Check home_base is part of this Session
-        if self.home_base and not self.location_set.filter(id=self.home_base.location_ptr.id).exists():
-            raise ValidationError('Home base must be allocated to this session first.')
+        if (
+            self.home_base
+            and not self.location_set.filter(id=self.home_base.location_ptr.id).exists()
+        ):
+            raise ValidationError("Home base must be allocated to this session first.")
 
     def __str__(self):
         return self.name
+
 
 class Location(models.Model):
     session = models.ManyToManyField(Session, blank=True)
     gps_location = models.PointField(blank=True, default=DEFAULT_POINT)
 
     def __str__(self):
-        if hasattr(self, 'radio'):
+        if hasattr(self, "radio"):
             return str(self.radio)
         else:
             return str(self.gps_location)
@@ -57,7 +68,7 @@ class Radio(Location):
     channel = models.IntegerField(blank=True, null=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -71,15 +82,16 @@ class Base(Radio):
     attendance_points = models.IntegerField(default=100)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
     ACTIVITY_TYPE_CHOICES = [
-        ('R', 'Reading data'),
-        ('S', 'Self-directed'),
-        ('F', 'Facilitated'),
+        ("R", "Reading data"),
+        ("S", "Self-directed"),
+        ("F", "Facilitated"),
     ]
     activity_type = models.CharField(
-        blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES, default='S')
+        blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES, default="S"
+    )
 
     def get_intelligence(self, patrol=None):
         """
@@ -91,9 +103,15 @@ class Base(Radio):
         intelligence = Intelligence.objects.filter(base=self)
         if patrol:
             return intelligence.filter(
-                ~Q(id__in=[e.intelligence_request.id for e in
-                           Event.objects.exclude(intelligence_request=None).filter(patrol=patrol,
-                                                intelligence_answered_correctly=True).order_by('timestamp')]))
+                ~Q(
+                    id__in=[
+                        e.intelligence_request.id
+                        for e in Event.objects.exclude(intelligence_request=None)
+                        .filter(patrol=patrol, intelligence_answered_correctly=True)
+                        .order_by("timestamp")
+                    ]
+                )
+            )
         else:
             return intelligence
 
@@ -144,15 +162,19 @@ class Base(Radio):
 class Patrol(models.Model):
     session = models.ManyToManyField(Session)
     name = models.CharField(max_length=128)
-    current_base = models.ForeignKey(Base, blank=True, null=True, on_delete=models.SET_NULL)
+    current_base = models.ForeignKey(
+        Base, blank=True, null=True, on_delete=models.SET_NULL
+    )
     attendance_points = models.IntegerField(default=0)
     completion_points = models.IntegerField(default=0)
     bonus_points = models.IntegerField(default=0)
-    gps_tracker = models.OneToOneField(GPSTracker, blank=True, null=True, on_delete=models.SET_NULL)
+    gps_tracker = models.OneToOneField(
+        GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
+    )
     number_of_members = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -172,30 +194,31 @@ class Patrol(models.Model):
     def check_out(self):
         # FIXME Update this to work with new model and pull data from Events
         pass
-        #Should we assign next base here?
+        # Should we assign next base here?
         if self.base is None:
             print("Not checked in")
             return False
 
         Event(base=self.base, patrol=self, check_out=True).save()
-        #PatrolAnswer(patrol=self, intelligence=intelligence).save()
+        # PatrolAnswer(patrol=self, intelligence=intelligence).save()
         self.base = None
         self.save()
         return True
 
     def last_seen(self):
-        return Event.objects.filter(
-                patrol=self).order_by('-timestamp').first()
+        return Event.objects.filter(patrol=self).order_by("-timestamp").first()
 
     def visited_bases(self):
-        return Base.objects.filter(id__in = [event.location.id for event in
-                self.event_set.all()])
+        return Base.objects.filter(
+            id__in=[event.location.id for event in self.event_set.all()]
+        )
 
     def get_total_points(self):
         """
         Tally and return different types of points for Patrol
         """
         return self.attendance_points + self.completion_points + self.bonus_points
+
 
 class Participant(models.Model):
     p_id = models.IntegerField(null=True)
@@ -204,21 +227,23 @@ class Participant(models.Model):
     patrol = models.ForeignKey(Patrol, null=True, on_delete=models.SET_NULL)
 
     class Meta:
-        ordering = ['full_name']
+        ordering = ["full_name"]
 
     PARTICIPANT_TYPE_CHOICES = [
-        ('J', 'Joey'),
-        ('C', 'Cub'),
-        ('S', 'Scout'),
-        ('V', 'Venturer'),
-        ('R', 'Rover'),
-        ('L', 'Leader'),
+        ("J", "Joey"),
+        ("C", "Cub"),
+        ("S", "Scout"),
+        ("V", "Venturer"),
+        ("R", "Rover"),
+        ("L", "Leader"),
     ]
     type = models.CharField(
-        blank=True, max_length=1, choices=PARTICIPANT_TYPE_CHOICES, default='S')
+        blank=True, max_length=1, choices=PARTICIPANT_TYPE_CHOICES, default="S"
+    )
 
     def __str__(self):
-        return f'({self.p_id}) {self.full_name} - {self.patrol}'
+        return f"({self.p_id}) {self.full_name} - {self.patrol}"
+
 
 class Intelligence(models.Model):
     base = models.ForeignKey(Base, null=True, on_delete=models.CASCADE)
@@ -227,11 +252,11 @@ class Intelligence(models.Model):
     completion_points = models.IntegerField(default=200)
 
     class Meta:
-        ordering = ['base', 'question']
+        ordering = ["base", "question"]
 
     def __str__(self):
-        base = f'{self.base} base:' if self.base else '(no base)'
-        return f'{base} Q: {self.question}? A: {self.answer} ({self.completion_points})'
+        base = f"{self.base} base:" if self.base else "(no base)"
+        return f"{base} Q: {self.question}? A: {self.answer} ({self.completion_points})"
 
 
 class Event(models.Model):
@@ -240,15 +265,20 @@ class Event(models.Model):
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     intelligence_request = models.ForeignKey(
-        Intelligence, blank=True, null=True, on_delete=models.SET_NULL)
+        Intelligence, blank=True, null=True, on_delete=models.SET_NULL
+    )
     intelligence_answered_correctly = models.BooleanField(default=True)
     destination = models.ForeignKey(
-        Location, on_delete=models.CASCADE, related_name="Destination",
-        blank=True, null=True)
+        Location,
+        on_delete=models.CASCADE,
+        related_name="Destination",
+        blank=True,
+        null=True,
+    )
     comment = models.TextField(max_length=1024, null=True, blank=True)
 
     class Meta:
-        ordering = ['timestamp']
+        ordering = ["timestamp"]
         constraints = [
             # models.CheckConstraint(check=models.Q(location=intelligence_request.base), name='valid_intelligence_for_base'),
         ]
@@ -266,10 +296,14 @@ class Event(models.Model):
                 # Given the patrol is checking *out* of a base, we process any
                 # points they may have been awarded.
                 if self.intelligence_request:
-                    self.patrol.attendance_points += self.location.radio.base.attendance_points
+                    self.patrol.attendance_points += (
+                        self.location.radio.base.attendance_points
+                    )
 
                     if self.intelligence_answered_correctly:
-                        self.patrol.completion_points += self.intelligence_request.completion_points
+                        self.patrol.completion_points += (
+                            self.intelligence_request.completion_points
+                        )
             elif self.location.radio and self.location.radio.base:
                 # After confirming that the current location is a base, set this as
                 # the patrol's current base
@@ -277,37 +311,49 @@ class Event(models.Model):
 
         self.patrol.save()
 
-
     def clean(self):
-
         # Check Intelligence is valid for this Base
-        if self.intelligence_request and self.intelligence_request.base != self.location.radio.base:
-            raise ValidationError('Can only use Intelligence for current Location')
+        if (
+            self.intelligence_request
+            and self.intelligence_request.base != self.location.radio.base
+        ):
+            raise ValidationError("Can only use Intelligence for current Location")
 
         # Check that Intelligence hasn't already been allocated to this Patrol
         # FIXME: Deduplicate this code from views.valid_intelligence_options
-        patrol_answers = [e.intelligence_request for e in
-                      Event.objects.filter(patrol=self.patrol,
-                      intelligence_answered_correctly=True).order_by('timestamp')]
+        patrol_answers = [
+            e.intelligence_request
+            for e in Event.objects.filter(
+                patrol=self.patrol, intelligence_answered_correctly=True
+            ).order_by("timestamp")
+        ]
         if self.intelligence_request and self.intelligence_request in patrol_answers:
-            raise ValidationError("Can only use Intelligence that Patrol hasn't already answered")
+            raise ValidationError(
+                "Can only use Intelligence that Patrol hasn't already answered"
+            )
 
         if self.patrol and not self.patrol.session.contains(self.session):
-            raise ValidationError(f"Patrol must be part of Event session ({self.session})")
+            raise ValidationError(
+                f"Patrol must be part of Event session ({self.session})"
+            )
 
         if self.location and not self.location.session.contains(self.session):
-            raise ValidationError(f"Location must be part of Event session ({self.session})")
+            raise ValidationError(
+                f"Location must be part of Event session ({self.session})"
+            )
 
         if self.destination and not self.destination.session.contains(self.session):
-            raise ValidationError(f"Destination must be part of Event session ({self.session})")
+            raise ValidationError(
+                f"Destination must be part of Event session ({self.session})"
+            )
 
     def __str__(self):
-        comment = ''
-        next_location = ''
+        comment = ""
+        next_location = ""
 
         if self.comment:
-            comment = ': ' + self.comment
+            comment = ": " + self.comment
         if self.destination:
-            next_location = ', heading to ' + str(self.destination)
+            next_location = ", heading to " + str(self.destination)
 
-        return f'{self.timestamp}: {self.patrol} at {str(self.location)}{next_location}{comment}'
+        return f"{self.timestamp}: {self.patrol} at {str(self.location)}{next_location}{comment}"

@@ -5,15 +5,16 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0005_set_default_session'),
+        ("RadioActiv8", "0005_set_default_session"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='session',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='RadioActiv8.session'),
+            model_name="event",
+            name="session",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="RadioActiv8.session"
+            ),
         ),
     ]

@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+
 def set_default_session(apps, schema_editor):
     Session = apps.get_model("RadioActiv8", "Session")
     Location = apps.get_model("RadioActiv8", "Location")
@@ -9,7 +10,7 @@ def set_default_session(apps, schema_editor):
     Event = apps.get_model("RadioActiv8", "Event")
     db_alias = schema_editor.connection.alias
 
-    default_session = Session.objects.using(db_alias).get(name='DEFAULT SESSION')
+    default_session = Session.objects.using(db_alias).get(name="DEFAULT SESSION")
 
     for l in Location.objects.filter(session=None):
         l.session.add(default_session)
@@ -27,7 +28,7 @@ def unset_default_session(apps, schema_editor):
     Event = apps.get_model("RadioActiv8", "Event")
     db_alias = schema_editor.connection.alias
 
-    default_session = Session.objects.using(db_alias).get(name='DEFAULT SESSION')
+    default_session = Session.objects.using(db_alias).get(name="DEFAULT SESSION")
 
     for l in Location.objects.filter(session=default_session):
         l.session.remove(default_session)
@@ -36,12 +37,11 @@ def unset_default_session(apps, schema_editor):
         p.session.remove(default_session)
 
     Event.objects.filter(session=default_session).update(session=None)
-    
+
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0004_create_default_session'),
+        ("RadioActiv8", "0004_create_default_session"),
     ]
 
     operations = [

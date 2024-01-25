@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0021_alter_location_session'),
+        ("RadioActiv8", "0021_alter_location_session"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patrol',
-            name='number_of_members',
+            model_name="patrol",
+            name="number_of_members",
             field=models.IntegerField(blank=True, null=True),
         ),
     ]

@@ -21,6 +21,7 @@ env = environ.Env(
 )
 
 from django.conf.locale.en import formats as en_formats
+
 en_formats.DATETIME_FORMAT = "Y-m-d H:i:s"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -55,12 +56,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Add gis module for geospatial projects
-    'django.contrib.gis',
+    "django.contrib.gis",
     # Include this to build REST APIs
-    'rest_framework',
+    "rest_framework",
     # Include this to build on top of Boostrap 4
-    'bootstrap4',
-    'RadioActiv8',
+    "bootstrap4",
+    "RadioActiv8",
     # Include this to add history to models
     "simple_history",
     # Include extras to make working with Django's CLI etc easier
@@ -86,7 +87,7 @@ ROOT_URLCONF = "myproject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -191,12 +192,12 @@ EMAIL_SSL_CERTFILE = env("EMAIL_SSL_CERTFILE", default=None)
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="webmaster@localhost")
 
 BOOTSTRAP4 = {
-    'include_jquery': True,
-    'javascript_in_head': True,
-     "css_url": {
+    "include_jquery": True,
+    "javascript_in_head": True,
+    "css_url": {
         "href": STATIC_URL + "RadioActiv8/css/bootstrap-4.6.0.min.css",
     },
-     "javascript_url": {
+    "javascript_url": {
         "url": STATIC_URL + "RadioActiv8/js/bootstrap-4.6.0.bundle.min.js",
     },
     "jquery_url": {
@@ -207,5 +208,5 @@ BOOTSTRAP4 = {
     },
 }
 
-LOGIN_URL = 'RadioActiv8:login'
-LOGIN_REDIRECT_URL = 'RadioActiv8:index'
+LOGIN_URL = "RadioActiv8:login"
+LOGIN_REDIRECT_URL = "RadioActiv8:index"

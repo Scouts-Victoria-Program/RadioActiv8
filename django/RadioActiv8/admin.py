@@ -6,15 +6,15 @@ from django.http import HttpResponse
 import csv
 
 
-@admin.action(description='Download selected as csv')
+@admin.action(description="Download selected as csv")
 def download_csv(modeladmin, request, queryset):
     if not request.user.is_staff:
         raise PermissionDenied
     opts = queryset.model._meta
     model = queryset.model
-    response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type="text/csv")
     # force download.
-    response['Content-Disposition'] = 'attachment;filename=export.csv'
+    response["Content-Disposition"] = "attachment;filename=export.csv"
     # the csv writer
     writer = csv.writer(response)
     field_names = [field.name for field in opts.fields]
@@ -24,34 +24,59 @@ def download_csv(modeladmin, request, queryset):
     for obj in queryset:
         writer.writerow([getattr(obj, field) for field in field_names])
     return response
-admin.site.add_action(download_csv, 'download_csv')
+
+
+admin.site.add_action(download_csv, "download_csv")
+
 
 class EventAdmin(admin.ModelAdmin):
-    list_display= ('timestamp', 'session', 'patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
-    #list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
-    list_filter= ('patrol', 'location', 'destination', 'session')
-    search_fields= ('patrol__name', 'location__radio__name', 'intelligence_request__answer', 'destination__radio__name', 'comment')
-    ordering = ['timestamp']
+    list_display = (
+        "timestamp",
+        "session",
+        "patrol",
+        "location",
+        "intelligence_request",
+        "intelligence_answered_correctly",
+        "destination",
+        "comment",
+    )
+    # list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
+    list_filter = ("patrol", "location", "destination", "session")
+    search_fields = (
+        "patrol__name",
+        "location__radio__name",
+        "intelligence_request__answer",
+        "destination__radio__name",
+        "comment",
+    )
+    ordering = ["timestamp"]
     form = EventForm
 
+
 class ParticipantAdmin(admin.ModelAdmin):
-    search_fields = ('full_name', 'p_id', 'patrol__name')
+    search_fields = ("full_name", "p_id", "patrol__name")
+
 
 class PatrolAdmin(admin.ModelAdmin):
-    search_fields = ('name',)
-    list_filter= ('session',)
+    search_fields = ("name",)
+    list_filter = ("session",)
+
 
 class RadioAdmin(admin.GISModelAdmin):
-    list_filter= ('session',)
+    list_filter = ("session",)
+
 
 class IntelligenceAdmin(admin.GISModelAdmin):
-    list_filter= ('base',)
+    list_filter = ("base",)
+
 
 class LocationAdmin(admin.GISModelAdmin):
-    ordering = ['radio__name']
+    ordering = ["radio__name"]
+
 
 class SessionAdmin(admin.ModelAdmin):
     pass
+
 
 class GPSTrackerAdmin(admin.ModelAdmin):
     pass

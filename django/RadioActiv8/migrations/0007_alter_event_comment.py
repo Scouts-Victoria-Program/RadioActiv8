@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0006_make_event_session_mandatory'),
+        ("RadioActiv8", "0006_make_event_session_mandatory"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='comment',
+            model_name="event",
+            name="comment",
             field=models.TextField(blank=True, max_length=1024, null=True),
         ),
     ]

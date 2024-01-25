@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0019_alter_session_home_base'),
+        ("RadioActiv8", "0019_alter_session_home_base"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='session',
-            options={'ordering': ['start_time', 'name']},
+            name="session",
+            options={"ordering": ["start_time", "name"]},
         ),
     ]

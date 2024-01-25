@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # Use this for regular Django projects
-#from django.contrib import admin
+# from django.contrib import admin
 # Use this for geospatial projects
 from django.contrib.gis import admin
 from django.urls import include, path
@@ -25,8 +25,8 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
     # Add this to set up authentication for REST framework
-    path('api-auth/', include('rest_framework.urls')),
-    path('', include('RadioActiv8.urls')),
+    path("api-auth/", include("rest_framework.urls")),
+    path("", include("RadioActiv8.urls")),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

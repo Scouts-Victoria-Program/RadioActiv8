@@ -4,13 +4,12 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0001_initial'),
+        ("RadioActiv8", "0001_initial"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Queue',
+            name="Queue",
         ),
     ]

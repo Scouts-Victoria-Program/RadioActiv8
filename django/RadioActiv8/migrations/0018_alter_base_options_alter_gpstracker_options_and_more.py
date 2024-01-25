@@ -4,34 +4,33 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0017_session_home_base'),
+        ("RadioActiv8", "0017_session_home_base"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='base',
-            options={'ordering': ['name']},
+            name="base",
+            options={"ordering": ["name"]},
         ),
         migrations.AlterModelOptions(
-            name='gpstracker',
-            options={'ordering': ['name']},
+            name="gpstracker",
+            options={"ordering": ["name"]},
         ),
         migrations.AlterModelOptions(
-            name='intelligence',
-            options={'ordering': ['base', 'question']},
+            name="intelligence",
+            options={"ordering": ["base", "question"]},
         ),
         migrations.AlterModelOptions(
-            name='participant',
-            options={'ordering': ['full_name']},
+            name="participant",
+            options={"ordering": ["full_name"]},
         ),
         migrations.AlterModelOptions(
-            name='patrol',
-            options={'ordering': ['name']},
+            name="patrol",
+            options={"ordering": ["name"]},
         ),
         migrations.AlterModelOptions(
-            name='radio',
-            options={'ordering': ['name']},
+            name="radio",
+            options={"ordering": ["name"]},
         ),
     ]

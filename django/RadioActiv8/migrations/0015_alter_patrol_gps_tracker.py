@@ -5,15 +5,19 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0014_rename_location_name_radio_name'),
+        ("RadioActiv8", "0014_rename_location_name_radio_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='patrol',
-            name='gps_tracker',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='RadioActiv8.gpstracker'),
+            model_name="patrol",
+            name="gps_tracker",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="RadioActiv8.gpstracker",
+            ),
         ),
     ]
