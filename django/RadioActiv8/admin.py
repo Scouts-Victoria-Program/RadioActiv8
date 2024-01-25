@@ -15,6 +15,7 @@ from RadioActiv8.forms import EventForm
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 import csv
+from simple_history.admin import SimpleHistoryAdmin
 
 
 @admin.action(description="Download selected as csv")
@@ -40,7 +41,7 @@ def download_csv(modeladmin, request, queryset):
 admin.site.add_action(download_csv, "download_csv")
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(SimpleHistoryAdmin):
     list_display = (
         "timestamp",
         "session",
@@ -64,32 +65,32 @@ class EventAdmin(admin.ModelAdmin):
     form = EventForm
 
 
-class ParticipantAdmin(admin.ModelAdmin):
+class ParticipantAdmin(SimpleHistoryAdmin):
     search_fields = ("full_name", "p_id", "patrol__name")
 
 
-class PatrolAdmin(admin.ModelAdmin):
+class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_filter = ("session",)
 
 
-class RadioAdmin(admin.GISModelAdmin):
+class RadioAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     list_filter = ("session",)
 
 
-class IntelligenceAdmin(admin.GISModelAdmin):
+class IntelligenceAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     list_filter = ("base",)
 
 
-class LocationAdmin(admin.GISModelAdmin):
+class LocationAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     ordering = ["radio__name"]
 
 
-class SessionAdmin(admin.ModelAdmin):
+class SessionAdmin(SimpleHistoryAdmin):
     pass
 
 
-class GPSTrackerAdmin(admin.ModelAdmin):
+class GPSTrackerAdmin(SimpleHistoryAdmin):
     pass
 
 
