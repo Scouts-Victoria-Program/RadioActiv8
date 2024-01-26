@@ -3,6 +3,6 @@ node_modules/
 scratch/
 .venv/
 __pycache__/
-static/
-media/
-db/
+/static/
+/media/
+/db/

@@ -6,4 +6,4 @@ scratch/
 __pycache__/
 /static/
 /media/
-db/
+/db/
