@@ -3,8 +3,16 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import *
-from .forms import *
+from .models import Session, Base, Patrol, Location, Event, GPSTracker, Radio
+from .forms import (
+    SessionListForm,
+    EventForm,
+    BonusPointsForm,
+    GPSTrackerPatrolForm,
+    BaseForm,
+    PatrolForm,
+    SessionAddPatrolForm,
+)
 from django.core.serializers import serialize
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -12,11 +20,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 def healthcheck(request):
-    context = {}
-    template_name = "RadioActiv8/"
+    # context = {}
+    # template_name = "RadioActiv8/"
 
     # Do a database request to test DB is working
-    x = Session.objects.count()
+    Session.objects.count()
 
     # return render(request, template_name, context)
     return HttpResponse("healthy")

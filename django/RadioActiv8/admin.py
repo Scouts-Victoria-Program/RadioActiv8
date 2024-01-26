@@ -1,5 +1,14 @@
 from django.contrib.gis import admin
-from .models import *
+from .models import (
+    Patrol,
+    Location,
+    Radio,
+    Base,
+    Intelligence,
+    Event,
+    Session,
+    GPSTracker,
+)
 from RadioActiv8.forms import EventForm
 from simple_history.admin import SimpleHistoryAdmin
 

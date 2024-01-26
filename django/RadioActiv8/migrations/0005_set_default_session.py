@@ -12,11 +12,11 @@ def set_default_session(apps, schema_editor):
 
     default_session = Session.objects.using(db_alias).get(name="DEFAULT SESSION")
 
-    for l in Location.objects.filter(session=None):
-        l.session.add(default_session)
+    for location in Location.objects.filter(session=None):
+        location.session.add(default_session)
 
-    for p in Patrol.objects.filter(session=None):
-        p.session.add(default_session)
+    for patrol in Patrol.objects.filter(session=None):
+        patrol.session.add(default_session)
 
     Event.objects.filter(session=None).update(session=default_session)
 
@@ -30,11 +30,11 @@ def unset_default_session(apps, schema_editor):
 
     default_session = Session.objects.using(db_alias).get(name="DEFAULT SESSION")
 
-    for l in Location.objects.filter(session=default_session):
-        l.session.remove(default_session)
+    for location in Location.objects.filter(session=default_session):
+        location.session.remove(default_session)
 
-    for p in Patrol.objects.filter(session=default_session):
-        p.session.remove(default_session)
+    for patrol in Patrol.objects.filter(session=default_session):
+        patrol.session.remove(default_session)
 
     Event.objects.filter(session=default_session).update(session=None)
 

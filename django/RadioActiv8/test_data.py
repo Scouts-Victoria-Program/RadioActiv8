@@ -1,5 +1,4 @@
-from .models import *
-from django.contrib.gis.geos import Point
+from .models import Base, Patrol, Intelligence
 
 # Import data by running the following:
 # python manage.py shell -c 'from RadioActiv8 import test_data;
