@@ -5,15 +5,14 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0007_alter_event_comment'),
+        ("RadioActiv8", "0007_alter_event_comment"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='timestamp',
+            model_name="event",
+            name="timestamp",
             field=models.DateTimeField(default=django.utils.timezone.now),
         ),
     ]

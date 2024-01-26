@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('RadioActiv8', '0013_gpstracker_and_more'),
+        ("RadioActiv8", "0013_gpstracker_and_more"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='radio',
-            old_name='location_name',
-            new_name='name',
+            model_name="radio",
+            old_name="location_name",
+            new_name="name",
         ),
     ]
