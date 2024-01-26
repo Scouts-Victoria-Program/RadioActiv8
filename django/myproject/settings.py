@@ -28,7 +28,7 @@ en_formats.DATETIME_FORMAT = "Y-m-d H:i:s"
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # reading .env file
-environ.Env.read_env(BASE_DIR.parent / ".env")
+environ.Env.read_env(str(BASE_DIR.parent / ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
@@ -61,7 +61,12 @@ INSTALLED_APPS = [
     "rest_framework",
     # Include this to build on top of Boostrap 4
     "bootstrap4",
+    # Include this to add history to models
     "simple_history",
+    # Include extras to make working with Django's CLI etc easier
+    "django_extensions",
+    # Uncomment the below line and replace 'myapp' with the name of your app
+    #'myapp',
     "RadioActiv8",
 ]
 
@@ -73,6 +78,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Include this to add history to models
     "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
@@ -81,7 +87,7 @@ ROOT_URLCONF = "myproject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -158,10 +164,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR.parent / "static"
+STATIC_ROOT = str(BASE_DIR.parent / "static")
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR.parent / "media"
+MEDIA_ROOT = str(BASE_DIR.parent / "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field

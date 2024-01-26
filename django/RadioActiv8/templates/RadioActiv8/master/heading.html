@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="{% static 'RadioActiv8/css/animate-3.5.2.min.css' %}">
 <!-- End: External stylesheets -->
 <!-- Start: External scripts -->
+<script src="{% static 'admin/js/htmx.min.js' %}"></script>
 <!-- End: External scripts -->
 <!-- Favicon -->
 <link rel="icon" type="image/png" sizes="938x802" href="{% static 'RadioActiv8/img/RadioActiv8_logo.png' %}">
@@ -45,72 +46,6 @@
       <ul class="navbar-nav mr-auto" style="font-family: 'Bebas Neue',
                  serif;font-size: 20pt;font-weight: normal;">
       </ul>
-
-      <!--
-      <div class="btn-group" role="group" style="padding: 10px;">
-        <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:play' %}">
-          Play&nbsp;&nbsp;<i class="fas fa-running"></i>
-        </a>
-        <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:map' %}">
-          Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i>
-        </a>
-      </div>
-      -->
-
-      <!--
-      <div class="btn-group" role="group" style="padding: 10px;">
-        <div class="btn-group">
-          <a class="btn btn-warning" role="button" href="{% url 'RadioActiv8:index' %}">
-            Plan&nbsp;&nbsp;<i class="fas fa-sitemap"></i>
-          </a>
-          <button class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-            aria-expanded="false" type="button">
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="./trackers">
-              GPS Trackers
-            </a>
-            <a class="dropdown-item" href="./allocations">
-              Patrol Allocation
-            </a>
-            <a class="dropdown-item" href="./sites">
-              Site Comms
-            </a>
-            <a class="dropdown-item" href="./radio-ops">
-              Radio Operators
-            </a>
-            <a class="dropdown-item" href="./scores">
-              Scores
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="btn-group" role="group" style="padding: 10px;">
-        <div class="btn-group">
-          <a class="btn btn-primary" role="button" href="{% url 'RadioActiv8:index' %}">
-            Resources&nbsp;&nbsp;<i class="fas fa-users-cog"></i>
-          </a>
-          <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-            aria-expanded="false" type="button">
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="./gps-units">
-              GPS Units
-            </a>
-            <a class="dropdown-item" href="./patrols">
-              Patrols
-            </a>
-            <a class="dropdown-item" href="./activities">
-              Activities
-            </a>
-            <a class="dropdown-item" href="./radio-channels">
-              Radio Channels
-            </a>
-          </div>
-        </div>
-      </div>
-      -->
-
       <div class="btn-toolbar"></div>
 
       <div class="btn-toolbar"></div>

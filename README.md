@@ -45,7 +45,7 @@ cp .env.example .env
 
     Start up Django (do this every time):
 
-    ```
+    ```sh
     # Activate virtual environment
     . .venv/bin/activate
     # Change to the django dir
@@ -54,13 +54,35 @@ cp .env.example .env
     ./manage.py runserver
     ```
 
-4. Load in some test data (stored in `test_data.py`)
+4. Load in some sample data
 
 ```
-docker-compose exec app python manage.py shell -c 'from RadioActiv8 import test_data; test_data.load()'
+docker-compose exec app ./manage.py loaddata sample
 ```
 
 5. Log into admin console at http://localhost:8000/admin as `root`/`root`
+
+## Creating your first app
+
+Now you've got Django up and running, you should be at the point where you can follow the [Django documentation](https://docs.djangoproject.com/en/dev/intro/tutorial01/#creating-the-polls-app) to create your first app. The short version of what you need to do from here is:
+
+1. Create an app:
+
+  If using Docker:
+
+  ```sh
+  docker-compose exec app ./manage.py startapp myapp
+  ```
+  If using a virtual environment:
+
+  ```sh
+  ./manage.py startapp myapp
+  ```
+
+2. Edit both `django/myproject/settings.py` and `django/myproject/urls.py`,
+   search for `myapp`, and uncomment the line as instructed.
+
+3. Set up appropriate views in `django/myapp/views.py`, and URLs in `django/myapp/urls.py`, before browsing to http://localhost:8000/
 
 ## Notes
 

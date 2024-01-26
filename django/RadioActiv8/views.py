@@ -50,14 +50,16 @@ def map(request):
     available_bases = [
         b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
     ]
-    busy_patrols = [
-        p for p in Patrol.objects.filter(session=ra8_session) if p.current_base
+    latest_patrol_event = [
+        p.event_set.last()
+        for p in Patrol.objects.filter(session=ra8_session)
+        if not p.current_base
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
 
     context = {
         "available_bases": available_bases,
-        "busy_patrols": busy_patrols,
+        "latest_patrol_event": latest_patrol_event,
         "full_bases": full_bases,
         "bases_geojson": serialize(
             "geojson", Location.objects.filter(session=ra8_session)
@@ -85,28 +87,9 @@ def play(request):
         # create a form instance and populate it with data from the request:
         # check whether it's valid:
         if event_form.is_valid():
-            session = event_form.cleaned_data["session"]
-            patrol = event_form.cleaned_data["patrol"]
-            location = event_form.cleaned_data["location"]
-            intelligence_request = event_form.cleaned_data["intelligence_request"]
-            intelligence_answered_correctly = event_form.cleaned_data[
-                "intelligence_answered_correctly"
-            ]
-            destination = event_form.cleaned_data["destination"]
-            comment = event_form.cleaned_data["comment"]
-
-            # process the data in form.cleaned_data as required
-            event = Event(
-                session=session,
-                patrol=patrol,
-                location=location,
-                intelligence_request=intelligence_request,
-                intelligence_answered_correctly=intelligence_answered_correctly,
-                destination=destination,
-                comment=comment,
-            )
-            if session.id != ra8_session:
-                request.session["ra8_session"] = session.id
+            event = event_form.save()
+            if event.session.id != ra8_session:
+                request.session["ra8_session"] = event.session.id
             event.save()
             messages.success(request, f"{event} was created successfully.")
 
@@ -124,8 +107,8 @@ def play(request):
     available_bases = [
         b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
     ]
-    busy_patrols = [
-        p for p in Patrol.objects.filter(session=ra8_session) if p.current_base
+    latest_patrol_event = [
+        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
@@ -133,7 +116,7 @@ def play(request):
         "patrols": patrols,
         "bases": bases,
         "available_bases": available_bases,
-        "busy_patrols": busy_patrols,
+        "latest_patrol_event": latest_patrol_event,
         "full_bases": full_bases,
         "form": form,
     }
@@ -370,7 +353,12 @@ def event_ajax(request):
         return JsonResponse(response, safe=False)
 
     response["patrol_options"] = [
-        {"id": p.id, "name": p.name} for p in Patrol.objects.filter(session=session)
+        {
+            "id": p.id,
+            "name": p.name,
+            "number_of_members": p.number_of_members or len(p.participant_set.all()),
+        }
+        for p in Patrol.objects.filter(session=session)
     ]
     response["location_options"] = []
     for b in Base.objects.all():
@@ -612,7 +600,14 @@ def patrol_base_history(session, patrol):
             "name": last_destination.radio.name,
         }
     else:
-        last_destination_response = {"id": -1, "name": "NONE"}
+        # If there's no event history for this patrol, but their *current base* is set, use that
+        if patrol.current_base:
+            last_destination_response = {
+                "id": patrol.current_base.id,
+                "name": patrol.current_base.name,
+            }
+        else:
+            last_destination_response = {"id": -1, "name": "NONE"}
 
     response = {
         "visited_bases": visited_bases,
