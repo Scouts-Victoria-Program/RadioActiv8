@@ -7,7 +7,6 @@ from .models import (
     Intelligence,
     Event,
     Session,
-    Participant,
     GPSTracker,
 )
 
@@ -65,10 +64,6 @@ class EventAdmin(SimpleHistoryAdmin):
     form = EventForm
 
 
-class ParticipantAdmin(SimpleHistoryAdmin):
-    search_fields = ("full_name", "p_id", "patrol__name")
-
-
 class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_filter = ("session",)
@@ -102,7 +97,6 @@ admin.site.register(Base, RadioAdmin)
 admin.site.register(Intelligence, IntelligenceAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Session, SessionAdmin)
-admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(GPSTracker, GPSTrackerAdmin)
 
-admin.site.site_header = "RadioActiv8 Admin"
+# admin.site.site_header = "RadioActiv8 Admin"
