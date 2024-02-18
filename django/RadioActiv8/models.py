@@ -179,6 +179,11 @@ class Patrol(models.Model):
     gps_tracker = models.OneToOneField(
         GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
     )
+    preferred_bases = models.ManyToManyField(
+        Base, blank=True, related_name="patrol_preferred"
+    )
+    member_classes = models.ManyToManyField(MemberClass, blank=True)
+    project_patrol = models.BooleanField(default=False)
     number_of_members = models.IntegerField(null=True, blank=True)
     preferred_bases = models.ManyToManyField(
         Base, blank=True, related_name="patrol_preferred"

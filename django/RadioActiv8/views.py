@@ -549,7 +549,7 @@ def valid_next_base_options(session, patrol, current_location):
     if session.home_base:
         session_bases = session_bases.exclude(id=session.home_base.id)
         response["home_base"] = {
-            "id": session.home_base.id,
+                "id": session.home_base.id,
             "name": session.home_base.name,
         }
     if current_location:

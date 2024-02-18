@@ -42,7 +42,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["localhost"] + env("ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS").split(",")
 
 
@@ -61,13 +61,13 @@ INSTALLED_APPS = [
     "rest_framework",
     # Include this to build on top of Boostrap 4
     "bootstrap4",
-    "RadioActiv8",
     # Include this to add history to models
     "simple_history",
     # Include extras to make working with Django's CLI etc easier
     "django_extensions",
     # Uncomment the below line and replace 'myapp' with the name of your app
     #'myapp',
+    "RadioActiv8",
 ]
 
 MIDDLEWARE = [

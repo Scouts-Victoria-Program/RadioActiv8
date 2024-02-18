@@ -32,12 +32,12 @@ class EventForm(ModelForm):
             "comment",
         )
         widgets = {
-            "session": forms.widgets.Select(),
-            "patrol": forms.widgets.Select(),
-            "location": forms.widgets.Select(),
-            "intelligence_request": forms.widgets.Select(),
-            # 'intelligence_answered_correctly': forms.widgets.Select(),
-            "destination": forms.widgets.Select(),
+            "session": forms.widgets.Select(attrs={"class": "btn-sm"}),
+            "patrol": forms.widgets.Select(attrs={"class": "btn-lg"}),
+            "location": forms.widgets.Select(attrs={"class": "btn-sm"}),
+            "intelligence_request": forms.widgets.Select(attrs={"class": "btn-sm"}),
+            # 'intelligence_answered_correctly': forms.widgets.Select(attrs={'class': 'btn-sm'}),
+            "destination": forms.widgets.Select(attrs={"class": "btn-sm"}),
             "comment": Textarea(attrs={"cols": 40, "rows": 3}),
         }
 
