@@ -15,6 +15,7 @@ from pathlib import Path
 from django.conf.locale.en import formats as en_formats
 
 import environ
+import email.utils
 
 env = environ.Env(
     # set casting, default value
@@ -210,3 +211,6 @@ BOOTSTRAP4 = {
 
 LOGIN_URL = "RadioActiv8:login"
 LOGIN_REDIRECT_URL = "RadioActiv8:index"
+SERVER_EMAIL = env("SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
+
+ADMINS = email.utils.getaddresses(["To: %s" % (env("ADMINS", default=""))])
