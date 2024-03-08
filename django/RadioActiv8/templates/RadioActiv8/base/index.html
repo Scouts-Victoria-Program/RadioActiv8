@@ -1,9 +1,11 @@
 {% if base_list %}
-<ul>
-    {% for base in base_list %}
-    <li><a href="{% url 'RadioActiv8:BaseDetail' base.id %}">{{ base.name }}</a></li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for base in base_list %}
+            <li>
+                <a href="{% url 'RadioActiv8:BaseDetail' base.id %}">{{ base.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% else %}
-<p>No Bases are available.</p>
+    <p>No Bases are available.</p>
 {% endif %}

@@ -2,49 +2,70 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Events{% endblock %}
 {% block bootstrap4_extra_head %}
-{{ block.super }}
-<style>
+    {{ block.super }}
+    <style>
     table{text-align:left;}
     th,td{padding:4px 8px;}
     th{cursor:pointer;}
-</style>
+    </style>
 {% endblock %}
 {% block bootstrap4_content %}
-{% include 'RadioActiv8/session/set.html' %}
-{% if event_list %}
-<table class="table table-sm table-striped" id="events_table">
-    <thead>
-        <tr>
-            <th scope="col" onclick="sortBy(0, 'events_table')">Timestamp<span class="table-arrow"> ▼</span></th>
-            <th scope="col" onclick="sortBy(1, 'events_table')">Session<span class="table-arrow"></span></th>
-            <th scope="col" onclick="sortBy(2, 'events_table')">Patrol<span class="table-arrow"></span></th>
-            <th scope="col" onclick="sortBy(3, 'events_table')">Location<span class="table-arrow"></span></th>
-            <th scope="col" onclick="sortBy(4, 'events_table')">Intelligence Request<span class="table-arrow"></span></th>
-            <th scope="col" onclick="sortBy(5, 'events_table')">Right Answer?<span class="table-arrow"></span></th>
-            <th scope="col" onclick="sortBy(6, 'events_table')">Destination<span class="table-arrow"></span></th>
-            <th scope="col" onclick="sortBy(7, 'events_table')">Comment</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for event in event_list %}
-        <tr>
-            <th scope="row"><a href="{% url 'admin:RadioActiv8_event_change' event.id %}">{{ event.timestamp }}</a></th>
-            <td>{{ event.session }}</td>
-            <td>{{ event.patrol }}</td>
-            <td>{{ event.location }}</td>
-            <td>{{ event.intelligence_request.question }} - {{ event.intelligence_request.answer }}</td>
-            <td>{{ event.intelligence_answered_correctly }}</td>
-            <td>{{ event.destination }}</td>
-            <td>{% if event.comment %}{{ event.comment }}{% else %}-{% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-<p>No Events are available.</p>
-{% endif %}
-
-<script>
+    {% include 'RadioActiv8/session/set.html' %}
+    {% if event_list %}
+        <table class="table table-sm table-striped" id="events_table">
+            <thead>
+                <tr>
+                    <th scope="col" onclick="sortBy(0, 'events_table')">
+                        Timestamp<span class="table-arrow">▼</span>
+                    </th>
+                    <th scope="col" onclick="sortBy(1, 'events_table')">
+                        Session<span class="table-arrow"></span>
+                    </th>
+                    <th scope="col" onclick="sortBy(2, 'events_table')">
+                        Patrol<span class="table-arrow"></span>
+                    </th>
+                    <th scope="col" onclick="sortBy(3, 'events_table')">
+                        Location<span class="table-arrow"></span>
+                    </th>
+                    <th scope="col" onclick="sortBy(4, 'events_table')">
+                        Intelligence Request<span class="table-arrow"></span>
+                    </th>
+                    <th scope="col" onclick="sortBy(5, 'events_table')">
+                        Right Answer?<span class="table-arrow"></span>
+                    </th>
+                    <th scope="col" onclick="sortBy(6, 'events_table')">
+                        Destination<span class="table-arrow"></span>
+                    </th>
+                    <th scope="col" onclick="sortBy(7, 'events_table')">Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in event_list %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{% url 'admin:RadioActiv8_event_change' event.id %}">{{ event.timestamp }}</a>
+                        </th>
+                        <td>{{ event.session }}</td>
+                        <td>{{ event.patrol }}</td>
+                        <td>{{ event.location }}</td>
+                        <td>{{ event.intelligence_request.question }} - {{ event.intelligence_request.answer }}</td>
+                        <td>{{ event.intelligence_answered_correctly }}</td>
+                        <td>{{ event.destination }}</td>
+                        <td>
+                            {% if event.comment %}
+                                {{ event.comment }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No Events are available.</p>
+    {% endif %}
+    <script>
     cPrev = -1; // global var saves the previous c, used to
                 // determine if the same column is clicked again
     cAscending = true;
@@ -96,5 +117,5 @@ function sortBy(c, id) {
         else headers[i].innerHTML = " ";
     }
 }
-</script>
+    </script>
 {% endblock %}

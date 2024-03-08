@@ -1,16 +1,14 @@
 {% extends "admin/change_form.html" %}
 {% load i18n admin_urls static admin_modify %}
-
 {% block field_sets %}
-<span id="ajax_form_url" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}"></span>
-<strong>Expected Location:</strong> <span id='expected_location'>UNKNOWN</span>
-{{ block.super }}
-<strong>Base history:</strong>
-<ol id='base_history'>
-  <li>UNKNOWN</li>
-</ol>
-{% endblock %}
-
+    <span id="ajax_form_url" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}"></span>
+    <strong>Expected Location:</strong> <span id="expected_location">UNKNOWN</span>
+    {{ block.super }}
+    <strong>Base history:</strong>
+    <ol id="base_history">
+        <li>UNKNOWN</li>
+    </ol>
+{% endblock field_sets %}
 {% block admin_change_form_document_ready %}
-{{ block.super }}
-{% endblock %}
+    {{ block.super }}
+{% endblock admin_change_form_document_ready %}

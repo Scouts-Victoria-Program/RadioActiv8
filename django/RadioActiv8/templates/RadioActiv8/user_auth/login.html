@@ -3,23 +3,44 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Login{% endblock %}
 {% block bootstrap4_content %}
-
-<div style="color: var(--danger);background: var(--dark);">
-    <!-- Start: Login Form Clean -->
-    <section class="login-clean" style="background: rgb(0,0,0);">
-        <form method="post" action="{% url 'RadioActiv8:login' %}" style="color: inherit;background: rgb(0,0,0);">
-            <h2 class="sr-only">Login Form</h2>
-            <div class="illustration" style="color: inherit;">
-                <h1 style="color: var(--danger);font-family: 'Bebas Neue', serif;font-size: 48pt;text-align: center;">RADIOACTIV8</h1><i class="fab fa-codepen" style="color: inherit;font-size: 100pt;"></i>
-            </div>
-            {% csrf_token %}
-            <div class="form-group"><input class="form-control form-control-lg" type="text" name="username" placeholder="Username" autofocus/></div>
-            <div class="form-group"><input class="form-control form-control-lg" type="password" name="password" placeholder="Password"></div>
-            <input type="hidden" name="next" value="{{ next }}">
-            <div class="form-group"><button class="btn btn-danger btn-block" role="button" style="background: var(--danger);">Log In</button></div>
-        </form>
-    </section><!-- End: Login Form Clean -->
-    <script src="{% static 'RadioActiv8/js/bs-init.js' %}"></script>
-</div>
-
+    <div style="color: var(--danger);background: var(--dark);">
+        <!-- Start: Login Form Clean -->
+        <section class="login-clean" style="background: rgb(0,0,0);">
+            <form method="post"
+                  action="{% url 'RadioActiv8:login' %}"
+                  style="color: inherit;
+                         background: rgb(0,0,0)">
+                <h2 class="sr-only">Login Form</h2>
+                <div class="illustration" style="color: inherit;">
+                    <h1 style="color: var(--danger);
+                               font-family: 'Bebas Neue', serif;
+                               font-size: 48pt;
+                               text-align: center">RADIOACTIV8</h1>
+                    <i class="fab fa-codepen" style="color: inherit;font-size: 100pt;"></i>
+                </div>
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control form-control-lg"
+                           type="text"
+                           name="username"
+                           placeholder="Username"
+                           autofocus />
+                </div>
+                <div class="form-group">
+                    <input class="form-control form-control-lg"
+                           type="password"
+                           name="password"
+                           placeholder="Password">
+                </div>
+                <input type="hidden" name="next" value="{{ next }}">
+                <div class="form-group">
+                    <button class="btn btn-danger btn-block"
+                            role="button"
+                            style="background: var(--danger)">Log In</button>
+                </div>
+            </form>
+        </section>
+        <!-- End: Login Form Clean -->
+        <script src="{% static 'RadioActiv8/js/bs-init.js' %}"></script>
+    </div>
 {% endblock %}

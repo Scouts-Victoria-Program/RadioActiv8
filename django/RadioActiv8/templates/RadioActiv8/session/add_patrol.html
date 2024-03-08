@@ -1,22 +1,32 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Add Patrols to Session{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Add Patrols to Session
+{% endblock bootstrap4_title %}
 {% block bootstrap4_content %}
-<div class="container">
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <p><a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol" class="btn btn-secondary mt-3">Back to patrol list</a></p>
-    <hr>
-    <h1>Adding Patrol to Session {{session.name}}</h1>
-    <p><a href="{% url 'admin:RadioActiv8_participant_changelist' %}" class="btn btn-secondary" target="_blank">Find participant's Patrol</a></p>
-    <form method="post">{% csrf_token %}
-        {{ session_add_patrol_form.as_p }}
-        <input type="submit" value="Add Patrol" class="btn btn-warning"></p>
-    </form>
-</div>
-{% endblock %}
+    <div class="container">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <p>
+            <a href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol"
+               class="btn btn-secondary mt-3">Back to patrol list</a>
+        </p>
+        <hr>
+        <h1>Adding Patrol to Session {{ session.name }}</h1>
+        <p>
+            <a href="{% url 'admin:RadioActiv8_participant_changelist' %}"
+               class="btn btn-secondary"
+               target="_blank">Find participant's Patrol</a>
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            {{ session_add_patrol_form.as_p }}
+            <input type="submit" value="Add Patrol" class="btn btn-warning">
+        </form>
+    </div>
+{% endblock bootstrap4_content %}
