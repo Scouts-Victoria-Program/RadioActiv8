@@ -1,43 +1,51 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Patrol {{ patrol }}{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Patrol {{ patrol }}
+{% endblock bootstrap4_title %}
 {% block bootstrap4_content %}
-<div class="container">
-  {% if messages %}
-  <div class="col m-3">
-    <ul class="messages">
-      {% for message in messages %}
-      <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
-
-  <div class="col m-3">
-    <a href="{% url 'RadioActiv8:PatrolList' %}" class="btn btn-secondary">Back to patrol list</a>
-    <hr>
-    <h3><strong>Patrol:</strong> {{ patrol }}</h3>
-    <hr>
-    <ul>
-      <li>Attendance points: {{ patrol.attendance_points }}</li>
-      <li>Completion points: {{ patrol.completion_points }}</li>
-      <li>Bonus points: {{ patrol.bonus_points }}</li>
-    </ul>
-
-    <hr>
-    <form method="post">{% csrf_token %}
-      {{ form.as_p }}
-
-      <div class="row">
-        <div class="col col-6 col-sm-6 col-md-2">
-          <input type="submit" name="add" value="Add" class="btn btn-success pl-4 pr-4">
-        </div>
-        <div class="col col-6 col-sm-6 col-md-2">
-          <input type="submit" name="subtract" value="Subtract" class="btn btn-danger pl-4 pr-4">
-        </div>
-      </div>
-    </form>
-    <hr>
-    {% endblock %}
-  </div>
+    <div class="container">
+        {% if messages %}
+            <div class="col m-3">
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div class="col m-3">
+            <a href="{% url 'RadioActiv8:PatrolList' %}" class="btn btn-secondary">Back to patrol list</a>
+            <hr>
+            <h3>
+                <strong>Patrol:</strong> {{ patrol }}
+            </h3>
+            <hr>
+            <ul>
+                <li>Attendance points: {{ patrol.attendance_points }}</li>
+                <li>Completion points: {{ patrol.completion_points }}</li>
+                <li>Bonus points: {{ patrol.bonus_points }}</li>
+            </ul>
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="row">
+                    <div class="col col-6 col-sm-6 col-md-2">
+                        <input type="submit"
+                               name="add"
+                               value="Add"
+                               class="btn btn-success pl-4 pr-4">
+                    </div>
+                    <div class="col col-6 col-sm-6 col-md-2">
+                        <input type="submit"
+                               name="subtract"
+                               value="Subtract"
+                               class="btn btn-danger pl-4 pr-4">
+                    </div>
+                </div>
+            </form>
+            <hr>
+        {% endblock bootstrap4_content %}
+    </div>
 </div>

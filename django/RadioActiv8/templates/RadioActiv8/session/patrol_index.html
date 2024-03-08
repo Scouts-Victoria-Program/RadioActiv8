@@ -2,8 +2,10 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Session {{ session }} Patrols{% endblock %}
 {% block bootstrap4_content %}
-<div class="container">
-    <p><strong>Session:</strong> {{ session }}</p>
-    {% include 'RadioActiv8/session/patrol.part.html' %}
-</div>
+    <div class="container">
+        <p>
+            <strong>Session:</strong> {{ session }}
+        </p>
+        {% include 'RadioActiv8/session/patrol.part.html' %}
+    </div>
 {% endblock %}

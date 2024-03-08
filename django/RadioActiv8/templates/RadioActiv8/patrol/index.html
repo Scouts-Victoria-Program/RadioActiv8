@@ -2,30 +2,39 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Patrols{% endblock %}
 {% block bootstrap4_content %}
-<div class="container">
-    <div class="col m-3">
-        <h3><strong>Filter Patrols</strong></h3>
-        <hr>
-
-        <div class="form-group">
-            <label for="id_patrol_filter">Find Patrol by name</label>
-            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter Patrol ID" name="patrol_filter" value="" required id="id_patrol_filter">
-        </div>
-
-        <hr>
-        {% if patrol_list %}
-        <ul style="list-style: none;" id="patrol_list">
-            {% for patrol in patrol_list %}
-            <li style="display: none;"><a class="btn btn-secondary m-1" href="{% url 'RadioActiv8:PatrolDetail' patrol.id %}">{{ patrol.name }}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>No Patrols are available.</p>
-    </div>
-    {% endif %}
-
-    <div class="col m-3">
-        <script>
+    <div class="container">
+        <div class="col m-3">
+            <h3>
+                <strong>Filter Patrols</strong>
+            </h3>
+            <hr>
+            <div class="form-group">
+                <label for="id_patrol_filter">Find Patrol by name</label>
+                <input type="text"
+                       class="form-control"
+                       aria-describedby="emailHelp"
+                       placeholder="Enter Patrol ID"
+                       name="patrol_filter"
+                       value=""
+                       required
+                       id="id_patrol_filter">
+            </div>
+            <hr>
+            {% if patrol_list %}
+                <ul style="list-style: none;" id="patrol_list">
+                    {% for patrol in patrol_list %}
+                        <li style="display: none;">
+                            <a class="btn btn-secondary m-1"
+                               href="{% url 'RadioActiv8:PatrolDetail' patrol.id %}">{{ patrol.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No Patrols are available.</p>
+            </div>
+        {% endif %}
+        <div class="col m-3">
+            <script>
             function filter_patrol()
             {
                 var input = jQuery("#id_patrol_filter").val().toLowerCase();
@@ -46,7 +55,7 @@
             jQuery(document).ready(function () {
                 jQuery("#id_patrol_filter").on("input", filter_patrol);
             });
-        </script>
+            </script>
+        </div>
     </div>
-</div>
 {% endblock %}

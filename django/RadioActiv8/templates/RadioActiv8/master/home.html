@@ -2,61 +2,76 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Home{% endblock %}
 {% block bootstrap4_content %}
-{% load static %}
-<!-- Start: Content block -->
-<div>
-  <div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
-    <div class="row mt-3 mb-3 ml-0 mr-0">
-      <div class="col">
-        {% include 'RadioActiv8/session/set.html' %}
-      </div>
-    </div>
-
-    <div class="row" style="margin: 10px;">
-      <div class="col" style="background: var(--success);">
-        <h1 style="color: white;padding: 10px;">Run Session<i class="fas fa-running float-right"></i></h1>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol" style="margin: 20px;">
-            Add Patrols to Session&nbsp;&nbsp;<i class="fas fa-running"></i>
-          </a>
-          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:play' %}" style="margin: 20px;">
-            Log Events&nbsp;&nbsp;<i class="fas fa-running"></i>
-          </a>
-          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:GPSTrackerList' %}" style="margin: 20px;">
-            List and Reassign Trackers&nbsp;&nbsp;<i class="fas fa-running"></i>
-          </a>
-          <!--
+    {% load static %}
+    <!-- Start: Content block -->
+    <div>
+        <div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
+            <div class="row mt-3 mb-3 ml-0 mr-0">
+                <div class="col">{% include 'RadioActiv8/session/set.html' %}</div>
+            </div>
+            <div class="row" style="margin: 10px;">
+                <div class="col" style="background: var(--success);">
+                    <h1 style="color: white;padding: 10px;">
+                        Run Session<i class="fas fa-running float-right"></i>
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-success"
+                       role="button"
+                       href="{% url 'RadioActiv8:CurrentSessionDetail' %}/patrol"
+                       style="margin: 20px">
+                        Add Patrols to Session&nbsp;&nbsp;<i class="fas fa-running"></i>
+                    </a>
+                    <a class="btn btn-success"
+                       role="button"
+                       href="{% url 'RadioActiv8:play' %}"
+                       style="margin: 20px">
+                        Log Events&nbsp;&nbsp;<i class="fas fa-running"></i>
+                    </a>
+                    <a class="btn btn-success"
+                       role="button"
+                       href="{% url 'RadioActiv8:GPSTrackerList' %}"
+                       style="margin: 20px">
+                        List and Reassign Trackers&nbsp;&nbsp;<i class="fas fa-running"></i>
+                    </a>
+                    <!--
           <a class="btn btn-success" role="button" href="play" style="margin: 20px;">
             Play&nbsp;&nbsp;<i class="fas fa-running"></i>
           </a>
           -->
-          <a class="btn btn-success" role="button" href="{% url 'RadioActiv8:map' %}" target="_blank" style="margin: 20px;">
-            Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i>
-          </a>
-      </div>
-    </div>
-
-    <div class="row" style="margin: 10px;">
-      <div class="col" style="background: var(--warning);">
-        <h1 style="color: black;padding: 10px;">
-          Session Data<i class="fas fa-sitemap float-right"></i>
-        </h1>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-          <a class="btn btn-warning" role="button" href="{% url 'RadioActiv8:EventList' %}" style="margin: 20px;">
-            Event List&nbsp;&nbsp;<i class="fas fa-location-arrow"></i>
-          </a>
-          <a class="btn btn-warning" role="button" href="{% url 'RadioActiv8:PatrolList' %}" style="margin: 20px;">
-            Patrols&nbsp;&nbsp;<i class="fas fa-users-cog"></i>
-          </a>
-          <!--
+                    <a class="btn btn-success"
+                       role="button"
+                       href="{% url 'RadioActiv8:map' %}"
+                       target="_blank"
+                       style="margin: 20px">
+                        Map&nbsp;&nbsp;<i class="fas fa-map-marked-alt"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row" style="margin: 10px;">
+                <div class="col" style="background: var(--warning);">
+                    <h1 style="color: black;padding: 10px;">
+                        Session Data<i class="fas fa-sitemap float-right"></i>
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-warning"
+                       role="button"
+                       href="{% url 'RadioActiv8:EventList' %}"
+                       style="margin: 20px">
+                        Event List&nbsp;&nbsp;<i class="fas fa-location-arrow"></i>
+                    </a>
+                    <a class="btn btn-warning"
+                       role="button"
+                       href="{% url 'RadioActiv8:PatrolList' %}"
+                       style="margin: 20px">
+                        Patrols&nbsp;&nbsp;<i class="fas fa-users-cog"></i>
+                    </a>
+                    <!--
           <a class="btn btn-warning" role="button" href="./trackers" style="margin: 20px;">
             GPS Allocations&nbsp;&nbsp;<i class="fas fa-location-arrow"></i>
           </a>
@@ -73,10 +88,9 @@
             Scoreboard&nbsp;&nbsp;<i class="fas fa-trophy"></i>
           </a>
           -->
-      </div>
-    </div>
-
-    <!--
+                </div>
+            </div>
+            <!--
     <div class="row" style="margin: 10px;">
       <div class="col" style="background: var(--primary);">
         <h1 style="color: white;padding: 10px;">
@@ -130,7 +144,7 @@
       </div>
     </div>
     -->
-  </div>
-</div>
-<!-- End: Content block -->
+        </div>
+    </div>
+    <!-- End: Content block -->
 {% endblock %}

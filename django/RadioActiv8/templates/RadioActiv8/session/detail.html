@@ -2,7 +2,9 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Session {{ session }}{% endblock %}
 {% block bootstrap4_content %}
-<p><strong>Session:</strong> {{ session }}</p>
-{% include 'RadioActiv8/session/patrol.part.html' %}
-{% include 'RadioActiv8/session/base.part.html' %}
+    <p>
+        <strong>Session:</strong> {{ session }}
+    </p>
+    {% include 'RadioActiv8/session/patrol.part.html' %}
+    {% include 'RadioActiv8/session/base.part.html' %}
 {% endblock %}
