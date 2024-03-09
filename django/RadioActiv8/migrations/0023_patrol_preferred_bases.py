@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('RadioActiv8', '0021_alter_location_session'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='patrol',
-            name='preferred_bases',
-            field=models.ManyToManyField(blank=True, related_name='patrol_preferred', to='RadioActiv8.base'),
+            model_name="patrol",
+            name="preferred_bases",
+            field=models.ManyToManyField(
+                blank=True, related_name="patrol_preferred", to="RadioActiv8.base"
+            ),
         ),
     ]
