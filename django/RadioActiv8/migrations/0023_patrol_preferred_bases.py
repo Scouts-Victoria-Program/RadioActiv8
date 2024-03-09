@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('RadioActiv8', '0022_historicalsession_historicalradio_historicalpatrol_and_more'),
+        ('RadioActiv8', '0021_alter_location_session'),
     ]
 
     operations = [
