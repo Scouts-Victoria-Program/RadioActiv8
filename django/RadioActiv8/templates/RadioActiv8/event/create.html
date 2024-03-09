@@ -1,6 +1,8 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Create Event{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Create Event
+{% endblock bootstrap4_title %}
 {% block bootstrap4_content %}
     {% if messages %}
         <ul class="messages">
@@ -11,4 +13,4 @@
     {% endif %}
     <h1>Create Event</h1>
     {% include "RadioActiv8/event/create_form.html" %}
-{% endblock %}
+{% endblock bootstrap4_content %}

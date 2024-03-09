@@ -7,7 +7,6 @@ from .models import (
     Intelligence,
     Event,
     Session,
-    Participant,
     GPSTracker,
 )
 
@@ -16,7 +15,6 @@ from simple_history.admin import SimpleHistoryAdmin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 import csv
-from simple_history.admin import SimpleHistoryAdmin
 
 
 @admin.action(description="Download selected as csv")
