@@ -73,8 +73,8 @@ def map(request):
 def play(request):
     # template_name = 'RadioActiv8/event/create.html'
     template_name = "RadioActiv8/master/play.html"
-    form_class = EventForm
-    success_url = reverse_lazy("RadioActiv8:EventCreate")
+    # form_class = EventForm
+    # success_url = reverse_lazy("RadioActiv8:EventCreate")
     initial = {}
     context = {}
 
@@ -157,7 +157,7 @@ def PatrolDetail(request, pk):
             patrol.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+            return HttpResponseRedirect(success_url)
 
     patrol = Patrol.objects.get(id=pk)
     context["patrol"] = patrol
@@ -513,9 +513,7 @@ def SessionClock(request, pk):
     return render(request, template_name, context)
 
 
-"""
-Only helper functions below this point
-"""
+# Only helper functions below this point
 
 
 def valid_intelligence_options(patrol, current_location):

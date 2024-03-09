@@ -1,14 +1,16 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load static %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Participant Base{% endblock %}
+{% block bootstrap4_title %}RadioActiv8 - Participant Base{% endblock bootstrap4_title %}
 {% block bootstrap4_content %}
-{% if form.subject.errors %}
-    <ol>
-    {% for error in form.subject.errors %}
-        <li><strong>{{ error|escape }}</strong></li>
-    {% endfor %}
-    </ol>
-{% endif %}
-{{intelligence.question}}
-{% endblock %}
+    {% if form.subject.errors %}
+        <ol>
+            {% for error in form.subject.errors %}
+                <li>
+                    <strong>{{ error|escape }}</strong>
+                </li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+    {{ intelligence.question }}
+{% endblock bootstrap4_content %}

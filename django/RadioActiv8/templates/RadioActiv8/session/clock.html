@@ -1,13 +1,16 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load bootstrap4 %}
 {% load tz %}
 {% load static %}
-{% block bootstrap4_title %}RadioActiv8 - Session {{ra8_session}} Clock{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Session {{ ra8_session }} Clock
+{% endblock bootstrap4_title %}
 {% block bootstrap4_extra_head %}
-{{ block.super }}
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<script src="https://kit.fontawesome.com/79616d6791.js" crossorigin="anonymous"></script>
-<style>
+    {{ block.super }}
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://kit.fontawesome.com/79616d6791.js"
+            crossorigin="anonymous"></script>
+    <style>
   hr {
     display: block;
     height: 1px;
@@ -16,17 +19,13 @@
     margin: 1em 0;
     padding: 0;
   }
-</style>
-
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-
-<!--meta http-equiv="refresh" content="10"/-->
-
-<script>
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+          rel="stylesheet">
+    <!--meta http-equiv="refresh" content="10"/-->
+    <script>
     function startTime() {
       var today = new Date();
       var h = today.getHours();
@@ -49,55 +48,49 @@
       if (i > 10 && i < 100) { i = "0" + i };  // add zero in front of numbers < 10
       return i;
     }
-</script>
-{% endblock %}
+    </script>
+{% endblock bootstrap4_extra_head %}
 {% block bootstrap4_content %}
-{% load static %}
-
-<body onload="startTime()" class="w3-black">
-
-  <div class="w3-container w3-padding-32">
-
-    <div class="w3-row">
-      <div class="w3-col l12 m12 s12">
-        <div class="w3-panel w3-card w3-black w3-padding-16" style="text-align: center;">
-          <img src="{% static 'RadioActiv8/img/ra8.svg' %}" style="width: 50%; max-width: 600px;">
-        </div>
-        <div class="w3-panel w3-card w3-black">
-        </div>
-
-        <!--
-      
+    {% load static %}
+    <body onload="startTime()" class="w3-black">
+        <div class="w3-container w3-padding-32">
+            <div class="w3-row">
+                <div class="w3-col l12 m12 s12">
+                    <div class="w3-panel w3-card w3-black w3-padding-16"
+                         style="text-align: center">
+                        <img src="{% static 'RadioActiv8/img/ra8.svg' %}"
+                             style="width: 50%;
+                                    max-width: 600px">
+                    </div>
+                    <div class="w3-panel w3-card w3-black"></div>
+                    <!--
          <div style="font-size: 4.0em; text-align: center; color: #DA3749;  font-family: 'Bebas Neue', cursive;">MISSION CONTROL</div>
-         
+
          <div style="font-size: 3.0em; text-align: center; color: #DA3749;  font-family: 'Bebas Neue', cursive;">ra8.tech | radioactivescout.com</div>
-         
-         -->
 
-
-        <div style="font-size: 3.5em; text-align: center; color: #DA3749;  font-family: 'Bebas Neue', cursive;">
-          {{ra8_session}} {{ra8_session.start_time|date:"H:i"}} to {{ra8_session.end_time|date:"H:i"}}</div>
-        <!--div style="font-size: 3.5em; text-align: center; color: #DA3749;  font-family: 'Bebas Neue', cursive;">06 Jan Early Afternoon 13:45 to 15:10</div-->
-
-        <hr>
-
-        <div style="font-size: 2.5em; text-align: center; color: #DA3749;"><strong id='start_end_text'>Session End:</strong> <span
-            id="countdown"></span></div>
-
-        <hr>
-
-        <div id="clock"
-          style="font-size: 5.5em; text-align: center; color: #DA3749; font-family: 'Bebas Neue', cursive;"></div>
-
-        <hr>
-
-      </div>
-    </div>
-  </div>
-</body>
-
-<script>
-
+-->
+                    <div style="font-size: 3.5em;
+                                text-align: center;
+                                color: #DA3749;
+                                font-family: 'Bebas Neue', cursive">
+                        {{ ra8_session }} {{ ra8_session.start_time|date:"H:i" }} to {{ ra8_session.end_time|date:"H:i" }}
+                    </div>
+                    <!--div style="font-size: 3.5em; text-align: center; color: #DA3749;  font-family: 'Bebas Neue', cursive;">06 Jan Early Afternoon 13:45 to 15:10</div -->
+                    <hr>
+                    <div style="font-size: 2.5em; text-align: center; color: #DA3749;">
+                        <strong id="start_end_text">Session End:</strong> <span id="countdown"></span>
+                    </div>
+                    <hr>
+                    <div id="clock"
+                         style="font-size: 5.5em;
+                                text-align: center;
+                                color: #DA3749;
+                                font-family: 'Bebas Neue', cursive"></div>
+                    <hr>
+                </div>
+            </div>
+        </body>
+        <script>
   // Set the date we're counting down to
   var StartDate = new Date("{{ra8_session.start_time}}").getTime();
   var EndDate = new Date("{{ra8_session.end_time}}").getTime();
@@ -115,7 +108,7 @@
       var start_end_text = 'Session Start';
     }
     else
-    { 
+    {
       var distance = EndDate - now;
       var start_end_text = 'Session End';
     }
@@ -135,7 +128,7 @@
     // Output the result in an element with id="countdown"
     document.getElementById("countdown").innerHTML = hours + ":" + minutes + ":" + seconds + "." + mseconds;
 
-    // If the count down is over, write some text 
+    // If the count down is over, write some text
     if (distance < 0) {
       clearInterval(x);
       document.getElementById("countdown").innerHTML = "Session has ended";
@@ -152,5 +145,5 @@
     return i;
   }
 
-</script>
-{% endblock %}
+        </script>
+    {% endblock bootstrap4_content %}

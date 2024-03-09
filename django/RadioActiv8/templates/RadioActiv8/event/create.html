@@ -2,13 +2,13 @@
 {% load bootstrap4 %}
 {% block bootstrap4_title %}RadioActiv8 - Create Event{% endblock %}
 {% block bootstrap4_content %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<h1>Create Event</h1>
-{% include "RadioActiv8/event/create_form.html" %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h1>Create Event</h1>
+    {% include "RadioActiv8/event/create_form.html" %}
 {% endblock %}

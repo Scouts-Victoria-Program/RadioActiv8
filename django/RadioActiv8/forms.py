@@ -10,10 +10,10 @@ class BaseForm(ModelForm):
         fields = ("name", "min_patrols", "max_patrols", "activity_type", "channel")
 
 
-class PatrolForm(ModelForm):
-    class Meta:
-        model = Patrol
-        fields = ("name",)
+# class PatrolForm(ModelForm):
+#     class Meta:
+#         model = Patrol
+#         fields = ("name",)
 
 
 class EventForm(ModelForm):

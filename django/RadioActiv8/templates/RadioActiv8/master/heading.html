@@ -1,63 +1,83 @@
-{% extends 'bootstrap4/bootstrap4.html' %}
+{% extends "bootstrap4/bootstrap4.html" %}
 {% load static %}
 {% block bootstrap4_extra_head %}
-<!-- Start: Head block -->
-<!-- Start: External stylesheets -->
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/fonts.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/fontawesome-all-5.15.4.min.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/fontawesome-5.15.4.min.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/animate-3.5.2.min.css' %}">
-<!-- End: External stylesheets -->
-<!-- Start: External scripts -->
-<script src="{% static 'admin/js/htmx.min.js' %}"></script>
-<!-- End: External scripts -->
-<!-- Favicon -->
-<link rel="icon" type="image/png" sizes="938x802" href="{% static 'RadioActiv8/img/RadioActiv8_logo.png' %}">
-<!-- Start: Local stylesheets -->
-<link rel="stylesheet" href="{% static 'RadioActiv8/fonts/fontawesome5-overrides.min.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/Login-Form-Clean.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/Map-Clean.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/Navigation-with-Button.css' %}">
-<link rel="stylesheet" href="{% static 'RadioActiv8/css/styles.css' %}">
-<!-- End: Local stylesheets -->
-<!-- End: Head block -->
-{% endblock %}
-
+    <!-- Start: Head block -->
+    <!-- Start: External stylesheets -->
+    <link rel="stylesheet" href="{% static 'RadioActiv8/css/fonts.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'RadioActiv8/css/fontawesome-all-5.15.4.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'RadioActiv8/css/fontawesome-5.15.4.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'RadioActiv8/css/animate-3.5.2.min.css' %}">
+    <!-- End: External stylesheets -->
+    <!-- Start: External scripts -->
+    <script src="{% static 'admin/js/htmx.min.js' %}"></script>
+    <!-- End: External scripts -->
+    <!-- Favicon -->
+    <link rel="icon"
+          type="image/png"
+          sizes="938x802"
+          href="{% static 'RadioActiv8/img/RadioActiv8_logo.png' %}">
+    <!-- Start: Local stylesheets -->
+    <link rel="stylesheet"
+          href="{% static 'RadioActiv8/fonts/fontawesome5-overrides.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'RadioActiv8/css/Login-Form-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'RadioActiv8/css/Map-Clean.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'RadioActiv8/css/Navigation-with-Button.css' %}">
+    <link rel="stylesheet" href="{% static 'RadioActiv8/css/styles.css' %}">
+    <!-- End: Local stylesheets -->
+    <!-- End: Head block -->
+{% endblock bootstrap4_extra_head %}
 {% block bootstrap4_before_content %}
-<!-- Start: Navigation with Button -->
-<nav class="navbar navbar-light navbar-expand-lg navigation-clean-button"
-  style="color: rgb(220,41,30);background: rgb(0,0,0);padding: 0px;">
-  <div class="container-fluid" style="padding: 0px 15px;">
-    <a class="navbar-brand" href="{% url 'RadioActiv8:index' %}"
-      style="font-family: 'Bebas Neue', serif;font-size: 32pt;">
-      RadioActiv8&nbsp;&nbsp;<i class="fab fa-codepen"></i>&nbsp;
-    </a>
-    {% if user.is_authenticated %}
-
-	<div class="btn-group" role="group" style="padding: 10px;">
-		<button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1" style="background-color: var(--yellow); border: 0px;">
-		  <span class="sr-only">
-			Toggle navigation
-		  </span>
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-	</div>
-    <div class="collapse navbar-collapse" id="navcol-1" style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
-      <ul class="navbar-nav mr-auto" style="font-family: 'Bebas Neue',
-                 serif;font-size: 20pt;font-weight: normal;">
-      </ul>
-      <div class="btn-toolbar"></div>
-
-      <div class="btn-toolbar"></div>
-    </div>
-    <div class="btn-group" role="group" style="padding: 10px;">
-		<a class="btn btn-danger" role="button" href="{% url 'RadioActiv8:logout' %}"
-		style="font-family: 'Roboto Slab', serif;font-size: 12pt;">
-		Sign Out&nbsp;<i class="fas fa-user-lock"></i>
-		</a>
-	</div>
-  {% endif %}
-  </div>
-</nav>
-<!-- End: Navigation with Button -->
-{% endblock %}
+    <!-- Start: Navigation with Button -->
+    <nav class="navbar navbar-light navbar-expand-lg navigation-clean-button"
+         style="color: rgb(220,41,30);
+                background: rgb(0,0,0);
+                padding: 0px">
+        <div class="container-fluid" style="padding: 0px 15px;">
+            <a class="navbar-brand"
+               href="{% url 'RadioActiv8:index' %}"
+               style="font-family: 'Bebas Neue', serif;
+                      font-size: 32pt">
+                RadioActiv8&nbsp;&nbsp;<i class="fab fa-codepen"></i>&nbsp;
+            </a>
+            {% if user.is_authenticated %}
+                <div class="btn-group" role="group" style="padding: 10px;">
+                    <button data-toggle="collapse"
+                            class="navbar-toggler"
+                            data-target="#navcol-1"
+                            style="background-color: var(--yellow);
+                                   border: 0px">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse"
+                     id="navcol-1"
+                     style="font-family: 'Roboto Slab', serif;
+                            font-size: 12pt">
+                    <ul class="navbar-nav mr-auto"
+                        style="font-family: 'Bebas Neue', serif;
+                               font-size: 20pt;
+                               font-weight: normal">
+                    </ul>
+                    <div class="btn-toolbar"></div>
+                    <div class="btn-toolbar"></div>
+                </div>
+                <div class="btn-group" role="group" style="padding: 10px;">
+                    <a class="btn btn-danger"
+                       role="button"
+                       href="{% url 'RadioActiv8:logout' %}"
+                       style="font-family: 'Roboto Slab', serif;
+                              font-size: 12pt">
+                        Sign Out&nbsp;<i class="fas fa-user-lock"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+    <!-- End: Navigation with Button -->
+{% endblock bootstrap4_before_content %}

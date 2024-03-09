@@ -1,20 +1,35 @@
 {% load bootstrap4 %}
-<form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">{% csrf_token %}
-  <p>{% bootstrap_field form.session %}</p>
-  <p>{% bootstrap_field form.patrol %}</p>
-  <span class="form-current-location">
-    <p><strong>Expected Location:</strong></p><p><span id='expected_location' class='alert alert-info d-flex align-items-center mt-3'>UNKNOWN</span></p>
-    <p>{% bootstrap_field form.location %}</p>
-  </span>
-  <span class="form-intelligence-request">
-    <p>{% bootstrap_field form.intelligence_request %}</p>
-    <p><strong>Intelligence suggestion:</strong></p><p><span id='intelligence_suggestion' class='alert alert-info d-flex align-items-center mt-3'>NONE</span></p>
-    <p>{% bootstrap_field form.intelligence_answered_correctly %}</p>
-  </span>
-  <p>{% bootstrap_field form.destination %}</p>
-  <p>{% bootstrap_field form.comment %}</p>
-
-  {{ form.media }}
-  <input type="submit" value="Add Event" class="btn btn-warning m-3">
-  <input type="button" onClick="window.location.reload(true);" value="Clear Form" class="btn btn-danger m-3">
+<form method="post" data-ajax-url="{% url 'RadioActiv8:event_ajax' %}">
+    {% csrf_token %}
+    <p>{% bootstrap_field form.session %}</p>
+    <p>{% bootstrap_field form.patrol %}</p>
+    <span class="form-current-location">
+        <p>
+            <strong>Expected Location:</strong>
+        </p>
+        <p>
+            <span id="expected_location"
+                  class="alert alert-info d-flex align-items-center mt-3">UNKNOWN</span>
+        </p>
+        <p>{% bootstrap_field form.location %}</p>
+    </span>
+    <span class="form-intelligence-request">
+        <p>{% bootstrap_field form.intelligence_request %}</p>
+        <p>
+            <strong>Intelligence suggestion:</strong>
+        </p>
+        <p>
+            <span id="intelligence_suggestion"
+                  class="alert alert-info d-flex align-items-center mt-3">NONE</span>
+        </p>
+        <p>{% bootstrap_field form.intelligence_answered_correctly %}</p>
+    </span>
+    <p>{% bootstrap_field form.destination %}</p>
+    <p>{% bootstrap_field form.comment %}</p>
+    {{ form.media }}
+    <input type="submit" value="Add Event" class="btn btn-warning m-3">
+    <input type="button"
+           onClick="window.location.reload(true);"
+           value="Clear Form"
+           class="btn btn-danger m-3">
 </form>

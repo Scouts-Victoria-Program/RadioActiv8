@@ -1,87 +1,98 @@
 {% extends 'RadioActiv8/master/heading.html' %}
 {% load bootstrap4 %}
 {% block bootstrap4_content %}
-
-<div style="color: var(--light);background: var(--dark);">
-    <!-- Start: Patrol Status Frame - NOT FINALISED-->
-    <!-- FIXME: reconfigure for workflow ergonomics -->
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Do</h1>
-            <div class="row">
-                <div class="col-md-3 col-xl-12 text-monospace">
-                    <form>
-                        <h4 class="text-monospace">Patrol Status:</h4>
-                        <div class="form-row">
-                            <div class="col-xl-2">
-                                <div class="form-group">
-                                    <label class="text-monospace">
-                                        Select a Patrol:
-                                        <select class="form-control">
-                                            <optgroup label="Select a Patrol">
-                                                <option value="12" selected="">2042</option>
-                                                <option value="13">2081</option>
-                                                <option value="14">1012</option>
-                                                <option value="15">1064</option>
-                                            </optgroup>
-                                        </select>
-                                    </label>
+    <div style="color: var(--light);background: var(--dark);">
+        <!-- Start: Patrol Status Frame - NOT FINALISED-->
+        <!-- FIXME: reconfigure for workflow ergonomics -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Do</h1>
+                <div class="row">
+                    <div class="col-md-3 col-xl-12 text-monospace">
+                        <form>
+                            <h4 class="text-monospace">Patrol Status:</h4>
+                            <div class="form-row">
+                                <div class="col-xl-2">
+                                    <div class="form-group">
+                                        <label class="text-monospace">
+                                            Select a Patrol:
+                                            <select class="form-control">
+                                                <optgroup label="Select a Patrol">
+                                                    <option value="12" selected="">2042</option>
+                                                    <option value="13">2081</option>
+                                                    <option value="14">1012</option>
+                                                    <option value="15">1064</option>
+                                                </optgroup>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <div class="form-group">
+                                        <label class="text-monospace">
+                                            Select a Location:
+                                            <select class="form-control">
+                                                <optgroup label="Location">
+                                                    <option value="12" selected="">Maverick</option>
+                                                    <option value="13">Goose</option>
+                                                    <option value="14">Viper</option>
+                                                    <option value="15">Iceman</option>
+                                                </optgroup>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2">
+                                    <div class="form-group">
+                                        <button class="btn btn-warning" type="button">CHECK STATUS</button>
+                                    </div>
+                                </div>
+                                <div class="col-xl-1">
+                                    <div class="form-group">
+                                        <label class="text-monospace">Patrol:</label>
+                                        <input class="form-control-plaintext"
+                                               type="text"
+                                               value="1024"
+                                               readonly=""
+                                               style="color: var(--success)">
+                                    </div>
+                                </div>
+                                <div class="col-xl-1">
+                                    <div class="form-group">
+                                        <label class="text-monospace">Location:</label>
+                                        <input class="form-control-plaintext"
+                                               type="text"
+                                               value="Maverick"
+                                               readonly=""
+                                               style="color: var(--danger)">
+                                    </div>
+                                </div>
+                                <div class="col-xl-1">
+                                    <div class="form-group">
+                                        <label class="text-monospace">Bases Completed:</label>
+                                        <input class="form-control-plaintext"
+                                               type="text"
+                                               value="A, K, J, C"
+                                               readonly=""
+                                               style="color: var(--danger)">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="text-monospace">Points (Bonus) [Total]</label>
+                                        <input class="form-control-plaintext"
+                                               type="text"
+                                               value="40 (35) [75]"
+                                               readonly=""
+                                               style="color: var(--danger)">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xl-2">
-                                <div class="form-group">
-                                    <label class="text-monospace">
-                                        Select a Location:
-                                        <select class="form-control">
-                                            <optgroup label="Location">
-                                                <option value="12" selected="">Maverick</option>
-                                                <option value="13">Goose</option>
-                                                <option value="14">Viper</option>
-                                                <option value="15">Iceman</option>
-                                            </optgroup>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-xl-2">
-                                <div class="form-group">
-                                    <button class="btn btn-warning" type="button">CHECK STATUS</button>
-                                </div>
-                            </div>
-                            <div class="col-xl-1">
-                                <div class="form-group">
-                                    <label class="text-monospace">Patrol:</label>
-                                    <input class="form-control-plaintext" type="text" value="1024" readonly=""
-                                        style="color: var(--success);">
-                                </div>
-                            </div>
-                            <div class="col-xl-1">
-                                <div class="form-group">
-                                    <label class="text-monospace">Location:</label>
-                                    <input class="form-control-plaintext" type="text" value="Maverick" readonly=""
-                                        style="color: var(--danger);">
-                                </div>
-                            </div>
-                            <div class="col-xl-1">
-                                <div class="form-group">
-                                    <label class="text-monospace">Bases Completed:</label>
-                                    <input class="form-control-plaintext" type="text" value="A, K, J, C" readonly=""
-                                        style="color: var(--danger);">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label class="text-monospace">Points (Bonus) [Total]</label>
-                                    <input class="form-control-plaintext" type="text" value="40 (35) [75]" readonly=""
-                                        style="color: var(--danger);">
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End: Patrol Status Frame-->
+    <!-- End: Patrol Status Frame-->
 {% endblock %}
