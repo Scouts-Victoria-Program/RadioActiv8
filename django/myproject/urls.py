@@ -46,6 +46,7 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
     # Add this to set up authentication for REST framework
     path("api-auth/", include("rest_framework.urls")),
     path("", include("RadioActiv8.urls")),

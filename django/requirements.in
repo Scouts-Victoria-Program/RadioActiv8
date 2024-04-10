@@ -8,3 +8,5 @@ gunicorn
 django-extensions
 # Just useful for debugging
 ipython
+setuptools # required by django-simple-history
+django-debug-toolbar
