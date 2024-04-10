@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("RadioActiv8", "0022_patrol_number_of_members"),
         ("RadioActiv8", "0026_merge_20240309_1340"),
