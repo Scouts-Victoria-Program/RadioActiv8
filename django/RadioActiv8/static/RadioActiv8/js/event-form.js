@@ -70,6 +70,15 @@ function dynamic_form_update() {
 
       {
         // Update Intelligence drop-down
+        if (
+          data.intelligence_options.unused.length == 0 &&
+          data.intelligence_options.used.length == 0
+        ) {
+          jQuery(".form-intelligence-request").hide();
+        } else {
+          jQuery(".form-intelligence-request").show();
+        }
+
         var intelligence = "<option value=''>---------</option>";
         var selected_intelligence = jQuery("#id_intelligence_request").val();
 
@@ -134,8 +143,10 @@ function dynamic_form_update() {
         var visited = [];
         var full = [];
         var preferred = [];
+        var top_priority = [];
         var unvisited = [];
         var ineligible = [];
+        var base_top_choice = [];
         var base_choice = [];
         if (!data.valid_destinations.bases) return;
         for (var i = 0; i < data.valid_destinations.bases.length; i++) {
@@ -149,6 +160,11 @@ function dynamic_form_update() {
             base.num_patrols >= base.max_patrols
           ) {
             full.push(base);
+          } else if (base.top_priority) {
+            top_priority.push(base);
+            for (var j = 0; j < base.max_patrols - base.num_patrols; j++) {
+              base_top_choice.push(base.id);
+            }
           } else if (base.preferred) {
             preferred.push(base);
             for (var j = 0; j < base.max_patrols - base.num_patrols; j++) {
@@ -160,7 +176,10 @@ function dynamic_form_update() {
         }
 
         var suggested_base = null;
-        if (preferred.length) {
+        if (top_priority.length) {
+          var random_base = Math.floor(Math.random() * base_top_choice.length);
+          suggested_base = base_top_choice[random_base];
+        } else if (preferred.length) {
           var random_base = Math.floor(Math.random() * base_choice.length);
           suggested_base = base_choice[random_base];
         } else if (unvisited.length) {
@@ -168,6 +187,20 @@ function dynamic_form_update() {
           suggested_base = unvisited[random_base].id;
         }
 
+        // Top priority bases
+        destination += "<optgroup label='Available Top Priority Bases'>";
+        for (var i = 0; i < top_priority.length; i++) {
+          base = top_priority[i];
+          var selected = base.id == suggested_base ? ' selected=""' : "";
+          destination +=
+            "<option value='" +
+            base.id +
+            "'" +
+            selected +
+            ">" +
+            base.name +
+            "</option>";
+        }
         // Preferred bases
         destination += "<optgroup label='Available Preferred Bases'>";
         for (var i = 0; i < preferred.length; i++) {
