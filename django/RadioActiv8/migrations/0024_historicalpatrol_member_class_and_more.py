@@ -6,9 +6,15 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('scoutsvic_extranet', '0004_historicalmemberclass_priority_memberclass_priority'),
-        ('RadioActiv8', '0023_patrol_preferred_bases'),
-        ('RadioActiv8', '0023_historicalbase_historicalevent_historicalgpstracker_and_more'),
+        (
+            "scoutsvic_extranet",
+            "0004_historicalmemberclass_priority_memberclass_priority",
+        ),
+        ("RadioActiv8", "0023_patrol_preferred_bases"),
+        (
+            "RadioActiv8",
+            "0023_historicalbase_historicalevent_historicalgpstracker_and_more",
+        ),
     ]
 
     operations = [

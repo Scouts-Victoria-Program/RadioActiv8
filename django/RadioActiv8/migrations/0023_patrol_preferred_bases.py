@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('RadioActiv8', '0021_alter_location_session'),
+        ("RadioActiv8", "0021_alter_location_session"),
     ]
 
     operations = [

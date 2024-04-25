@@ -10,5 +10,7 @@
         {% endfor %}
     </ul>
     {{ block.super }}
-{% endblock %}
-{% block admin_change_form_document_ready %}{{ block.super }}{% endblock %}
+{% endblock field_sets %}
+{% block admin_change_form_document_ready %}
+    {{ block.super }}
+{% endblock admin_change_form_document_ready %}

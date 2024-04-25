@@ -1,4 +1,4 @@
-function dynamic_form_update(){
+function dynamic_form_update() {
   var current_session = jQuery("#id_session").val();
   var current_patrol = jQuery("#id_patrol").val();
   var current_location = jQuery("#id_location").val();
@@ -18,12 +18,11 @@ function dynamic_form_update(){
 
       { // Update Patrol drop-down
         var patrol = "<option value=''>---------</option>";
-        for(var i = 0; i < data.patrol_options.length; i++) {
+        for (var i = 0; i < data.patrol_options.length; i++) {
           var p = data.patrol_options[i];
           var selected = (p.id == current_patrol) ? ' selected=""' : '';
           var num_members = "";
-          if(p.number_of_members > 0)
-          {
+          if (p.number_of_members > 0) {
             num_members = " (" + p.number_of_members + " members)";
           }
           patrol += "<option value='" + p.id + "'" + selected + ">" + p.name + num_members + "</option>";
@@ -35,11 +34,11 @@ function dynamic_form_update(){
         var location = "<option value=''>---------</option>";
         var current_session_locations = ""
         var non_session_locations = ""
-        for(var i = 0; i < data.location_options.length; i++) {
+        for (var i = 0; i < data.location_options.length; i++) {
           var loc = data.location_options[i];
           var selected = (loc.id == current_location) ? ' selected=""' : '';
           var this_location = "<option value='" + loc.id + "'" + selected + ">" + loc.name + "</option>";
-          if(loc.current_session)
+          if (loc.current_session)
             current_session_locations += this_location;
           else non_session_locations += this_location;
         }
@@ -59,25 +58,23 @@ function dynamic_form_update(){
         intelligence += "<optgroup label='Available intelligence'>";
         // Unused intelligence
         var random_intelligence = 0;
-        if(data.intelligence_options.random)
+        if (data.intelligence_options.random)
           random_intelligence = Math.floor(Math.random() * data.intelligence_options.unused.length);
         else
           random_intelligence = -1;
         for (var i = 0; i < data.intelligence_options.unused.length; i++) {
           var int = data.intelligence_options.unused[i];
-          if(selected_intelligence)
-          {
-            if(int.id == selected_intelligence)
-            {
+          if (selected_intelligence) {
+            if (int.id == selected_intelligence) {
               var selected = ' selected=""';
-              jQuery('#intelligence_suggestion').html("Q: " + int.q + "? <br>A: " + int.a )
+              jQuery('#intelligence_suggestion').html("Q: " + int.q + "? <br>A: " + int.a)
             }
             else var selected = '';
           }
           else var selected = (i == random_intelligence) ? ' selected=""' : '';
-          if(int.q.length > 20) question = int.q.substring(0,20) + '…';
+          if (int.q.length > 20) question = int.q.substring(0, 20) + '…';
           else question = int.q;
-          if(int.a.length > 20) answer = int.a.substring(0,20) + '…';
+          if (int.a.length > 20) answer = int.a.substring(0, 20) + '…';
           else answer = int.a;
           intelligence += "<option value='" + int.id + "'" + selected + "> Q: " + question + "? A: " + answer + "</option>";
         }
@@ -86,9 +83,9 @@ function dynamic_form_update(){
         // Used intelligence
         for (var i = 0; i < data.intelligence_options.used.length; i++) {
           var int = data.intelligence_options.used[i];
-          if(int.q.length > 20) question = int.q.substring(0,20) + '…';
+          if (int.q.length > 20) question = int.q.substring(0, 20) + '…';
           else question = int.q;
-          if(int.a.length > 20) answer = int.a.substring(0,20) + '…';
+          if (int.a.length > 20) answer = int.a.substring(0, 20) + '…';
           else answer = int.a;
           intelligence += "<option value='" + int.id + "'> Q: " + question + "? A: " + answer + "</option>";
         }
@@ -106,50 +103,40 @@ function dynamic_form_update(){
         var ineligible = [];
         var base_choice = [];
         if (!data.valid_destinations.bases) return;
-        for (var i = 0; i < data.valid_destinations.bases.length; i++)
-        {
+        for (var i = 0; i < data.valid_destinations.bases.length; i++) {
           var base = data.valid_destinations.bases[i];
-          if(!base.eligible)
-          {
+          if (!base.eligible) {
             ineligible.push(base);
           }
-          else if(base.visited)
-          {
+          else if (base.visited) {
             visited.push(base);
           }
-          else if(base.max_patrols != null && base.num_patrols >= base.max_patrols)
-          {
+          else if (base.max_patrols != null && base.num_patrols >= base.max_patrols) {
             full.push(base);
           }
-          else if(base.preferred)
-          {
+          else if (base.preferred) {
             preferred.push(base);
-            for(var j = 0; j < (base.max_patrols - base.num_patrols); j++)
-            {
+            for (var j = 0; j < (base.max_patrols - base.num_patrols); j++) {
               base_choice.push(base.id);
             }
           }
-          else
-          {
+          else {
             unvisited.push(base);
           }
         }
 
         var suggested_base = null;
-        if(preferred.length)
-        {
+        if (preferred.length) {
           var random_base = Math.floor(Math.random() * base_choice.length);
           suggested_base = base_choice[random_base];
-        } else if(unvisited.length)
-        {
+        } else if (unvisited.length) {
           var random_base = Math.floor(Math.random() * unvisited.length);
           suggested_base = unvisited[random_base].id;
         }
 
         // Preferred bases
         destination += "<optgroup label='Available Preferred Bases'>";
-        for (var i = 0; i < preferred.length; i++)
-        {
+        for (var i = 0; i < preferred.length; i++) {
           base = preferred[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
@@ -157,8 +144,7 @@ function dynamic_form_update(){
         destination += "</optgroup>";
         // Unvisited bases
         destination += "<optgroup label='Unvisited Non-preferred Bases'>";
-        for (var i = 0; i < unvisited.length; i++)
-        {
+        for (var i = 0; i < unvisited.length; i++) {
           base = unvisited[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
@@ -166,8 +152,7 @@ function dynamic_form_update(){
         destination += "</optgroup>";
         // Full bases
         destination += "<optgroup label='Full Bases'>";
-        for (var i = 0; i < full.length; i++)
-        {
+        for (var i = 0; i < full.length; i++) {
           base = full[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           destination += "<option value='" + base.id + "'" + selected + ">" + base.name + "</option>";
@@ -175,8 +160,7 @@ function dynamic_form_update(){
         destination += "</optgroup>";
         // Visited bases
         destination += "<optgroup label='Visited Bases'>";
-        for (var i = 0; i < visited.length; i++)
-        {
+        for (var i = 0; i < visited.length; i++) {
           base = visited[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           var repeatable = (base.repeatable) ? '' : " (NOT REPEATABLE!)";
@@ -185,8 +169,7 @@ function dynamic_form_update(){
         destination += "</optgroup>";
         // Ineligible bases
         destination += "<optgroup label='Ineligible Bases'>";
-        for (var i = 0; i < ineligible.length; i++)
-        {
+        for (var i = 0; i < ineligible.length; i++) {
           base = ineligible[i];
           var selected = (base.id == suggested_base) ? ' selected=""' : '';
           var repeatable = (base.repeatable) ? '' : " (NOT REPEATABLE!)";
@@ -195,11 +178,10 @@ function dynamic_form_update(){
         destination += "</optgroup>";
 
 
-        if(data.valid_destinations.home_base)
-        {
+        if (data.valid_destinations.home_base) {
           var home_base = data.valid_destinations.home_base;
           destination += "<optgroup label='Home Base'>";
-          destination += "<option value='" + home_base.id +  "'>" + home_base.name + "</option>";
+          destination += "<option value='" + home_base.id + "'>" + home_base.name + "</option>";
           destination += "</optgroup>";
         }
         jQuery("#id_destination").html(destination);
@@ -216,8 +198,7 @@ function dynamic_form_update(){
         jQuery("#base_history").html(base_history);
 
         var expected_location = data.base_history.last_destination;
-        if(!expected_location)
-        {
+        if (!expected_location) {
           expected_location = Object();
           expected_location.id = -1;
           expected_location.name = "UNKNOWN"
@@ -246,8 +227,7 @@ function dynamic_form_update(){
           jQuery("#expected_location").removeClass('alert-info');
           jQuery("#expected_location").addClass('alert-danger');
         }
-        else
-        {
+        else {
           jQuery("#expected_location").addClass('alert-info');
           jQuery("#expected_location").removeClass('alert-danger');
         }
@@ -257,13 +237,13 @@ function dynamic_form_update(){
 
 }
 
-jQuery(document).ready(function(){
-    if(!jQuery && django.jQuery) { jQuery = django.jQuery; }
-    jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
-    jQuery("#id_destination").html('<option value="" selected="">---------</option>');
-    dynamic_form_update();
-    jQuery("#id_session").change(dynamic_form_update);
-    jQuery("#id_patrol").change(dynamic_form_update);
-    jQuery("#id_location").change(dynamic_form_update);
-    jQuery("#id_intelligence_request").change(dynamic_form_update);
+jQuery(document).ready(function () {
+  if (!jQuery && django.jQuery) { jQuery = django.jQuery; }
+  jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
+  jQuery("#id_destination").html('<option value="" selected="">---------</option>');
+  dynamic_form_update();
+  jQuery("#id_session").change(dynamic_form_update);
+  jQuery("#id_patrol").change(dynamic_form_update);
+  jQuery("#id_location").change(dynamic_form_update);
+  jQuery("#id_intelligence_request").change(dynamic_form_update);
 })
