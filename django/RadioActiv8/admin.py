@@ -41,6 +41,7 @@ def download_csv(modeladmin, request, queryset):
 admin.site.add_action(download_csv, "download_csv")
 
 
+@admin.register(Event)
 class EventAdmin(SimpleHistoryAdmin):
     list_display = (
         "timestamp",
@@ -65,44 +66,41 @@ class EventAdmin(SimpleHistoryAdmin):
     form = EventForm
 
 
+# @admin.register(Participant)
 class ParticipantAdmin(SimpleHistoryAdmin):
     search_fields = ("full_name", "p_id", "patrol__name")
 
 
+@admin.register(Patrol)
 class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_filter = ("session",)
 
 
+@admin.register(Base)
+@admin.register(Radio)
 class RadioAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     list_filter = ("session",)
 
 
+@admin.register(Intelligence)
 class IntelligenceAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     list_filter = ("base",)
 
 
+@admin.register(Location)
 class LocationAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     ordering = ["radio__name"]
 
 
+@admin.register(Session)
 class SessionAdmin(SimpleHistoryAdmin):
     pass
 
 
-class GPSTrackerAdmin(SimpleHistoryAdmin):
+@admin.register(GPSTracker)
+class GPSTrackerAdmin(admin.ModelAdmin):
     pass
 
 
-# Register your models here.
-admin.site.register(Patrol, PatrolAdmin)
-admin.site.register(Location, LocationAdmin)
-admin.site.register(Radio, RadioAdmin)
-admin.site.register(Base, RadioAdmin)
-admin.site.register(Intelligence, IntelligenceAdmin)
-admin.site.register(Event, EventAdmin)
-admin.site.register(Session, SessionAdmin)
-admin.site.register(Participant, ParticipantAdmin)
-admin.site.register(GPSTracker, GPSTrackerAdmin)
-
-admin.site.site_header = "RadioActiv8 Admin"
+# admin.site.site_header = "RadioActiv8 Admin"
