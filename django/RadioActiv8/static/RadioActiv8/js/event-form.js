@@ -59,7 +59,19 @@ function dynamic_form_update(destination_toggle = false) {
         jQuery("#id_location").html(location);
       }
 
-      { // Update Intelligence drop-down
+      {
+        // Update Intelligence drop-down
+        if (
+          (data.intelligence_options.unused.length == 0 &&
+            data.intelligence_options.used.length == 0) ||
+          (data.intelligence_options.unused.length == undefined &&
+            data.intelligence_options.used.length == undefined)
+        ) {
+          jQuery(".form-intelligence-request").hide();
+        } else {
+          jQuery(".form-intelligence-request").show();
+        }
+
         var intelligence = "<option value=''>---------</option>";
         var selected_intelligence = jQuery("#id_intelligence_request").val()
 
