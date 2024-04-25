@@ -5,6 +5,7 @@ from django.contrib.gis.geos import Point
 from django.db.models import Q
 import random
 from django.utils import timezone
+from django.contrib import admin
 from datetime import timedelta
 from simple_history.models import HistoricalRecords
 
@@ -149,12 +150,14 @@ class Base(Radio):
                 patrols_at_base.append(p)
         return patrols_at_base
 
+    @admin.display(description="Patrols")
     def get_patrols_count(self):
         """
         Return an integer representing the number of patrols currently at this base
         """
-        return len(self.get_patrols())
+        return self.get_patrols().count()
 
+    @admin.display(description="Full?", boolean=True)
     def is_full(self):
         """
         Return True if this base is at or over its patrol capacity

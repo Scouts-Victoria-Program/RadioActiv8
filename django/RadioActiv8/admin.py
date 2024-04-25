@@ -78,6 +78,33 @@ class PatrolAdmin(SimpleHistoryAdmin):
 
 
 @admin.register(Base)
+class BaseAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
+    list_filter = ("session",)
+    search_fields = (
+        "name",
+        "description",
+    )
+    list_display = (
+        "name",
+        "description",
+        "channel",
+        "min_patrols",
+        "max_patrols",
+        "get_patrols_count",
+        "is_full",
+        "attendance_points",
+        "activity_type",
+    )
+    list_editable = (
+        "description",
+        "channel",
+        "min_patrols",
+        "max_patrols",
+        "attendance_points",
+        "activity_type",
+    )
+
+
 @admin.register(Radio)
 class RadioAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
     list_filter = ("session",)
