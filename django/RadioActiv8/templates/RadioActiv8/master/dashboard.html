@@ -20,9 +20,9 @@
                 <div class="dashed-border">
                     <div class="row m-3 justify-content-center grey-bg-warning-text"
                          style="padding: 0px 0px 0px 0px">
+                        {% comment %}
                         <div class="col-md-6 col-lg-3 col-xl-3 text-monospace">
-                            <div class="row mx-0 justify-content-left grey-bg-warning-text"
-                                 style="padding: 0px 0px 0px 0px">
+                            <div class="row mx-0 justify-content-left grey-bg-warning-text" style="padding: 0px 0px 0px 0px">
                                 <h4 class="text-monospace font-weight-bold">Log Event</h4>
                             </div>
                             {% include "RadioActiv8/event/create_form.html" %}
@@ -33,17 +33,28 @@
                                 <li>UNKNOWN</li>
                             </ol>
                         </div>
-                        {% comment %}
-                        <div class="col-md-2 col-xl-2 offset-xl-0 text-monospace">
-                            <div id="base-status" class="form-group" hx-trigger="every 10s" hx-get="" hx-target="this" hx-select="#base-status" hx-swap="outerHTML" hx-select-oob="#patrol-locations">
+                        {% endcomment %}
+                        <div class="col-md-6 col-lg-4 col-xl-4 offset-xl-0 text-monospace">
+                            <div id="base-status"
+                                 class="form-group"
+                                 hx-trigger="every 10s"
+                                 hx-get=""
+                                 hx-target="this"
+                                 hx-select="#base-status"
+                                 hx-swap="outerHTML"
+                                 hx-select-oob="#patrol-locations">
                                 <!-- Start: Sort by "Longest Time since used" -->
-                                <h1 class="text-monospace text-uppercase font-weight-bold" style="font-size: 12pt; color: var(--black)">AVAILABLE BASES:</h1>
+                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                    style="font-size: 12pt;
+                                           color: var(--black)">AVAILABLE BASES:</h1>
                                 <!-- End: Sort by "Longest Time since used" -->
                                 <ul class="list-unstyled text-monospace text-uppercase">
                                     {% if available_bases %}
                                         {% for available_base in available_bases %}
                                             <li>
-                                                <a target="_blank" class="text-success" href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{ available_base }} ({{ available_base.get_patrols_count }}/
+                                                <a target="_blank"
+                                                   class="text-success"
+                                                   href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{ available_base }} ({{ available_base.get_patrols_count }}/
                                                     {% if available_base.max_patrols is None %}
                                                         ∞
                                                     {% else %}
@@ -56,15 +67,21 @@
                                         <li>NO AVAILABLE BASES!!!</li>
                                     {% endif %}
                                 </ul>
-                                <h1 class="text-monospace text-uppercase font-weight-bold" style="font-size: 12pt; color: var(--black)">FULL BASES:</h1>
+                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                    style="font-size: 12pt;
+                                           color: var(--black)">FULL BASES:</h1>
                                 <ul class="list-unstyled text-monospace text-light">
                                     {% if full_bases %}
                                         {% for full_base in full_bases %}
                                             <li>
-                                                <a target="_blank" class="text-nowrap text-danger" href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{ full_base.name }}</a>:
+                                                <a target="_blank"
+                                                   class="text-nowrap text-danger"
+                                                   href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{ full_base.name }}</a>:
                                                 <br />
                                                 {% for patrol in full_base.get_patrols %}
-                                                    <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{ patrol.name }}</a>
+                                                    <a target="_blank"
+                                                       class="text-warning"
+                                                       href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{ patrol.name }}</a>
                                                     {% if not forloop.last %},{% endif %}
                                                 {% endfor %}
                                             </li>
@@ -75,21 +92,29 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-5 col-xl-5 offset-xl-0 text-monospace">
+                        <div class="col-md-6 col-lg-4 col-xl-4 offset-xl-0 text-monospace">
                             <div id="patrol-locations" class="form-group">
                                 <!-- Start: sort by "Last Updated" -->
-                                <h1 class="text-monospace text-uppercase font-weight-bold" style="font-size: 12pt; color: var(--black)">Patrol Locations:</h1>
+                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                    style="font-size: 12pt;
+                                           color: var(--black)">Patrol Locations:</h1>
                                 <!-- End: sort by "Last Updated" -->
                                 <ul class="list-unstyled text-monospace text-uppercase text-light">
                                     {% if latest_patrol_event %}
                                         {% for event in latest_patrol_event %}
                                             {% if event %}
                                                 <li>
-                                                    <a target="_blank" class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{ event.patrol.name }}</a> @
-                                                    <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.location.radio.base.id %}">{{ event.location }}</a>
+                                                    <a target="_blank"
+                                                       class="text-danger"
+                                                       href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{ event.patrol.name }}</a> @
+                                                    <a target="_blank"
+                                                       class="text-warning"
+                                                       href="{% url 'admin:RadioActiv8_base_change' event.location.radio.base.id %}">{{ event.location }}</a>
                                                     {% if event.destination and event.destination != event.location %}
                                                         →
-                                                        <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{ event.destination.radio.base.name }}</a>
+                                                        <a target="_blank"
+                                                           class="text-warning"
+                                                           href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{ event.destination.radio.base.name }}</a>
                                                     {% endif %}
                                                 </li>
                                             {% endif %}
@@ -100,7 +125,6 @@
                                 </ul>
                             </div>
                         </div>
-                        {% endcomment %}
                     </div>
                 </div>
             </div>

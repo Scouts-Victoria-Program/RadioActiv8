@@ -123,6 +123,37 @@ def play(request):
     return render(request, template_name, context)
 
 
+@staff_member_required
+def dashboard(request):
+    # template_name = 'RadioActiv8/event/create.html'
+    template_name = "RadioActiv8/master/dashboard.html"
+    # form_class = EventForm
+    # success_url = reverse_lazy("RadioActiv8:EventCreate")
+    context = {}
+
+    ra8_session = request.session.get("ra8_session")
+
+    submit_action = reverse("RadioActiv8:play")
+    patrols = Patrol.objects.filter(session=ra8_session)
+    bases = Base.objects.filter(session=ra8_session)
+    available_bases = [
+        b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
+    ]
+    latest_patrol_event = [
+        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+    ]
+    full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
+    context = {
+        "submit_action": submit_action,
+        "patrols": patrols,
+        "bases": bases,
+        "available_bases": available_bases,
+        "latest_patrol_event": latest_patrol_event,
+        "full_bases": full_bases,
+    }
+    return render(request, template_name, context)
+
+
 class PatrolList(LoginRequiredMixin, generic.ListView):
     template_name = "RadioActiv8/patrol/index.html"
 
