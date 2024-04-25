@@ -71,8 +71,10 @@ function dynamic_form_update() {
       {
         // Update Intelligence drop-down
         if (
-          data.intelligence_options.unused.length == 0 &&
-          data.intelligence_options.used.length == 0
+          (data.intelligence_options.unused.length == 0 &&
+            data.intelligence_options.used.length == 0) ||
+          (data.intelligence_options.unused.length == undefined &&
+            data.intelligence_options.used.length == undefined)
         ) {
           jQuery(".form-intelligence-request").hide();
         } else {
@@ -162,7 +164,11 @@ function dynamic_form_update() {
             full.push(base);
           } else if (base.top_priority) {
             top_priority.push(base);
-            for (var j = 0; j < base.max_patrols - base.num_patrols; j++) {
+            if (base.max_patrols != null) {
+              for (var j = 0; j < base.max_patrols - base.num_patrols; j++) {
+                base_top_choice.push(base.id);
+              }
+            } else {
               base_top_choice.push(base.id);
             }
           } else if (base.preferred) {
@@ -354,6 +360,7 @@ function dynamic_form_update() {
 }
 
 jQuery(document).ready(function () {
+  jQuery(".form-intelligence-request").hide();
   if (!jQuery && django.jQuery) {
     jQuery = django.jQuery;
   }
