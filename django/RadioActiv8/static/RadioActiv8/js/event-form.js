@@ -156,7 +156,11 @@ function dynamic_form_update(destination_toggle = false) {
             full.push(base);
           } else if (base.top_priority) {
             top_priority.push(base);
-            for (var j = 0; j < base.max_patrols - base.num_patrols; j++) {
+            if (base.max_patrols != null) {
+              for (var j = 0; j < base.max_patrols - base.num_patrols; j++) {
+                base_top_choice.push(base.id);
+              }
+            } else {
               base_top_choice.push(base.id);
             }
           } else if (base.preferred) {
