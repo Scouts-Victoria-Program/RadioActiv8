@@ -78,6 +78,13 @@ class ParticipantAdmin(SimpleHistoryAdmin):
 class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_filter = ("session",)
+    exclude = (
+        "_old_name",
+        "_old_preferred_bases",
+        "_old_member_classes",
+        "_old_project_patrol",
+        "_old_number_of_members",
+    )
 
 class EventPatrolInline(admin.TabularInline):
     model = Intelligence

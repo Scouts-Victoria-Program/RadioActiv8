@@ -33,7 +33,12 @@ function dynamic_form_update(destination_toggle = false) {
         for(var i = 0; i < data.patrol_options.length; i++) {
           var p = data.patrol_options[i];
           var selected = (p.id == current_patrol) ? ' selected=""' : '';
-          patrol += "<option value='" + p.id + "'" + selected + ">" + p.name + " (" + p.number_of_members + " members) </option>";
+          var num_members = "";
+          if(p.number_of_members > 0)
+          {
+            num_members = " (" + p.number_of_members + " members)";
+          }
+          patrol += "<option value='" + p.id + "'" + selected + ">" + p.name + num_members + "</option>";
         }
         jQuery("#id_patrol").html(patrol);
       }
