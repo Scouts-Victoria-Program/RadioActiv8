@@ -453,15 +453,20 @@ def event_ajax(request):
     else:
         return JsonResponse(response, safe=False)
 
+    events = Event.objects.filter(patrol=patrol).order_by("-timestamp")
     if current_location_id:
         current_location = Base.objects.get(id=current_location_id)
     else:
         current_location = None
-        events = Event.objects.filter(patrol=patrol).order_by("-timestamp")
         if events:
             current_location = events[0].destination
             if not current_location:
                 current_location = events[0].location
+
+    if events and events[0].location == events[0].destination:
+        response["check_in"] = False
+    else:
+        response["check_in"] = True
 
     response["intelligence_options"] = valid_intelligence_options(
         patrol, current_location
