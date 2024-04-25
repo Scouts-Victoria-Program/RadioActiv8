@@ -632,9 +632,7 @@ def valid_next_base_options(session, patrol, current_location):
         visited_bases_list.append(current_location)
 
     visited_bases = session_bases.filter(id__in=[b.id for b in visited_bases_list])
-    eligible_bases = session_bases.filter(
-        mission__member_classes__in=patrol.member_classes.all()
-    ).distinct()
+    eligible_bases = session_bases.all()
 
     for b in session_bases:
         base = {
@@ -645,7 +643,7 @@ def valid_next_base_options(session, patrol, current_location):
             "max_patrols": b.max_patrols,
             "visited": b in visited_bases,
             "eligible": b in eligible_bases,
-            "preferred": b in patrol.preferred_bases.all(),
+            # "preferred": b in patrol.preferred_bases.all(),
             "repeatable": b.repeatable,
         }
         response["bases"].append(base)

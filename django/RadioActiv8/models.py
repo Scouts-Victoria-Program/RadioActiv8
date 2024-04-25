@@ -171,8 +171,14 @@ class Base(Radio):
 
 class Patrol(models.Model):
     history = HistoricalRecords()
+    event_patrol = models.ForeignKey(
+        "scoutsvic_ems.EventPatrol",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
     session = models.ManyToManyField(Session)
-    name = models.CharField(max_length=128)
+    _old_name = models.CharField(max_length=128)
     current_base = models.ForeignKey(
         Base, blank=True, null=True, on_delete=models.SET_NULL
     )
@@ -182,15 +188,26 @@ class Patrol(models.Model):
     gps_tracker = models.OneToOneField(
         GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
     )
-    preferred_bases = models.ManyToManyField(
+    _old_preferred_bases = models.ManyToManyField(
         Base, blank=True, related_name="patrol_preferred"
     )
-    member_classes = models.ManyToManyField(MemberClass, blank=True)
-    project_patrol = models.BooleanField(default=False)
-    number_of_members = models.IntegerField(null=True, blank=True)
+    _old_member_classes = models.ManyToManyField(MemberClass, blank=True)
+    _old_project_patrol = models.BooleanField(default=False)
+    _old_number_of_members = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["event_patrol__name"]
+
+    @property
+    def name(self):
+        if self.event_patrol is not None:
+            return self.event_patrol.name
+        else:
+            return self._old_name
+
+    @property
+    def number_of_members(self):
+        return self.event_patrol.registration.all().count()
 
     def __str__(self):
         return self.name
