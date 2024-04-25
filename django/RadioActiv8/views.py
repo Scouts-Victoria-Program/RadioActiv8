@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import Session, Base, Patrol, Location, Event, GPSTracker, Radio
 from .forms import (
@@ -30,7 +30,7 @@ def healthcheck(request):
     return HttpResponse("healthy")
 
 
-@login_required
+@staff_member_required
 def index(request):
     context = {}
 
@@ -43,7 +43,7 @@ def index(request):
     return render(request, "RadioActiv8/master/home.html", context)
 
 
-@login_required
+@staff_member_required
 def map(request):
     template_name = "RadioActiv8/master/map.html"
     ra8_session = request.session.get("ra8_session")
@@ -69,7 +69,7 @@ def map(request):
     return render(request, template_name, context)
 
 
-@login_required
+@staff_member_required
 def play(request):
     # template_name = 'RadioActiv8/event/create.html'
     template_name = "RadioActiv8/master/play.html"
@@ -131,7 +131,7 @@ class PatrolList(LoginRequiredMixin, generic.ListView):
         return Patrol.objects.all()
 
 
-@login_required
+@staff_member_required
 def PatrolDetail(request, pk):
     template_name = "RadioActiv8/patrol/detail.html"
     # form_class = EventForm
@@ -180,7 +180,7 @@ class BaseDetail(LoginRequiredMixin, generic.DetailView):
     template_name = "RadioActiv8/base/detail.html"
 
 
-@login_required
+@staff_member_required
 def SetWorkingSession(request):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
@@ -196,7 +196,7 @@ def SetWorkingSession(request):
             return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
 
-@login_required
+@staff_member_required
 def EventList(request):
     template_name = "RadioActiv8/event/index.html"
     context = {}
@@ -237,7 +237,7 @@ class SessionList(LoginRequiredMixin, generic.ListView):
         return Session.objects.all()
 
 
-@login_required
+@staff_member_required
 def CurrentSessionDetail(request, path=None):
     ra8_session = request.session.get("ra8_session")
     redirect = reverse("RadioActiv8:SessionDetail", args=(ra8_session,))
@@ -251,7 +251,7 @@ class SessionDetail(LoginRequiredMixin, generic.DetailView):
     template_name = "RadioActiv8/session/detail.html"
 
 
-@login_required
+@staff_member_required
 def GPSTrackerList(request):
     template_name = "RadioActiv8/gpstracker/index.html"
     context = {}
@@ -265,7 +265,7 @@ def GPSTrackerList(request):
         return render(request, template_name, context)
 
 
-@login_required
+@staff_member_required
 def GPSTrackerDetail(request, pk):
     template_name = "RadioActiv8/gpstracker/detail.html"
     context = {}
@@ -311,7 +311,7 @@ def GPSTrackerDetail(request, pk):
         return render(request, template_name, context)
 
 
-@login_required
+@staff_member_required
 def base_test(request, base_id):
     base = get_object_or_404(Base, pk=base_id)
     if request.method == "POST":
@@ -333,7 +333,7 @@ def base_test(request, base_id):
     )
 
 
-@login_required
+@staff_member_required
 def event_ajax(request):
     session_id = request.GET["ra8_session"]
     patrol_id = request.GET["patrol"]
@@ -396,7 +396,7 @@ def event_ajax(request):
     return JsonResponse(response, safe=False)
 
 
-@login_required
+@staff_member_required
 def add_patrol_to_session(request, pk):
     template_name = "RadioActiv8/session/add_patrol.html"
     context = {}
@@ -501,7 +501,7 @@ def participant_base_detail(request, patrol_pk, base_pk):
     return render(request, template_name, context)
 
 
-@login_required
+@staff_member_required
 def SessionClock(request, pk):
     template_name = "RadioActiv8/session/clock.html"
     context = {}
@@ -658,7 +658,7 @@ def total_distance(patrol):
     return total_distance
 
 
-# @login_required
+# @staff_member_required
 def bases_geojson(request):
     all_objects = [*Base.objects.all(), *Radio.objects.all(), *Location.objects.all()]
     response = serialize(
