@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from django.contrib.gis.geos import Point
 from django.db.models import Q
+from django.db.models.constraints import UniqueConstraint
 import random
 from django.utils import timezone
 from django.contrib import admin
@@ -101,6 +102,9 @@ class Base(Radio):
         blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES, default="S"
     )
 
+    def nearest(self):
+        return BaseRoutePair.objects.filter(source=self)
+
     def get_intelligence(self, patrol=None):
         """
         Return intelligence available for this base.
@@ -167,6 +171,51 @@ class Base(Radio):
             return self.get_patrols_count() >= self.max_patrols
         else:
             return False
+
+
+class BaseRoutePair(models.Model):
+    class Meta:
+        # unique_together = ("source", "destination")
+        constraints = [
+            UniqueConstraint(
+                fields=["source", "destination"],
+                name="one_instance_per_base_pair",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=["source", "time"]),
+            models.Index(fields=["source", "length"]),
+        ]
+        ordering = ["source", "time"]
+
+    history = HistoricalRecords()
+    source = models.ForeignKey(Base, on_delete=models.CASCADE, related_name="route_to")
+    destination = models.ForeignKey(
+        Base, on_delete=models.CASCADE, related_name="route_from"
+    )
+    route = models.JSONField(blank=True, null=True)
+    length = models.IntegerField()
+    time = models.DurationField()
+
+    def __str__(self):
+        return f"{self.source.name} → {self.destination.name}"
+
+    def __init__(self, *args, **kwargs):
+        if (
+            "route" in kwargs
+            and kwargs["route"]
+            and not ("length" in kwargs and kwargs["length"])
+        ):
+            kwargs["length"] = kwargs["route"]["trip"]["summary"]["length"] * 1000
+        if (
+            "route" in kwargs
+            and kwargs["route"]
+            and not ("time" in kwargs and kwargs["time"])
+        ):
+            kwargs["time"] = timedelta(
+                seconds=int(kwargs["route"]["trip"]["summary"]["time"])
+            )
+        super().__init__(*args, **kwargs)
 
 
 class Patrol(models.Model):
