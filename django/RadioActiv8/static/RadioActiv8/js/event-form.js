@@ -127,8 +127,17 @@ function dynamic_form_update(destination_toggle = false) {
         for (var i = 0; i < data.valid_destinations.bases.length; i++)
         {
           var base = data.valid_destinations.bases[i];
-          if(base.visited)
-          {
+          if (base.time != null) {
+            min = Math.floor(base.time / 60)
+            sec = base.time % 60
+            /*min = String(min).padStart(2, '0')
+            sec = String(sec).padStart(2, '0')
+            base.name = `${base.name} (${min}:${sec})`;*/
+            base.name = `${base.name} (${min}m ${sec}s)`;
+          }
+          if (!base.eligible) {
+            ineligible.push(base);
+          } else if (base.visited) {
             visited.push(base);
           }
           else if(base.max_patrols != null && base.num_patrols >= base.max_patrols)
