@@ -317,10 +317,10 @@ class Event(models.Model):
                         self.patrol.completion_points += (
                             self.intelligence_request.completion_points
                         )
-            elif self.location.radio and self.location.radio.base:
+            if self.destination.radio and self.destination.radio.base:
                 # After confirming that the current location is a base, set this as
                 # the patrol's current base
-                self.patrol.current_base = self.location.radio.base
+                self.patrol.current_base = self.destination.radio.base
 
         self.patrol.save()
 
