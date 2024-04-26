@@ -635,6 +635,13 @@ def valid_next_base_options(session, patrol, current_location):
         }
     if current_location:
         visited_bases_list.append(current_location)
+        if hasattr(current_location, "radio") and hasattr(
+            current_location.radio, "base"
+        ):
+            routes = {
+                d.destination: d.time.seconds
+                for d in current_location.radio.base.nearest()
+            }
 
     visited_bases = session_bases.filter(id__in=[b.id for b in visited_bases_list])
     eligible_bases = session_bases.all()
@@ -656,6 +663,7 @@ def valid_next_base_options(session, patrol, current_location):
             "eligible": b in eligible_bases,
             "top_priority": b in top_priority_bases,
             "preferred": base_preferences[b] if b in base_preferences else None,
+            "time": routes[b] if routes and b in routes else None,
             "repeatable": b.repeatable,
         }
         response["bases"].append(base)

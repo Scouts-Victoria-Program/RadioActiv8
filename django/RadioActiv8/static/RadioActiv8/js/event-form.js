@@ -165,6 +165,14 @@ function dynamic_form_update(destination_toggle = false) {
         if (!data.valid_destinations.bases) return;
         for (var i = 0; i < data.valid_destinations.bases.length; i++) {
           var base = data.valid_destinations.bases[i];
+          if (base.time != null) {
+            min = Math.floor(base.time / 60)
+            sec = base.time % 60
+            /*min = String(min).padStart(2, '0')
+            sec = String(sec).padStart(2, '0')
+            base.name = `${base.name} (${min}:${sec})`;*/
+            base.name = `${base.name} (${min}m ${sec}s)`;
+          }
           if (!base.eligible) {
             ineligible.push(base);
           } else if (base.visited) {
@@ -397,7 +405,9 @@ jQuery(document).ready(function () {
   destination_toggle();
   dynamic_form_update();
   jQuery("#id_session").change(dynamic_form_update);
-  jQuery("#id_patrol").change(function (){jQuery("#id_location").val(0);});
+  jQuery("#id_patrol").change(function () {
+    jQuery("#id_location").val(0);
+  });
   jQuery("#id_patrol").change(dynamic_form_update);
   jQuery("#id_location").change(dynamic_form_update);
   jQuery("#id_intelligence_request").change(dynamic_form_update);
