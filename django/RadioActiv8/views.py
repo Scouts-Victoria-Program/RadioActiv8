@@ -651,6 +651,9 @@ def valid_next_base_options(session, patrol, current_location):
         m.ra8_base for m in patrol.event_patrol.top_priority_missions()
     ]
 
+    base_preferences = dict(
+        [(m[0].ra8_base, m[1]) for m in patrol.event_patrol.other_mission_preferences()]
+    )
     for b in session_bases:
         base = {
             "id": b.id,
@@ -661,11 +664,14 @@ def valid_next_base_options(session, patrol, current_location):
             "visited": b in visited_bases,
             "eligible": b in eligible_bases,
             "top_priority": b in top_priority_bases,
-            # "preferred": b in patrol.preferred_bases.all(),
+            "preferred": base_preferences[b] if b in base_preferences else None,
             "time": routes[b] if routes and b in routes else None,
             "repeatable": b.repeatable,
         }
         response["bases"].append(base)
+    response["bases"].sort(
+        key=lambda x: x["preferred"] * -1 if x["preferred"] is not None else 0
+    )
 
     return response
 
