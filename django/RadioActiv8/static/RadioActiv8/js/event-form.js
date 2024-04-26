@@ -199,7 +199,8 @@ function dynamic_form_update(destination_toggle = false) {
           suggested_base = base_top_choice[random_base];
         } else if (preferred.length) {
           var random_base = Math.floor(Math.random() * base_choice.length);
-          suggested_base = base_choice[random_base];
+          //suggested_base = base_choice[random_base];
+          suggested_base = base_choice[0];
         } else if (unvisited.length) {
           var random_base = Math.floor(Math.random() * unvisited.length);
           suggested_base = unvisited[random_base].id;
@@ -396,9 +397,7 @@ jQuery(document).ready(function () {
   destination_toggle();
   dynamic_form_update();
   jQuery("#id_session").change(dynamic_form_update);
-  jQuery("#id_patrol").change(function () {
-    jQuery("#id_location").val(0);
-  });
+  jQuery("#id_patrol").change(function (){jQuery("#id_location").val(0);});
   jQuery("#id_patrol").change(dynamic_form_update);
   jQuery("#id_location").change(dynamic_form_update);
   jQuery("#id_intelligence_request").change(dynamic_form_update);
