@@ -9,6 +9,7 @@ from .models import (
     Session,
     Participant,
     GPSTracker,
+    BaseRoutePair,
 )
 
 from RadioActiv8.forms import EventForm
@@ -131,6 +132,21 @@ class SessionAdmin(SimpleHistoryAdmin):
 @admin.register(GPSTracker)
 class GPSTrackerAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(BaseRoutePair)
+class BaseRoutePairAdmin(admin.ModelAdmin):
+    list_display = (
+        "source",
+        "destination",
+        "time",
+        "length",
+    )
+    search_fields = (
+        "source",
+        "destination",
+    )
+    list_filter = ("source",)
 
 
 # admin.site.site_header = "RadioActiv8 Admin"
