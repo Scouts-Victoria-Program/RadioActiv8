@@ -61,7 +61,7 @@
                                     {% if full_bases %}
                                         {% for full_base in full_bases %}
                                             <li>
-                                                <a target="_blank" class="text-nowrap text-danger" href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{ full_base.name }}</a>:
+                                                <a target="_blank" class="text-nowrap text-primary" href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{ full_base.name }}</a>:
                                                 <br />
                                                 {% for patrol in full_base.get_patrols %}
                                                     <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{ patrol.name }}</a>
@@ -85,7 +85,7 @@
                                         {% for event in latest_patrol_event %}
                                             {% if event %}
                                                 <li>
-                                                    <a target="_blank" class="text-danger" href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{ event.patrol.name }}</a> @
+                                                    <a target="_blank" class="text-primary" href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{ event.patrol.name }}</a> @
                                                     <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_base_change' event.location.radio.base.id %}">{{ event.location }}</a>
                                                     {% if event.destination and event.destination != event.location %}
                                                         →

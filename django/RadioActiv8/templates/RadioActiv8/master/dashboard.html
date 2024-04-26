@@ -75,7 +75,7 @@
                                         {% for full_base in full_bases %}
                                             <li>
                                                 <a target="_blank"
-                                                   class="text-nowrap text-danger"
+                                                   class="text-nowrap text-primary"
                                                    href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{ full_base.name }}</a>:
                                                 <br />
                                                 {% for patrol in full_base.get_patrols %}
@@ -105,7 +105,7 @@
                                             {% if event %}
                                                 <li>
                                                     <a target="_blank"
-                                                       class="text-danger"
+                                                       class="text-primary"
                                                        href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{ event.patrol.name }}</a> @
                                                     <a target="_blank"
                                                        class="text-warning"
