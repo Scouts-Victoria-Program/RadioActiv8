@@ -27,3 +27,36 @@ main {
   background: var(--dark);
   color: var(--warning);
 }
+.text-col-2 {
+  column-count: 2;
+}
+.text-col-3 {
+  column-count: 3;
+}
+.text-col-4 {
+  column-count: 4;
+}
+.text-col-5 {
+  column-count: 5;
+}
+.text-col-6 {
+  column-count: 6;
+}
+.text-col-7 {
+  column-count: 7;
+}
+.text-col-8 {
+  column-count: 8;
+}
+.text-col-9 {
+  column-count: 9;
+}
+.text-col-10 {
+  column-count: 10;
+}
+.text-col-11 {
+  column-count: 11;
+}
+.text-col-12 {
+  column-count: 12;
+}

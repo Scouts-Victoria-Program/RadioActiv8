@@ -1,0 +1,118 @@
+{% extends "RadioActiv8/master/heading.html" %}
+{% load static %}
+{% load bootstrap4 %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Dashboard
+{% endblock bootstrap4_title %}
+{% block bootstrap4_content %}
+    <div style="color: var(--light);background: var(--dark);">
+        <!-- Start: Patrol Control Frame -->
+        <main>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <!-- Start: 7 Rows 1+4 Columns -->
+            <div class="container-fluid bg-grey p-3">
+                <div class="dashed-border">
+                    <div class="row m-3 justify-content-center grey-bg-warning-text"
+                         style="padding: 0px 0px 0px 0px">
+                        {% comment %}
+                        <div class="col-md-6 col-lg-3 col-xl-3 text-monospace">
+                            <div class="row mx-0 justify-content-left grey-bg-warning-text" style="padding: 0px 0px 0px 0px">
+                                <h4 class="text-monospace font-weight-bold">Log Event</h4>
+                            </div>
+                            {% include "RadioActiv8/event/create_form.html" %}
+                        </div>
+                        <div class="col-md-6 col-lg-3 col-xl-3 offset-xl-0 text-monospace">
+                            <strong>BASE HISTORY:</strong>
+                            <ol id="base_history">
+                                <li>UNKNOWN</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6 col-lg-4 col-xl-4 offset-xl-0 text-monospace">
+                            <div id="base-status" class="form-group" hx-trigger="every 10s" hx-get="" hx-target="this" hx-select="#base-status" hx-swap="outerHTML" hx-select-oob="#patrol-locations">
+                                <!-- Start: Sort by "Longest Time since used" -->
+                                <h1 class="text-monospace text-uppercase font-weight-bold" style="font-size: 12pt; color: var(--black)">AVAILABLE BASES:</h1>
+                                <!-- End: Sort by "Longest Time since used" -->
+                                <ul class="list-unstyled text-monospace text-uppercase">
+                                    {% if available_bases %}
+                                        {% for available_base in available_bases %}
+                                            <li>
+                                                <a target="_blank" class="text-success" href="{% url 'admin:RadioActiv8_base_change' available_base.id %}">{{ available_base }} ({{ available_base.get_patrols_count }}/
+                                                    {% if available_base.max_patrols is None %}
+                                                        ∞
+                                                    {% else %}
+                                                        {{ available_base.max_patrols }}
+                                                    {% endif %}
+                                                )</a>
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>NO AVAILABLE BASES!!!</li>
+                                    {% endif %}
+                                </ul>
+                                <h1 class="text-monospace text-uppercase font-weight-bold" style="font-size: 12pt; color: var(--black)">FULL BASES:</h1>
+                                <ul class="list-unstyled text-monospace text-light">
+                                    {% if full_bases %}
+                                        {% for full_base in full_bases %}
+                                            <li>
+                                                <a target="_blank" class="text-nowrap text-danger" href="{% url 'admin:RadioActiv8_base_change' full_base.id %}">{{ full_base.name }}</a>:
+                                                <br />
+                                                {% for patrol in full_base.get_patrols %}
+                                                    <a target="_blank" class="text-warning" href="{% url 'admin:RadioActiv8_patrol_change' patrol.id %}">{{ patrol.name }}</a>
+                                                    {% if not forloop.last %},{% endif %}
+                                                {% endfor %}
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>NO FULL BASES</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endcomment %}
+                        <div class="col-12 offset-xl-0 text-monospace">
+                            <div id="patrol-locations" class="form-group">
+                                <!-- Start: sort by "Last Updated" -->
+                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                    style="font-size: 12pt;
+                                           color: var(--black)">Patrol Locations:</h1>
+                                <!-- End: sort by "Last Updated" -->
+                                <ul class="text-col-4 list-unstyled text-monospace text-uppercase text-light">
+                                    {% if latest_patrol_event %}
+                                        {% for event in latest_patrol_event %}
+                                            {% if event %}
+                                                <li>
+                                                    <a target="_blank"
+                                                       class="text-danger"
+                                                       href="{% url 'admin:RadioActiv8_patrol_change' event.patrol.id %}">{{ event.patrol.name }}</a> @
+                                                    <a target="_blank"
+                                                       class="text-warning"
+                                                       href="{% url 'admin:RadioActiv8_base_change' event.location.radio.base.id %}">{{ event.location }}</a>
+                                                    {% if event.destination and event.destination != event.location %}
+                                                        →
+                                                        <a target="_blank"
+                                                           class="text-warning"
+                                                           href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{ event.destination.radio.base.name }}</a>
+                                                    {% endif %}
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>NO PATROLS LOGGED!!!</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End: 7 Rows 1+4 Columns -->
+        </main>
+        <!-- End: Patrol Control Frame-->
+    </div>
+{% endblock bootstrap4_content %}

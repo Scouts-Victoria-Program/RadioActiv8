@@ -26,6 +26,7 @@ urlpatterns = [
     ),
     path("play/", views.play, name="play"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("patrol_locations/", views.patrol_locations, name="patrol_locations"),
     path("map/", views.map, name="map"),
     path("lab/", views.participant_homepage, name="participant_homepage"),
     path(
