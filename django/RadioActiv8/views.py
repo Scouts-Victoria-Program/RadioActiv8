@@ -633,6 +633,7 @@ def valid_next_base_options(session, patrol, current_location):
             "id": session.home_base.id,
             "name": session.home_base.name,
         }
+    routes = None
     if current_location:
         visited_bases_list.append(current_location)
         if hasattr(current_location, "radio") and hasattr(
