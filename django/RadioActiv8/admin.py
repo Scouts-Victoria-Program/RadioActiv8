@@ -92,6 +92,7 @@ class BaseAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
         "max_patrols",
         "get_patrols_count",
         "is_full",
+        "repeatable",
         "attendance_points",
         "activity_type",
     )
@@ -100,9 +101,11 @@ class BaseAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
         "channel",
         "min_patrols",
         "max_patrols",
+        "repeatable",
         "attendance_points",
         "activity_type",
     )
+    autocomplete_fields = ("session",)
 
 
 @admin.register(Radio)
@@ -122,7 +125,7 @@ class LocationAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
 
 @admin.register(Session)
 class SessionAdmin(SimpleHistoryAdmin):
-    pass
+    search_fields = ("name",)
 
 
 @admin.register(GPSTracker)
