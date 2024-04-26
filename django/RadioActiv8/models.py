@@ -105,6 +105,11 @@ class Base(Radio):
     def nearest(self):
         return BaseRoutePair.objects.filter(source=self)
 
+    def route(self, base):
+        route = BaseRoutePair.objects.filter(source=self, destination=base)
+        if route.exists():
+            return route.first()
+
     def get_intelligence(self, patrol=None):
         """
         Return intelligence available for this base.
