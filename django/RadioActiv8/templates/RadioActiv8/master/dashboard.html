@@ -46,6 +46,29 @@
                                 <!-- Start: Sort by "Longest Time since used" -->
                                 <h1 class="text-monospace text-uppercase font-weight-bold"
                                     style="font-size: 12pt;
+                                           color: var(--black)">EMPTY BASES:</h1>
+                                <!-- End: Sort by "Longest Time since used" -->
+                                <ul class="list-unstyled text-monospace text-uppercase">
+                                    {% if empty_bases %}
+                                        {% for empty_base in empty_bases %}
+                                            <li>
+                                                <a target="_blank"
+                                                   class="text-primary"
+                                                   href="{% url 'admin:RadioActiv8_base_change' empty_base.id %}">{{ empty_base }} ({{ empty_base.get_patrols_count }}/
+                                                    {% if empty_base.max_patrols is None %}
+                                                        ∞
+                                                    {% else %}
+                                                        {{ empty_base.max_patrols }}
+                                                    {% endif %}
+                                                )</a>
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>No empty bases.</li>
+                                    {% endif %}
+                                </ul>
+                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                    style="font-size: 12pt;
                                            color: var(--black)">AVAILABLE BASES:</h1>
                                 <!-- End: Sort by "Longest Time since used" -->
                                 <ul class="list-unstyled text-monospace text-uppercase">

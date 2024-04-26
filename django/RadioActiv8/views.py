@@ -104,8 +104,15 @@ def play(request):
     submit_action = reverse("RadioActiv8:play")
     patrols = Patrol.objects.filter(session=ra8_session)
     bases = Base.objects.filter(session=ra8_session)
+    empty_bases = [
+        b
+        for b in Base.objects.filter(session=ra8_session)
+        if b.get_patrols_count() == 0
+    ]
     available_bases = [
-        b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
+        b
+        for b in Base.objects.filter(session=ra8_session)
+        if not b.is_full() and not b.get_patrols_count() == 0
     ]
     latest_patrol_event = [
         p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
@@ -115,6 +122,7 @@ def play(request):
         "submit_action": submit_action,
         "patrols": patrols,
         "bases": bases,
+        "empty_bases": empty_bases,
         "available_bases": available_bases,
         "latest_patrol_event": latest_patrol_event,
         "full_bases": full_bases,
@@ -136,8 +144,15 @@ def dashboard(request):
     submit_action = reverse("RadioActiv8:play")
     patrols = Patrol.objects.filter(session=ra8_session)
     bases = Base.objects.filter(session=ra8_session)
+    empty_bases = [
+        b
+        for b in Base.objects.filter(session=ra8_session)
+        if b.get_patrols_count() == 0
+    ]
     available_bases = [
-        b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
+        b
+        for b in Base.objects.filter(session=ra8_session)
+        if not b.is_full() and not b.get_patrols_count() == 0
     ]
     latest_patrol_event = [
         p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
@@ -147,6 +162,7 @@ def dashboard(request):
         "submit_action": submit_action,
         "patrols": patrols,
         "bases": bases,
+        "empty_bases": empty_bases,
         "available_bases": available_bases,
         "latest_patrol_event": latest_patrol_event,
         "full_bases": full_bases,
