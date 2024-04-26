@@ -76,14 +76,19 @@
                             </div>
                         </div>
                         {% endcomment %}
-                        <div class="col-12 offset-xl-0 text-monospace">
+                        <div class="col-12 offset-xl-0 text-monospace"
+                             hx-trigger="every 10s"
+                             hx-get=""
+                             hx-target="this"
+                             hx-select="#patrol-locations"
+                             hx-swap="innerHTML">
                             <div id="patrol-locations" class="form-group">
                                 <!-- Start: sort by "Last Updated" -->
                                 <h1 class="text-monospace text-uppercase font-weight-bold"
                                     style="font-size: 12pt;
                                            color: var(--black)">Patrol Locations:</h1>
                                 <!-- End: sort by "Last Updated" -->
-                                <ul class="text-col-4 list-unstyled text-monospace text-uppercase text-light">
+                                <ul class="text-col-3 list-unstyled text-monospace text-uppercase text-light">
                                     {% if latest_patrol_event %}
                                         {% for event in latest_patrol_event %}
                                             {% if event %}
