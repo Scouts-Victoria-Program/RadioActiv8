@@ -75,15 +75,13 @@
                             </div>
                         </div>
                         {% endcomment %}
-                        <div class="col-12 offset-xl-0 text-monospace">
-                            <div id="patrol-locations"
-                                 class="form-group"
-                                 hx-trigger="every 10s"
-                                 hx-get=""
-                                 hx-target="this"
-                                 hx-select="#patrol-locations"
-                                 hx-swap="outerHTML"
-                                 hx-select-oob="#patrol-locations">
+                        <div class="col-12 offset-xl-0 text-monospace"
+                             hx-trigger="every 10s"
+                             hx-get=""
+                             hx-target="this"
+                             hx-select="#patrol-locations"
+                             hx-swap="innerHTML">
+                            <div id="patrol-locations" class="form-group">
                                 <!-- Start: sort by "Last Updated" -->
                                 <h1 class="text-monospace text-uppercase font-weight-bold"
                                     style="font-size: 12pt;
