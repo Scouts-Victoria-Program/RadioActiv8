@@ -106,7 +106,7 @@ def play(request):
     bases = Base.objects.filter(session=ra8_session)
     empty_bases = [
         b
-        for b in Base.objects.filter(session=ra8_session)
+        for b in Base.objects.filter(session=ra8_session).order_by("max_patrols")
         if b.get_patrols_count() == 0
     ]
     available_bases = [
@@ -146,7 +146,7 @@ def dashboard(request):
     bases = Base.objects.filter(session=ra8_session)
     empty_bases = [
         b
-        for b in Base.objects.filter(session=ra8_session)
+        for b in Base.objects.filter(session=ra8_session).order_by("-max_patrols")
         if b.get_patrols_count() == 0
     ]
     available_bases = [
