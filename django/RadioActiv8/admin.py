@@ -62,7 +62,7 @@ class EventAdmin(SimpleHistoryAdmin):
         "destination__radio__name",
         "comment",
     )
-    ordering = ["timestamp"]
+    ordering = ["-timestamp"]
     form = EventForm
 
 
