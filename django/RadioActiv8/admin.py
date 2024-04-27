@@ -46,12 +46,13 @@ admin.site.add_action(download_csv, "download_csv")
 class EventAdmin(SimpleHistoryAdmin):
     list_display = (
         "timestamp",
-        "session",
+        "timesince",
         "patrol",
         "location",
+        "destination",
         "intelligence_request",
         "intelligence_answered_correctly",
-        "destination",
+        "session",
         "comment",
     )
     # list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')

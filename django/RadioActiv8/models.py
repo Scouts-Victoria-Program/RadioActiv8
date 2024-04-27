@@ -341,10 +341,15 @@ class Event(models.Model):
     comment = models.TextField(max_length=1024, null=True, blank=True)
 
     class Meta:
-        ordering = ["timestamp"]
+        ordering = ["-timestamp"]
         constraints = [
             # models.CheckConstraint(check=models.Q(location=intelligence_request.base), name='valid_intelligence_for_base'),
         ]
+
+    @property
+    @admin.display(description="Elapsed")
+    def timesince(self):
+        return timezone.now() - self.timestamp
 
     def save(self, *args, **kwargs):
         super(Event, self).save(*args, **kwargs)
