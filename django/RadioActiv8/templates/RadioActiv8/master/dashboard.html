@@ -1,6 +1,7 @@
 {% extends "RadioActiv8/master/heading.html" %}
 {% load static %}
 {% load bootstrap4 %}
+{% load timesince_short %}
 {% block bootstrap4_title %}
     RadioActiv8 - Dashboard
 {% endblock bootstrap4_title %}
@@ -139,6 +140,7 @@
                                                            class="text-warning"
                                                            href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{ event.destination.radio.base.name }}</a>
                                                     {% endif %}
+                                                    ({{ event.timestamp | timesince_short }})
                                                 </li>
                                             {% endif %}
                                         {% endfor %}
