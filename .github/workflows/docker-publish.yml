@@ -2,10 +2,10 @@ name: Container Image
 
 on:
   push:
-    branches: [ main ]
+    # branches: [ main ]
     tags: [ 'v*' ]
-  pull_request:
-    branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
 
 env:
   IMAGE_NAME: ${{ github.repository }}
