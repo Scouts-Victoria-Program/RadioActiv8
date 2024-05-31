@@ -1,13 +1,17 @@
 # Guide to deploying RadioActiv8 for field use
 
+> [!IMPORTANT]
+> The following presumes a clean version of a Debian-based system ready for RadioActiv8 deployment. This has been tested using a Debian 12 `arm64` image. This *should* also work on `amd64` systems. Use at your own ~peril~ discretion.
+
 Do the doing of the things:
+
 
 ## Install Docker core
 ``` sh
 sudo apt update
 sudo apt install docker.io -y		# Install docker.io
-sudo systemctl status docker 		# Check that it's doing the thing
-sudo adduser <username> docker 		# Add local user to the docker group
+sudo systemctl status docker 		# Check that it's doing the thing - green is good
+sudo adduser <username> docker		# Add local user to the docker group
 logout					# Logout
 ```
 
