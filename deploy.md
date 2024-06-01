@@ -164,7 +164,7 @@ with open("patrols.csv") as f:
     reader = csv.DictReader(f)
     for row in reader:
         patrol, status = Patrol.objects.get_or_create(
-            name=row["patrol"],
+            name=row["name"],
             number_of_members=row["pax"],
             )
         patrol.session.add(session)
