@@ -63,7 +63,7 @@ six==1.16.0
     # via asttokens
 soupsieve==2.5
     # via beautifulsoup4
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via
     #   django
     #   django-debug-toolbar
