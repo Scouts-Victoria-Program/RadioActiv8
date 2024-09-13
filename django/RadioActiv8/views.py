@@ -1,22 +1,23 @@
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.serializers import serialize
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Session, Base, Patrol, Location, Event, GPSTracker, Radio
+
 from .forms import (
-    SessionListForm,
-    EventForm,
-    BonusPointsForm,
-    GPSTrackerPatrolForm,
     BaseForm,
+    BonusPointsForm,
+    EventForm,
+    GPSTrackerPatrolForm,
     PatrolForm,
     SessionAddPatrolForm,
+    SessionListForm,
 )
-from django.core.serializers import serialize
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
+from .models import Base, Event, GPSTracker, Location, Patrol, Radio, Session
 
 
 def healthcheck(request):
@@ -655,9 +656,9 @@ def valid_next_base_options(session, patrol, current_location):
             "num_patrols": b.get_patrols_count(),
             "max_patrols": b.max_patrols,
             "visited": b in visited_bases,
-            "eligible": b in eligible_bases,
-            "top_priority": b in top_priority_bases,
-            "preferred": base_preferences[b] if b in base_preferences else None,
+            #"eligible": b in eligible_bases,
+            #"top_priority": b in top_priority_bases,
+            #"preferred": base_preferences[b] if b in base_preferences else None,
             "time": routes[b] if routes and b in routes else None,
             "repeatable": b.repeatable,
         }

@@ -135,9 +135,7 @@ function dynamic_form_update(destination_toggle = false) {
             base.name = `${base.name} (${min}:${sec})`;*/
             base.name = `${base.name} (${min}m ${sec}s)`;
           }
-          if (!base.eligible) {
-            ineligible.push(base);
-          } else if (base.visited) {
+          if (base.visited) {
             visited.push(base);
           }
           else if(base.max_patrols != null && base.num_patrols >= base.max_patrols)
