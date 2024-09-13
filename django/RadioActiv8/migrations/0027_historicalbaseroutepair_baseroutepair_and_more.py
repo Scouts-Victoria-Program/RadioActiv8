@@ -8,7 +8,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("RadioActiv8", "0026_alter_patrol_options_and_more"),
+        ("RadioActiv8", "0023_patrol_preferred_bases"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
