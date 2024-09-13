@@ -1,22 +1,23 @@
-from django.contrib.gis import admin
-from .models import (
-    Patrol,
-    Location,
-    Radio,
-    Base,
-    Intelligence,
-    Event,
-    Session,
-    Participant,
-    GPSTracker,
-    BaseRoutePair,
-)
+import csv
 
-from RadioActiv8.forms import EventForm
+from django.contrib.gis import admin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-import csv
 from simple_history.admin import SimpleHistoryAdmin
+
+from RadioActiv8.forms import EventForm
+
+from .models import (
+    Base,
+    BaseRoutePair,
+    Event,
+    GPSTracker,
+    Intelligence,
+    Location,
+    Patrol,
+    Radio,
+    Session,
+)
 
 
 @admin.action(description="Download selected as csv")

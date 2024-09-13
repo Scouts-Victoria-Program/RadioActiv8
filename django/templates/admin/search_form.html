@@ -25,7 +25,7 @@
                        hx-select="#changelist-form"
                        hx-swap="outerHTML"
                        hx-push-url="true">
-                <input type="submit" value="{% translate 'Search' %}">
+                <input type="submit" value="{% translate "Search" %}">
                 {% if show_result_count %}
                     <span class="small quiet">{% blocktranslate count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %} (<a href="?{% if cl.is_popup %}{{ is_popup_var }}=1{% endif %}">
                         {% if cl.show_full_result_count %}

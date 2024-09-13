@@ -1,8 +1,8 @@
+from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from rest_framework import routers
-from django.contrib.auth import views as auth_views
 
-from . import views, api_views
+from . import api_views, views
 
 router = routers.DefaultRouter()
 router.register(r"base", api_views.BaseViewSet)

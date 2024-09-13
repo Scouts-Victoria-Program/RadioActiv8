@@ -1,6 +1,6 @@
-from django.utils.translation import ngettext_lazy
-from django.utils.timesince import timesince
 from django import template
+from django.utils.timesince import timesince
+from django.utils.translation import ngettext_lazy
 
 register = template.Library()
 TIME_STRINGS = {

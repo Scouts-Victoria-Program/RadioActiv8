@@ -1,13 +1,15 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Home{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Home
+{% endblock bootstrap4_title %}
 {% block bootstrap4_content %}
     {% load static %}
     <!-- Start: Content block -->
     <div>
         <div class="container-fluid" style="font-family: 'Roboto Slab', serif;">
             <div class="row mt-3 mb-3 ml-0 mr-0">
-                <div class="col">{% include 'RadioActiv8/session/set.html' %}</div>
+                <div class="col">{% include "RadioActiv8/session/set.html" %}</div>
             </div>
             <div class="row" style="margin: 10px;">
                 <div class="col" style="background: var(--success);">
@@ -160,4 +162,4 @@
         </div>
     </div>
     <!-- End: Content block -->
-{% endblock %}
+{% endblock bootstrap4_content %}

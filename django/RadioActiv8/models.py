@@ -1,13 +1,13 @@
-from django.contrib.gis.db import models
-from django.core.exceptions import ValidationError
+import random
+from datetime import timedelta
 
+from django.contrib import admin
+from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
-import random
 from django.utils import timezone
-from django.contrib import admin
-from datetime import timedelta
 from simple_history.models import HistoricalRecords
 
 # FIXME: This default should be configurable
@@ -230,7 +230,9 @@ class Patrol(models.Model):
     gps_tracker = models.OneToOneField(
         GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
     )
-    preferred_bases = models.ManyToManyField(Base, blank=True, related_name='patrol_preferred')
+    preferred_bases = models.ManyToManyField(
+        Base, blank=True, related_name="patrol_preferred"
+    )
     number_of_members = models.IntegerField(null=True, blank=True)
 
     class Meta:
@@ -425,4 +427,3 @@ class Event(models.Model):
             next_location = ", heading to " + str(self.destination)
 
         return f"{self.timestamp}: {self.patrol} at {str(self.location)}{next_location}{comment}"
-

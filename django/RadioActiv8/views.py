@@ -656,9 +656,9 @@ def valid_next_base_options(session, patrol, current_location):
             "num_patrols": b.get_patrols_count(),
             "max_patrols": b.max_patrols,
             "visited": b in visited_bases,
-            #"eligible": b in eligible_bases,
-            #"top_priority": b in top_priority_bases,
-            #"preferred": base_preferences[b] if b in base_preferences else None,
+            # "eligible": b in eligible_bases,
+            # "top_priority": b in top_priority_bases,
+            # "preferred": base_preferences[b] if b in base_preferences else None,
             "time": routes[b] if routes and b in routes else None,
             "repeatable": b.repeatable,
         }

@@ -1,11 +1,12 @@
 # docker-compose exec app ./manage.py shell -c 'import event_to_csv'
-from django.contrib.admin.models import LogEntry
-from RadioActiv8.models import Event
 import csv
+
 from django.conf import settings
+from django.contrib.admin.models import LogEntry
 
 # activate(settings.TIME_ZONE)
 from pytz import timezone
+from RadioActiv8.models import Event
 
 settings_time_zone = timezone(settings.TIME_ZONE)
 event_logs = LogEntry.objects.filter(

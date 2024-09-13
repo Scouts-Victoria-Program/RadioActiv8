@@ -10,12 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
+import email.utils
 from pathlib import Path
 
-from django.conf.locale.en import formats as en_formats
-
 import environ
-import email.utils
+from django.conf.locale.en import formats as en_formats
 
 env = environ.Env(
     # set casting, default value

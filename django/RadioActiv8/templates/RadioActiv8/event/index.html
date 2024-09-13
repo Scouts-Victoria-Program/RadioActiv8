@@ -1,6 +1,8 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Events{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Events
+{% endblock bootstrap4_title %}
 {% block bootstrap4_extra_head %}
     {{ block.super }}
     <style>
@@ -8,9 +10,9 @@
     th,td{padding:4px 8px;}
     th{cursor:pointer;}
     </style>
-{% endblock %}
+{% endblock bootstrap4_extra_head %}
 {% block bootstrap4_content %}
-    {% include 'RadioActiv8/session/set.html' %}
+    {% include "RadioActiv8/session/set.html" %}
     {% if event_list %}
         <table class="table table-sm table-striped" id="events_table">
             <thead>
@@ -118,4 +120,4 @@ function sortBy(c, id) {
     }
 }
     </script>
-{% endblock %}
+{% endblock bootstrap4_content %}
