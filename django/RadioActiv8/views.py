@@ -52,7 +52,7 @@ def map(request):
         b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
     ]
     latest_patrol_event = [
-        p.event_set.last()
+        p.event_set.first()
         for p in Patrol.objects.filter(session=ra8_session)
         if not p.current_base
     ]
@@ -116,7 +116,7 @@ def play(request):
         if not b.is_full() and not b.get_patrols_count() == 0
     ]
     latest_patrol_event = [
-        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+        p.event_set.first() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
@@ -156,7 +156,7 @@ def dashboard(request):
         if not b.is_full() and not b.get_patrols_count() == 0
     ]
     latest_patrol_event = [
-        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+        p.event_set.first() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
@@ -188,7 +188,7 @@ def patrol_locations(request):
         b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
     ]
     latest_patrol_event = [
-        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+        p.event_set.first() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
