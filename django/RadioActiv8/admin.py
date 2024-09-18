@@ -79,6 +79,16 @@ class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_filter = ("session",)
 
+class EventPatrolInline(admin.TabularInline):
+    model = Intelligence
+    readonly_fields = []
+    fields = [
+        "question",
+        "answer",
+        "completion_points",
+    ]
+    show_change_link = True
+
 
 @admin.register(Base)
 class BaseAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
@@ -109,6 +119,7 @@ class BaseAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
         "activity_type",
     )
     autocomplete_fields = ("session",)
+    inlines = (EventPatrolInline,)
 
 
 @admin.register(Radio)
