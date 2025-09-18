@@ -476,6 +476,7 @@ def event_ajax(request):
         session, patrol, current_location
     )
     response["base_history"] = patrol_base_history(session, patrol)
+    response["comment_history"] = patrol_comment_history(session, patrol)
 
     return JsonResponse(response, safe=False)
 
@@ -679,6 +680,20 @@ def valid_next_base_options(session, patrol, current_location):
 
     return response
 
+
+def patrol_comment_history(session, patrol):
+    events = (
+        Event.objects.filter(session=session)
+        .filter(patrol=patrol)
+        .order_by("-timestamp")
+    )
+    comment_list = [
+        {"timestamp": str(event.timestamp)[:-16], "comment": str(event.comment)}
+        for event in Event.objects.filter(session=session)
+        .filter(patrol=patrol)
+        .order_by("timestamp")
+    ]
+    return list(filter(lambda entry: entry["comment"] is not "", comment_list))
 
 def patrol_base_history(session, patrol):
     visited_bases = [
