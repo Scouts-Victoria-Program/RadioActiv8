@@ -682,11 +682,6 @@ def valid_next_base_options(session, patrol, current_location):
 
 
 def patrol_comment_history(session, patrol):
-    events = (
-        Event.objects.filter(session=session)
-        .filter(patrol=patrol)
-        .order_by("-timestamp")
-    )
     comment_list = [
         {"timestamp": str(event.timestamp)[:-16], "comment": str(event.comment)}
         for event in Event.objects.filter(session=session)
