@@ -686,7 +686,7 @@ def patrol_comment_history(session, patrol):
         {"timestamp": str(event.timestamp)[:-16], "comment": str(event.comment)}
         for event in Event.objects.filter(session=session)
         .filter(patrol=patrol)
-        .order_by("timestamp")
+        .order_by("-timestamp")
     ]
     return list(filter(lambda entry: entry["comment"] is not "", comment_list))
 
