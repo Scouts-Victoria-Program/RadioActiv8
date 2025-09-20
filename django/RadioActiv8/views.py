@@ -688,7 +688,7 @@ def patrol_comment_history(session, patrol):
         .filter(patrol=patrol)
         .order_by("-timestamp")
     ]
-    return list(filter(lambda entry: entry["comment"] is not "", comment_list))
+    return list(filter(lambda entry: entry["comment"] != "", comment_list))
 
 
 def patrol_base_history(session, patrol):
