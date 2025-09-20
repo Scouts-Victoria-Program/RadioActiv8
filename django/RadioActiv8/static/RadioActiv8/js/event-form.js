@@ -228,15 +228,23 @@ function dynamic_form_update(destination_toggle = false) {
         }
       }
 
-      { // Display Base history and last expected destination
+      { // Display Base history, commentary and last expected destination
 
-        var base_history = '';
+        var base_history = (data.base_history.visited_bases.length == 0) ? '<li><em>Unknown</em></li>' : '';
         for (var i = 0; i < data.base_history.visited_bases.length; i++) {
           var id = data.base_history.visited_bases[i].id
           var name = data.base_history.visited_bases[i].name
           base_history += "<li data.base_history-base-id='" + id + "'>" + name + "</li>"
         }
         jQuery("#base_history").html(base_history);
+
+        var comment_history = (data.comment_history.length == 0) ? '<li><em>None</em></li>' : '';
+        for (var i = 0; i < data.comment_history.length; i++) {
+          var timestamp = data.comment_history[i].timestamp
+          var comment = data.comment_history[i].comment
+          comment_history += "<li><em>" + timestamp + "</em><br/>" + comment + "</li>"
+        }
+        jQuery("#comment_history").html(comment_history);
 
         var expected_location = data.base_history.last_destination;
         if(!expected_location)

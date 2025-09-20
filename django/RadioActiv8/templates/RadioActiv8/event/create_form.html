@@ -33,10 +33,10 @@
             <input type="radio" name="check-in-out-toggle" id="radio-check-out">
             Check out
         </label>
-        <span class="destination_form_group" id="destination_form_group">
-            <p>{% bootstrap_field form.destination %}</p>
-        </span>
     </div>
+    <span class="destination_form_group" id="destination_form_group">
+        <p>{% bootstrap_field form.destination %}</p>
+    </span>
     <p>{% bootstrap_field form.comment %}</p>
     {{ form.media }}
     <input type="submit" value="Add Event" class="btn btn-warning m-3">

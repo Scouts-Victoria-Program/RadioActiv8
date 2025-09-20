@@ -1,6 +1,8 @@
 import random
 from datetime import timedelta
 
+from simple_history.models import HistoricalRecords
+
 from django.contrib import admin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
@@ -8,7 +10,6 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
 from django.utils import timezone
-from simple_history.models import HistoricalRecords
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
