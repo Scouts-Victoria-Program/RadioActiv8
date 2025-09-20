@@ -1,6 +1,7 @@
+from rest_framework import routers
+
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
-from rest_framework import routers
 
 from . import api_views, views
 

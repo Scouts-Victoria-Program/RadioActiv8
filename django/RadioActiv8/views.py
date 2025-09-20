@@ -690,6 +690,7 @@ def patrol_comment_history(session, patrol):
     ]
     return list(filter(lambda entry: entry["comment"] is not "", comment_list))
 
+
 def patrol_base_history(session, patrol):
     visited_bases = [
         {"id": event.location.id, "name": str(event.location)}

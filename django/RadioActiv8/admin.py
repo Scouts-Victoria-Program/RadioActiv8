@@ -1,10 +1,10 @@
 import csv
 
+from simple_history.admin import SimpleHistoryAdmin
+
 from django.contrib.gis import admin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-from simple_history.admin import SimpleHistoryAdmin
-
 from RadioActiv8.forms import EventForm
 
 from .models import (
@@ -78,6 +78,7 @@ class ParticipantAdmin(SimpleHistoryAdmin):
 class PatrolAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_filter = ("session",)
+
 
 class EventPatrolInline(admin.TabularInline):
     model = Intelligence
