@@ -53,8 +53,8 @@ class EventAdmin(SimpleHistoryAdmin):
         "destination",
         "comment",
     )
-    # list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
-    list_filter = ("patrol", "location", "destination", "session")
+    list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
+    list_filter = ("session", "patrol", "location", "destination",)
     search_fields = (
         "patrol__name",
         "location__radio__name",
@@ -73,8 +73,10 @@ class ParticipantAdmin(SimpleHistoryAdmin):
 
 @admin.register(Patrol)
 class PatrolAdmin(SimpleHistoryAdmin):
-    search_fields = ("name",)
+    search_fields = ("name", "session",)
     list_filter = ("session",)
+    list_display = ("patrol", "session", "number_of_members",)
+    list_editable = ("session", "number_of_members",)
 
 
 @admin.register(Base)
