@@ -1,4 +1,16 @@
-function dynamic_form_update(){
+function destination_toggle() {
+  if (jQuery("#radio-check-in:checked").val() == "on") {
+    jQuery("#destination_form_group").hide();
+    var location_field = jQuery("#id_location");
+    var destination_field = jQuery("#id_destination");
+    destination_field.val(location_field.val());
+  } else {
+    jQuery("#destination_form_group").show();
+    dynamic_form_update((destionation_toggle = true));
+  }
+}
+
+function dynamic_form_update(destination_toggle = false) {
   var current_session = jQuery("#id_session").val();
   var current_patrol = jQuery("#id_patrol").val();
   var current_location = jQuery("#id_location").val();
@@ -47,7 +59,19 @@ function dynamic_form_update(){
         jQuery("#id_location").html(location);
       }
 
-      { // Update Intelligence drop-down
+      {
+        // Update Intelligence drop-down
+        if (
+          (data.intelligence_options.unused.length == 0 &&
+            data.intelligence_options.used.length == 0) ||
+          (data.intelligence_options.unused.length == undefined &&
+            data.intelligence_options.used.length == undefined)
+        ) {
+          jQuery(".form-intelligence-request").hide();
+        } else {
+          jQuery(".form-intelligence-request").show();
+        }
+
         var intelligence = "<option value=''>---------</option>";
         var selected_intelligence = jQuery("#id_intelligence_request").val()
 
@@ -103,8 +127,15 @@ function dynamic_form_update(){
         for (var i = 0; i < data.valid_destinations.bases.length; i++)
         {
           var base = data.valid_destinations.bases[i];
-          if(base.visited)
-          {
+          if (base.time != null) {
+            min = Math.floor(base.time / 60)
+            sec = base.time % 60
+            /*min = String(min).padStart(2, '0')
+            sec = String(sec).padStart(2, '0')
+            base.name = `${base.name} (${min}:${sec})`;*/
+            base.name = `${base.name} (${min}m ${sec}s)`;
+          }
+          if (base.visited) {
             visited.push(base);
           }
           else if(base.max_patrols != null && base.num_patrols >= base.max_patrols)
@@ -183,17 +214,37 @@ function dynamic_form_update(){
           destination += "</optgroup>";
         }
         jQuery("#id_destination").html(destination);
+        if (!destination_toggle) {
+          if (data.check_in) {
+            jQuery("#radio-check-in").prop("checked", "checked");
+            jQuery("#destination_form_group").hide();
+            var location_field = jQuery("#id_location");
+            var destination_field = jQuery("#id_destination");
+            destination_field.val(location_field.val());
+          } else {
+            jQuery("#radio-check-out").prop("checked", "checked");
+            jQuery("#destination_form_group").show();
+          }
+        }
       }
 
-      { // Display Base history and last expected destination
+      { // Display Base history, commentary and last expected destination
 
-        var base_history = '';
+        var base_history = (data.base_history.visited_bases.length == 0) ? '<li><em>Unknown</em></li>' : '';
         for (var i = 0; i < data.base_history.visited_bases.length; i++) {
           var id = data.base_history.visited_bases[i].id
           var name = data.base_history.visited_bases[i].name
           base_history += "<li data.base_history-base-id='" + id + "'>" + name + "</li>"
         }
         jQuery("#base_history").html(base_history);
+
+        var comment_history = (data.comment_history.length == 0) ? '<li><em>None</em></li>' : '';
+        for (var i = 0; i < data.comment_history.length; i++) {
+          var timestamp = data.comment_history[i].timestamp
+          var comment = data.comment_history[i].comment
+          comment_history += "<li><em>" + timestamp + "</em><br/>" + comment + "</li>"
+        }
+        jQuery("#comment_history").html(comment_history);
 
         var expected_location = data.base_history.last_destination;
         if(!expected_location)
@@ -236,14 +287,27 @@ function dynamic_form_update(){
   });
 
 }
+jQuery(document).ready(function () {
+  jQuery(".form-intelligence-request").hide();
+  if (!jQuery && django.jQuery) {
+    jQuery = django.jQuery;
+  }
+  jQuery("#id_intelligence_request").html(
+    '<option value="" selected="">---------</option>'
+  );
+  jQuery("#id_destination").html(
+    '<option value="" selected="">---------</option>'
+  );
+  destination_toggle();
+  dynamic_form_update();
+  jQuery("#id_session").change(dynamic_form_update);
+  jQuery("#id_patrol").change(function () {
+    jQuery("#id_location").val(0);
+  });
+  jQuery("#id_patrol").change(dynamic_form_update);
+  jQuery("#id_location").change(dynamic_form_update);
+  jQuery("#id_intelligence_request").change(dynamic_form_update);
 
-jQuery(document).ready(function(){
-    if(!jQuery && django.jQuery) { jQuery = django.jQuery; }
-    jQuery("#id_intelligence_request").html('<option value="" selected="">---------</option>');
-    jQuery("#id_destination").html('<option value="" selected="">---------</option>');
-    dynamic_form_update();
-    jQuery("#id_session").change(dynamic_form_update);
-    jQuery("#id_patrol").change(dynamic_form_update);
-    jQuery("#id_location").change(dynamic_form_update);
-    jQuery("#id_intelligence_request").change(dynamic_form_update);
-})
+  jQuery("#radio-check-in").change(destination_toggle);
+  jQuery("#radio-check-out").change(destination_toggle);
+});

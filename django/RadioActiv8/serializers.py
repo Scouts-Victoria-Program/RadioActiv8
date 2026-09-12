@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Base, Patrol, Intelligence, Event
+
+from .models import Base, Event, Intelligence, Patrol
 
 
 class BaseSerializer(serializers.HyperlinkedModelSerializer):

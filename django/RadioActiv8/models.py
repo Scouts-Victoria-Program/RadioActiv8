@@ -1,13 +1,15 @@
-from django.contrib.gis.db import models
-from django.core.exceptions import ValidationError
-
-from django.contrib.gis.geos import Point
-from django.db.models import Q
 import random
-from django.utils import timezone
-from django.contrib import admin
 from datetime import timedelta
+
 from simple_history.models import HistoricalRecords
+
+from django.contrib import admin
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
+from django.core.exceptions import ValidationError
+from django.db.models import Q
+from django.db.models.constraints import UniqueConstraint
+from django.utils import timezone
 
 # FIXME: This default should be configurable
 DEFAULT_POINT = Point(144.63760, -36.49197)
@@ -100,6 +102,9 @@ class Base(Radio):
         blank=True, max_length=1, choices=ACTIVITY_TYPE_CHOICES, default="S"
     )
 
+    def nearest(self):
+        return BaseRoutePair.objects.filter(source=self)
+
     def get_intelligence(self, patrol=None):
         """
         Return intelligence available for this base.
@@ -168,6 +173,51 @@ class Base(Radio):
             return False
 
 
+class BaseRoutePair(models.Model):
+    class Meta:
+        # unique_together = ("source", "destination")
+        constraints = [
+            UniqueConstraint(
+                fields=["source", "destination"],
+                name="one_instance_per_base_pair",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=["source", "time"]),
+            models.Index(fields=["source", "length"]),
+        ]
+        ordering = ["source", "time"]
+
+    history = HistoricalRecords()
+    source = models.ForeignKey(Base, on_delete=models.CASCADE, related_name="route_to")
+    destination = models.ForeignKey(
+        Base, on_delete=models.CASCADE, related_name="route_from"
+    )
+    route = models.JSONField(blank=True, null=True)
+    length = models.IntegerField()
+    time = models.DurationField()
+
+    def __str__(self):
+        return f"{self.source.name} → {self.destination.name}"
+
+    def __init__(self, *args, **kwargs):
+        if (
+            "route" in kwargs
+            and kwargs["route"]
+            and not ("length" in kwargs and kwargs["length"])
+        ):
+            kwargs["length"] = kwargs["route"]["trip"]["summary"]["length"] * 1000
+        if (
+            "route" in kwargs
+            and kwargs["route"]
+            and not ("time" in kwargs and kwargs["time"])
+        ):
+            kwargs["time"] = timedelta(
+                seconds=int(kwargs["route"]["trip"]["summary"]["time"])
+            )
+        super().__init__(*args, **kwargs)
+
+
 class Patrol(models.Model):
     history = HistoricalRecords()
     session = models.ManyToManyField(Session)
@@ -180,6 +230,9 @@ class Patrol(models.Model):
     bonus_points = models.IntegerField(default=0)
     gps_tracker = models.OneToOneField(
         GPSTracker, blank=True, null=True, on_delete=models.SET_NULL
+    )
+    preferred_bases = models.ManyToManyField(
+        Base, blank=True, related_name="patrol_preferred"
     )
     number_of_members = models.IntegerField(null=True, blank=True)
 
@@ -291,10 +344,15 @@ class Event(models.Model):
     comment = models.TextField(max_length=1024, null=True, blank=True)
 
     class Meta:
-        ordering = ["timestamp"]
+        ordering = ["-timestamp"]
         constraints = [
             # models.CheckConstraint(check=models.Q(location=intelligence_request.base), name='valid_intelligence_for_base'),
         ]
+
+    @property
+    @admin.display(description="Elapsed")
+    def timesince(self):
+        return timezone.now() - self.timestamp
 
     def save(self, *args, **kwargs):
         super(Event, self).save(*args, **kwargs)
@@ -317,10 +375,10 @@ class Event(models.Model):
                         self.patrol.completion_points += (
                             self.intelligence_request.completion_points
                         )
-            elif self.location.radio and self.location.radio.base:
+            if self.destination.radio and self.destination.radio.base:
                 # After confirming that the current location is a base, set this as
                 # the patrol's current base
-                self.patrol.current_base = self.location.radio.base
+                self.patrol.current_base = self.destination.radio.base
 
         self.patrol.save()
 

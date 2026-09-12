@@ -1,7 +1,9 @@
-from django.forms import ModelForm, Textarea
-from django import forms
-from .models import Base, Patrol, Event, Session, GPSTracker
 import random
+
+from django import forms
+from django.forms import ModelForm, Textarea
+
+from .models import Base, Event, GPSTracker, Patrol, Session
 
 
 class BaseForm(ModelForm):

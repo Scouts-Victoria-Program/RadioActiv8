@@ -1,21 +1,23 @@
-from django.contrib.gis import admin
-from .models import (
-    Patrol,
-    Location,
-    Radio,
-    Base,
-    Intelligence,
-    Event,
-    Session,
-    Participant,
-    GPSTracker,
-)
+import csv
 
-from RadioActiv8.forms import EventForm
+from simple_history.admin import SimpleHistoryAdmin
+
+from django.contrib.gis import admin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-import csv
-from simple_history.admin import SimpleHistoryAdmin
+from RadioActiv8.forms import EventForm
+
+from .models import (
+    Base,
+    BaseRoutePair,
+    Event,
+    GPSTracker,
+    Intelligence,
+    Location,
+    Patrol,
+    Radio,
+    Session,
+)
 
 
 @admin.action(description="Download selected as csv")
@@ -45,12 +47,13 @@ admin.site.add_action(download_csv, "download_csv")
 class EventAdmin(SimpleHistoryAdmin):
     list_display = (
         "timestamp",
-        "session",
+        "timesince",
         "patrol",
         "location",
+        "destination",
         "intelligence_request",
         "intelligence_answered_correctly",
-        "destination",
+        "session",
         "comment",
     )
     list_editable= ('patrol', 'location', 'intelligence_request', 'intelligence_answered_correctly', 'destination', 'comment')
@@ -62,7 +65,7 @@ class EventAdmin(SimpleHistoryAdmin):
         "destination__radio__name",
         "comment",
     )
-    ordering = ["timestamp"]
+    ordering = ["-timestamp"]
     form = EventForm
 
 
@@ -77,6 +80,17 @@ class PatrolAdmin(SimpleHistoryAdmin):
     list_filter = ("session",)
     list_display = ("patrol", "session", "number_of_members",)
     list_editable = ("session", "number_of_members",)
+
+
+class EventPatrolInline(admin.TabularInline):
+    model = Intelligence
+    readonly_fields = []
+    fields = [
+        "question",
+        "answer",
+        "completion_points",
+    ]
+    show_change_link = True
 
 
 @admin.register(Base)
@@ -108,6 +122,7 @@ class BaseAdmin(SimpleHistoryAdmin, admin.GISModelAdmin):
         "activity_type",
     )
     autocomplete_fields = ("session",)
+    inlines = (EventPatrolInline,)
 
 
 @admin.register(Radio)
@@ -133,6 +148,21 @@ class SessionAdmin(SimpleHistoryAdmin):
 @admin.register(GPSTracker)
 class GPSTrackerAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(BaseRoutePair)
+class BaseRoutePairAdmin(admin.ModelAdmin):
+    list_display = (
+        "source",
+        "destination",
+        "time",
+        "length",
+    )
+    search_fields = (
+        "source",
+        "destination",
+    )
+    list_filter = ("source",)
 
 
 # admin.site.site_header = "RadioActiv8 Admin"

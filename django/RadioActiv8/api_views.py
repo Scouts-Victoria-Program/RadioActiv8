@@ -1,11 +1,12 @@
-from rest_framework import viewsets, permissions
+from rest_framework import permissions, viewsets
+
+from .models import Base, Event, Intelligence, Patrol
 from .serializers import (
     BaseSerializer,
-    PatrolSerializer,
-    IntelligenceSerializer,
     EventSerializer,
+    IntelligenceSerializer,
+    PatrolSerializer,
 )
-from .models import Base, Patrol, Intelligence, Event
 
 
 class BaseViewSet(viewsets.ModelViewSet):

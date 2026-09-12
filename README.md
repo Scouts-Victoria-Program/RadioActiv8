@@ -2,6 +2,9 @@
 
 This is a Django project designed to model the RadioActiv8 activity.
 
+> [!NOTE]
+> A guide to deploy this application is available in [deploy.md](deploy.md) to assist with installing Docker/Docker Compose, starting RadioActiv8, and loading game data into the database. This guide is to assist in rapid deployment for a sandbox/isolated environment in an insecure fashion. It is not suitable as a production deployment without appropriate environment hardening.
+
 ## Getting started
 
 1. Clone this repo, cd into it, and copy the `.env` file:

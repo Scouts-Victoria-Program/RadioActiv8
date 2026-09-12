@@ -1,6 +1,7 @@
 {% extends "RadioActiv8/master/heading.html" %}
 {% load static %}
 {% load bootstrap4 %}
+{% load timesince_short %}
 {% block bootstrap4_title %}
     RadioActiv8 - Dashboard
 {% endblock bootstrap4_title %}
@@ -44,11 +45,11 @@
                                  hx-swap="outerHTML"
                                  hx-select-oob="#patrol-locations">
                                 <!-- Start: Sort by "Longest Time since used" -->
-                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                <h1 class="text-monospace font-weight-bold"
                                     style="font-size: 12pt;
-                                           color: var(--black)">EMPTY BASES:</h1>
+                                           color: var(--black)">Empty Bases:</h1>
                                 <!-- End: Sort by "Longest Time since used" -->
-                                <ul class="list-unstyled text-monospace text-uppercase">
+                                <ul class="list-unstyled text-monospace">
                                     {% if empty_bases %}
                                         {% for empty_base in empty_bases %}
                                             <li>
@@ -67,11 +68,11 @@
                                         <li>No empty bases.</li>
                                     {% endif %}
                                 </ul>
-                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                <h1 class="text-monospace font-weight-bold"
                                     style="font-size: 12pt;
-                                           color: var(--black)">AVAILABLE BASES:</h1>
+                                           color: var(--black)">Available Bases:</h1>
                                 <!-- End: Sort by "Longest Time since used" -->
-                                <ul class="list-unstyled text-monospace text-uppercase">
+                                <ul class="list-unstyled text-monospace">
                                     {% if available_bases %}
                                         {% for available_base in available_bases %}
                                             <li>
@@ -87,12 +88,12 @@
                                             </li>
                                         {% endfor %}
                                     {% else %}
-                                        <li>NO AVAILABLE BASES!!!</li>
+                                        <li>No Available Bases!!!</li>
                                     {% endif %}
                                 </ul>
-                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                <h1 class="text-monospace font-weight-bold"
                                     style="font-size: 12pt;
-                                           color: var(--black)">FULL BASES:</h1>
+                                           color: var(--black)">Full Bases:</h1>
                                 <ul class="list-unstyled text-monospace text-light">
                                     {% if full_bases %}
                                         {% for full_base in full_bases %}
@@ -110,7 +111,7 @@
                                             </li>
                                         {% endfor %}
                                     {% else %}
-                                        <li>NO FULL BASES</li>
+                                        <li>No Full Bases</li>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -118,11 +119,11 @@
                         <div class="col-md-6 col-lg-4 col-xl-4 offset-xl-0 text-monospace">
                             <div id="patrol-locations" class="form-group">
                                 <!-- Start: sort by "Last Updated" -->
-                                <h1 class="text-monospace text-uppercase font-weight-bold"
+                                <h1 class="text-monospace font-weight-bold"
                                     style="font-size: 12pt;
                                            color: var(--black)">Patrol Locations:</h1>
                                 <!-- End: sort by "Last Updated" -->
-                                <ul class="list-unstyled text-monospace text-uppercase text-light">
+                                <ul class="list-unstyled text-monospace text-light">
                                     {% if latest_patrol_event %}
                                         {% for event in latest_patrol_event %}
                                             {% if event %}
@@ -139,6 +140,7 @@
                                                            class="text-warning"
                                                            href="{% url 'admin:RadioActiv8_base_change' event.destination.radio.base.id %}">{{ event.destination.radio.base.name }}</a>
                                                     {% endif %}
+                                                    ({{ event.timestamp | timesince_short }})
                                                 </li>
                                             {% endif %}
                                         {% endfor %}

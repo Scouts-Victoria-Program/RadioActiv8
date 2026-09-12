@@ -1,7 +1,9 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load static %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Login{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Login
+{% endblock bootstrap4_title %}
 {% block bootstrap4_content %}
     <div style="color: var(--danger);background: var(--dark);">
         <!-- Start: Login Form Clean -->
@@ -43,4 +45,4 @@
         <!-- End: Login Form Clean -->
         <script src="{% static 'RadioActiv8/js/bs-init.js' %}"></script>
     </div>
-{% endblock %}
+{% endblock bootstrap4_content %}

@@ -1,7 +1,9 @@
-{% extends 'RadioActiv8/master/heading.html' %}
+{% extends "RadioActiv8/master/heading.html" %}
 {% load static %}
 {% load bootstrap4 %}
-{% block bootstrap4_title %}RadioActiv8 - Participant homepage{% endblock %}
+{% block bootstrap4_title %}
+    RadioActiv8 - Participant homepage
+{% endblock bootstrap4_content %}
 {% block bootstrap4_content %}
     {% if form.subject.errors %}
         <ol>
@@ -22,4 +24,4 @@
         {{ form.as_p }}
         <input type="submit" value="Show Bases">
     </form>
-{% endblock %}
+{% endblock bootstrap4_content %}

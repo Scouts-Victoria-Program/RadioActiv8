@@ -1,22 +1,23 @@
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.serializers import serialize
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.views import generic
-from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from .models import Session, Base, Patrol, Location, Event, GPSTracker, Radio
+
 from .forms import (
-    SessionListForm,
-    EventForm,
-    BonusPointsForm,
-    GPSTrackerPatrolForm,
     BaseForm,
+    BonusPointsForm,
+    EventForm,
+    GPSTrackerPatrolForm,
     PatrolForm,
     SessionAddPatrolForm,
+    SessionListForm,
 )
-from django.core.serializers import serialize
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
+from .models import Base, Event, GPSTracker, Location, Patrol, Radio, Session
 
 
 def healthcheck(request):
@@ -51,7 +52,7 @@ def map(request):
         b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
     ]
     latest_patrol_event = [
-        p.event_set.last()
+        p.event_set.first()
         for p in Patrol.objects.filter(session=ra8_session)
         if not p.current_base
     ]
@@ -106,7 +107,7 @@ def play(request):
     bases = Base.objects.filter(session=ra8_session)
     empty_bases = [
         b
-        for b in Base.objects.filter(session=ra8_session)
+        for b in Base.objects.filter(session=ra8_session).order_by("max_patrols")
         if b.get_patrols_count() == 0
     ]
     available_bases = [
@@ -115,7 +116,7 @@ def play(request):
         if not b.is_full() and not b.get_patrols_count() == 0
     ]
     latest_patrol_event = [
-        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+        p.event_set.first() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
@@ -146,7 +147,7 @@ def dashboard(request):
     bases = Base.objects.filter(session=ra8_session)
     empty_bases = [
         b
-        for b in Base.objects.filter(session=ra8_session)
+        for b in Base.objects.filter(session=ra8_session).order_by("-max_patrols")
         if b.get_patrols_count() == 0
     ]
     available_bases = [
@@ -155,7 +156,7 @@ def dashboard(request):
         if not b.is_full() and not b.get_patrols_count() == 0
     ]
     latest_patrol_event = [
-        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+        p.event_set.first() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
@@ -187,7 +188,7 @@ def patrol_locations(request):
         b for b in Base.objects.filter(session=ra8_session) if not b.is_full()
     ]
     latest_patrol_event = [
-        p.event_set.last() for p in Patrol.objects.filter(session=ra8_session)
+        p.event_set.first() for p in Patrol.objects.filter(session=ra8_session)
     ]
     full_bases = [b for b in Base.objects.filter(session=ra8_session) if b.is_full()]
     context = {
@@ -453,15 +454,20 @@ def event_ajax(request):
     else:
         return JsonResponse(response, safe=False)
 
+    events = Event.objects.filter(patrol=patrol).order_by("-timestamp")
     if current_location_id:
         current_location = Base.objects.get(id=current_location_id)
     else:
         current_location = None
-        events = Event.objects.filter(patrol=patrol).order_by("-timestamp")
         if events:
             current_location = events[0].destination
             if not current_location:
                 current_location = events[0].location
+
+    if events and events[0].location == events[0].destination:
+        response["check_in"] = False
+    else:
+        response["check_in"] = True
 
     response["intelligence_options"] = valid_intelligence_options(
         patrol, current_location
@@ -470,6 +476,7 @@ def event_ajax(request):
         session, patrol, current_location
     )
     response["base_history"] = patrol_base_history(session, patrol)
+    response["comment_history"] = patrol_comment_history(session, patrol)
 
     return JsonResponse(response, safe=False)
 
@@ -628,8 +635,16 @@ def valid_next_base_options(session, patrol, current_location):
             "id": session.home_base.id,
             "name": session.home_base.name,
         }
+    routes = None
     if current_location:
         visited_bases_list.append(current_location)
+        if hasattr(current_location, "radio") and hasattr(
+            current_location.radio, "base"
+        ):
+            routes = {
+                d.destination: d.time.seconds
+                for d in current_location.radio.base.nearest()
+            }
 
     unvisited_bases = session_bases.exclude(id__in=[b.id for b in visited_bases_list])
     visited_bases = session_bases.filter(id__in=[b.id for b in visited_bases_list])
@@ -641,7 +656,11 @@ def valid_next_base_options(session, patrol, current_location):
             "type": b.activity_type,
             "num_patrols": b.get_patrols_count(),
             "max_patrols": b.max_patrols,
-            "visited": False,
+            "visited": b in visited_bases,
+            # "eligible": b in eligible_bases,
+            # "top_priority": b in top_priority_bases,
+            # "preferred": base_preferences[b] if b in base_preferences else None,
+            "time": routes[b] if routes and b in routes else None,
             "repeatable": b.repeatable,
         }
         for b in unvisited_bases
@@ -660,6 +679,16 @@ def valid_next_base_options(session, patrol, current_location):
     ]
 
     return response
+
+
+def patrol_comment_history(session, patrol):
+    comment_list = [
+        {"timestamp": str(event.timestamp)[:-16], "comment": str(event.comment)}
+        for event in Event.objects.filter(session=session)
+        .filter(patrol=patrol)
+        .order_by("-timestamp")
+    ]
+    return list(filter(lambda entry: entry["comment"] != "", comment_list))
 
 
 def patrol_base_history(session, patrol):
