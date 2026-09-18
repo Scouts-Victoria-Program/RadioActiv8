@@ -61,7 +61,7 @@ pygments==2.20.0
     # via ipython
 six==1.16.0
     # via asttokens
-soupsieve==2.8.4
+soupsieve==2.9
     # via beautifulsoup4
 sqlparse==0.6.0
     # via
